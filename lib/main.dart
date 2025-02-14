@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/features/auth/Presentation/views/auth_view.dart';
 
 void main() {
   runApp(const Lungora());
@@ -10,51 +12,20 @@ class Lungora extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Lungora',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return HomeScreenBody();
-  }
-}
-
-class HomeScreenBody extends StatelessWidget {
-  const HomeScreenBody({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Lungora',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
+    return ScreenUtilInit(
+      designSize: const Size(390, 844),
+      minTextAdapt: false,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Lungora',
+        theme: ThemeData(
+          colorScheme: const ColorScheme.light(
+            primary: kPrimaryColor,
+            secondary: kSecondaryColor,
+          ),
+          scaffoldBackgroundColor: Colors.white,
         ),
+        home: AuthView(),
       ),
     );
   }
