@@ -15,27 +15,29 @@ class AuthViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 1.sw,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Lungora',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
+    return Center(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Lungora',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: kPrimaryColor,
+              ),
             ),
-          ),
-          SizedBox(height: 56.h),
-          AuthForm(isLogin: isLogin),
-          CustomAuthNavigatorButton(
-            isLogin: isLogin,
-            toggleAuthBody: toggleAuthBody,
-          ),
-        ],
+            SizedBox(height: 56.h),
+            AuthForm(isLogin: isLogin),
+            CustomAuthNavigatorButton(
+              isLogin: isLogin,
+              toggleAuthBody: toggleAuthBody,
+            ),
+          ],
+        ),
       ),
     );
   }
