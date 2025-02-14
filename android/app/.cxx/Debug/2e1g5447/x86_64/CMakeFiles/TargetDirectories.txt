@@ -1,0 +1,2 @@
+D:/GRADUATION/Lungora/android/app/.cxx/Debug/2e1g5447/x86_64/CMakeFiles/edit_cache.dir
+D:/GRADUATION/Lungora/android/app/.cxx/Debug/2e1g5447/x86_64/CMakeFiles/rebuild_cache.dir
