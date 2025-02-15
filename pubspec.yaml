@@ -67,31 +67,32 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  #assets\fonts\Montserrat\Montserrat-Italic-VariableFont_wght.ttf
   fonts:
     - family: Montserrat
       fonts:
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 100
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 200
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 300
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 400
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 500
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 600
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 700
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 800
-        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
           weight: 900
           
     - family: MontserratItalic
       fonts:
-        - asset: assets/fonts/Montserrat-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf
           style: italic
   
     - family: DMSans
