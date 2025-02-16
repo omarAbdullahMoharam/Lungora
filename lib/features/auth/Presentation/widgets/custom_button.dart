@@ -3,8 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
 
 class CustomTextButton extends StatelessWidget {
-  const CustomTextButton(
-      {super.key, required this.text, required this.onPressed});
+  const CustomTextButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
   final String text;
   final VoidCallback onPressed;
 
