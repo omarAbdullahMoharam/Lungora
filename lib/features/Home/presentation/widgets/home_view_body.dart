@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lungora/features/Home/presentation/widgets/build_custom_app_bar.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
@@ -7,16 +8,23 @@ class HomeViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: buildCustomAppBar(
+        context: context,
+        imagePath: 'assets/images/GoogleIcon.png',
+        // ⚠️alert: onPressed body here to navigate to the profile page ⚠️
+        onPressed: () {},
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.05,
+          horizontal: 24.w,
+          vertical: 16.h,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Center(
               child: Container(
-                height: 180.h,
+                height: MediaQuery.of(context).size.height * 0.213,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
