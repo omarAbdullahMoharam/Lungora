@@ -23,8 +23,14 @@ abstract class Styles {
 
   static var textStyle16 = TextStyle(
     fontSize: 16.sp,
-    fontWeight: FontWeight.w700, //sometimes  400 || 500
+    fontWeight: FontWeight.w700,
     fontFamily: 'DMSans',
+  );
+
+  static var textStyleInter16 = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w400, //sometimes  400 || 500
+    fontFamily: 'Inter',
   );
 
   static var textStyle14 = TextStyle(

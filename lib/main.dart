@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/features/auth/Presentation/views/auth_view.dart';
+import 'package:lungora/core/utils/app_roture.dart';
 
 void main() {
   runApp(const Lungora());
@@ -15,7 +15,8 @@ class Lungora extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(defualtWidth, defualtHeight),
       minTextAdapt: false,
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: AppRoture.router,
         debugShowCheckedModeBanner: false,
         title: 'Lungora',
         theme: ThemeData(
@@ -25,7 +26,6 @@ class Lungora extends StatelessWidget {
           ),
           scaffoldBackgroundColor: Colors.white,
         ),
-        home: AuthView(),
       ),
     );
   }

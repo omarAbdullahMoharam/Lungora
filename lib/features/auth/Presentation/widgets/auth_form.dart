@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/auth/Presentation/widgets/social_auth_section.dart';
@@ -137,7 +139,9 @@ class _AuthFormState extends State<AuthForm> {
                         ),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go(AppRoture.kForgetPassView);
+                      },
                       child: Text(
                         'Forgot Password?',
                         style: Styles.textStyle12.copyWith(color: Colors.black),
