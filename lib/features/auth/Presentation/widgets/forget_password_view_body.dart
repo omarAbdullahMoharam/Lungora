@@ -20,7 +20,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 67.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 76.h),
       child: Form(
         key: formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
