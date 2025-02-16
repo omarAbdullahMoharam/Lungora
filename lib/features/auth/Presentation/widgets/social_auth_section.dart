@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/features/auth/Presentation/widgets/sign_in_with.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/sign_in_with.dart';
 
 class SocialAuthSection extends StatelessWidget {
   const SocialAuthSection({

@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:lungora/features/auth/Presentation/views/forget_password_view.dart';
+import 'package:lungora/features/Auth/Presentation/views/forget_password_view.dart';
 
-import '../../features/auth/Presentation/views/auth_view.dart' show AuthView;
+import '../../features/Auth/Presentation/views/auth_view.dart' show AuthView;
 
 abstract class AppRoture {
   static const kOTP = '/OTP';

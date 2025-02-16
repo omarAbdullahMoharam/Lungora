@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/auth/Presentation/widgets/custom_text_form_field.dart';
-import 'package:lungora/features/auth/Presentation/widgets/social_auth_section.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/social_auth_section.dart';
 
 class AuthForm extends StatefulWidget {
   const AuthForm({
@@ -68,7 +68,6 @@ class _AuthFormState extends State<AuthForm> {
               },
             ),
             SizedBox(height: 24.h),
-            // add validation for password on login
             CustomTextFormField(
               labelText: 'Password',
               isPassword: true,
