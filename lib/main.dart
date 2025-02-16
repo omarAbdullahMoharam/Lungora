@@ -12,8 +12,9 @@ class Lungora extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return ScreenUtilInit(
-      designSize: const Size(defualtWidth, defualtHeight),
+      designSize: Size(defualtWidth, defualtHeight),
       minTextAdapt: false,
       child: MaterialApp.router(
         routerConfig: AppRoture.router,

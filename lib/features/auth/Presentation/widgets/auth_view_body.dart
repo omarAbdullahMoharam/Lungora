@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/auth/Presentation/widgets/auth_form.dart';
-import 'package:lungora/features/auth/Presentation/widgets/custom_auth_navigator_button.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/auth_form.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/custom_auth_navigator_button.dart';
 
 class AuthViewBody extends StatelessWidget {
   const AuthViewBody({

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lungora/features/auth/Presentation/widgets/custom_button.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/custom_button.dart';
 
 class CustomAuthNavigatorButton extends StatelessWidget {
   const CustomAuthNavigatorButton({

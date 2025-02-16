@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/features/auth/Presentation/widgets/custom_text_form_field.dart';
+import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
 import 'custom_password_appbar.dart';
@@ -57,7 +58,9 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             SizedBox(height: 32.h),
             ElevatedButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {}
+                  if (formKey.currentState!.validate()) {
+                    Navigator.pushNamed(context, AppRoture.kOTP);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -67,7 +70,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   backgroundColor: kPrimaryColor,
                 ),
                 child: Text(
-                  'Confirm',
+                  'Contenue',
                   style: Styles.textStyle20.copyWith(
                     color: Colors.white,
                   ),

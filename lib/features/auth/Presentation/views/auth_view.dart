@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lungora/features/auth/Presentation/widgets/auth_view_body.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/auth_view_body.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({super.key});
