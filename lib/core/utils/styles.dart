@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 abstract class Styles {
   //🫵🫵🫵will change fontFamily with copywith Inter || Montserrat
   static var textStyle32 = TextStyle(
-    fontSize: 32,
+    fontSize: 32.sp,
     fontWeight: FontWeight.w700,
     fontFamily: 'DMSans',
   );

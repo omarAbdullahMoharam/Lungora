@@ -14,50 +14,66 @@ class ForgetPasswordViewBody extends StatefulWidget {
 
 class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
   final TextEditingController emailController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 67.h),
-      child: Column(
-        children: [
-          CustomPasswordAppBar(
-            text: 'Forget Password',
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Don’t worry! It happens. Please enter your email and we’ll send OTP to your email',
-            style: Styles.textStyleInter16.copyWith(
-              color: const Color.fromRGBO(119, 119, 119, 1),
-              fontWeight: FontWeight.w500,
+      child: Form(
+        key: formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            CustomPasswordAppBar(
+              text: 'Forget Password',
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 32.h),
-          CustomTextFormField(
-            labelText: 'Email',
-            isPassword: false,
-            prefixIcon: Icons.mail,
-            hintText: 'Email',
-            controller: emailController,
-          ),
-          SizedBox(height: 32.h),
-          ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.w),
-                ),
-                minimumSize: Size(1.sw, 60.h),
-                backgroundColor: kPrimaryColor,
+            SizedBox(height: 8.h),
+            Text(
+              'Don’t worry! It happens. Please enter your email and we’ll send OTP to your email',
+              style: Styles.textStyleInter16.copyWith(
+                color: const Color.fromRGBO(119, 119, 119, 1),
+                fontWeight: FontWeight.w500,
               ),
-              child: Text(
-                'Confirm',
-                style: Styles.textStyle20.copyWith(
-                  color: Colors.white,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 32.h),
+            CustomTextFormField(
+              labelText: 'Email',
+              isPassword: false,
+              prefixIcon: Icons.email,
+              hintText: 'Email',
+              controller: emailController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Please enter your email";
+                } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                    .hasMatch(value)) {
+                  return "Please enter a valid email";
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 32.h),
+            ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {}
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.w),
+                  ),
+                  minimumSize: Size(1.sw, 60.h),
+                  backgroundColor: kPrimaryColor,
                 ),
-              ))
-        ],
+                child: Text(
+                  'Confirm',
+                  style: Styles.textStyle20.copyWith(
+                    color: Colors.white,
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }
