@@ -156,7 +156,7 @@ class _AuthFormState extends State<AuthForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   if (widget.isLogin) {
-                    //login
+                    GoRouter.of(context).pushReplacement(AppRoture.kHomeView);
                   } else {
                     //register
                   }
