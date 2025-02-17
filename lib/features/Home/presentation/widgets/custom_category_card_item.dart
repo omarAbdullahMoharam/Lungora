@@ -25,17 +25,11 @@ class CustomCategoryCardItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: kPrimaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(15.w),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 10,
-            spreadRadius: 5,
-          ),
-        ],
       ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
               categoryDetails.vectorImagePath,
@@ -44,15 +38,18 @@ class CustomCategoryCardItem extends StatelessWidget {
               color: kPrimaryColor,
             ),
             SizedBox(height: 8.h),
-            Text(
-              categoryDetails.categoryName,
-              style: Styles.textStyle12.copyWith(
-                color: kPrimaryColor,
-                fontWeight: FontWeight.w600,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Text(
+                categoryDetails.categoryName,
+                style: Styles.textStyle12.copyWith(
+                  color: kPrimaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
             ),
           ],
         ),
