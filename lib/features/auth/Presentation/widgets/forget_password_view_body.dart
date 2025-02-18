@@ -40,6 +40,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             ),
             SizedBox(height: 32.h),
             CustomTextFormField(
+              autoSuggest: true,
               labelText: 'Email',
               isPassword: false,
               prefixIcon: Icons.email,

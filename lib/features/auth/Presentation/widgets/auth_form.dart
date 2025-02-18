@@ -28,15 +28,22 @@ class _AuthFormState extends State<AuthForm> {
   bool rememberMe = false;
   @override
   Widget build(BuildContext context) {
+    bool needHelper = false;
+    if (!widget.isLogin) {
+      needHelper = true;
+    }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 23.w),
       child: Form(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: AutovalidateMode.disabled,
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             if (!widget.isLogin) ...[
               CustomTextFormField(
+                autoSuggest: true,
                 labelText: 'Username',
                 isPassword: false,
                 prefixIcon: Icons.person,
@@ -66,9 +73,11 @@ class _AuthFormState extends State<AuthForm> {
                 }
                 return null;
               },
+              autoSuggest: true,
             ),
             SizedBox(height: 24.h),
             CustomTextFormField(
+              autoSuggest: widget.isLogin ? true : false,
               labelText: 'Password',
               isPassword: true,
               prefixIcon: Icons.lock,
@@ -80,16 +89,18 @@ class _AuthFormState extends State<AuthForm> {
                   return "Please enter your password";
                 } else if (value.length < 8) {
                   return "Password must be at least 8 characters";
-                } else if (RegExp(r'^(?=.[A-Z])(?=.[^a-zA-Z0-9]).{8,}$')
+                } else if (!RegExp(r'^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$')
                     .hasMatch(value)) {
-                  return "Password must contain at least one uppercase letter,one number and one special character";
+                  return "Password must contain at least one uppercase letter, one number, and one special character";
                 }
                 return null;
               },
+              needHelper: needHelper,
             ),
             if (!widget.isLogin) ...[
               SizedBox(height: 16.h),
               CustomTextFormField(
+                autoSuggest: widget.isLogin ? true : false,
                 labelText: 'Confirm Password',
                 isPassword: true,
                 prefixIcon: Icons.lock,
