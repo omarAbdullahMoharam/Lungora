@@ -44,7 +44,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   void initState() {
     super.initState();
-    lessThan8 = ValueNotifier(widget.controller.text.length < 8);
+    lessThan8 = ValueNotifier(widget.controller.text.length < 9);
     hasNumber =
         ValueNotifier(widget.controller.text.contains(RegExp(r'[0-9]')));
     hasSpecialChar = ValueNotifier(
@@ -121,7 +121,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                           Icon(Icons.check_circle,
                               color: value ? Colors.grey : kPrimaryColor),
                           SizedBox(width: 5.w),
-                          Text('Password must be at least 8 characters',
+                          Text('Password must be at least 9 characters',
                               style: Styles.textStyle12),
                         ],
                       );
