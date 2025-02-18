@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 
-void main() {
+void main() async {
   runApp(const Lungora());
 }
 
