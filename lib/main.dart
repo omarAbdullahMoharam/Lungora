@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/dependency_injection.dart';
+import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  initGetIt();
+  // AuthRepo authRepo = AuthRepo(ApiServices(Dio()));
+  getIt<AuthRepo>().login("email@gmail.com", "Password_12");
+  // authRepo.register("email@gmail.com", "Password_12", "emailname");
+
   runApp(const Lungora());
 }
 

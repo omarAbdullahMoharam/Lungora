@@ -21,6 +21,7 @@ class _ApiServices implements ApiServices {
 
   @override
   Future<AuthResponse> loginUser(Map<String, dynamic> body) async {
+    log('loginUser ${body}');
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -44,11 +45,13 @@ class _ApiServices implements ApiServices {
       errorLogger?.logError(e, s, _options);
       rethrow;
     }
+    log('loginUser ${_value} ${_result} \nsuccess');
     return _value;
   }
 
   @override
   Future<AuthResponse> registerUser(Map<String, dynamic> body) async {
+    log('Registering user with body: $body');
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -72,6 +75,7 @@ class _ApiServices implements ApiServices {
       errorLogger?.logError(e, s, _options);
       rethrow;
     }
+    log('Registering user with body: $body \nResponse: $_value');
     return _value;
   }
 
