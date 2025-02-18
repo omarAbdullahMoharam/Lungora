@@ -9,7 +9,8 @@ abstract class AppRoture {
   static const kForgetPassView = '/forgetPasswordView';
   static const kAuthView = '/';
   static const kHomeView = '/homeView';
-
+  static const kLoginView = '/login';
+  static const kRegisterView = '/register';
   static final router = GoRouter(
     routes: [
       GoRoute(
@@ -24,6 +25,20 @@ abstract class AppRoture {
       //   path: kOTP,
       //   builder: (context, state) => OTP(email: state.extra.toString(),),
       // ),
+      GoRoute(
+        path: kLoginView,
+        builder: (context, state) => AuthView(
+          isLogin: true,
+        ),
+      ),
+
+      GoRoute(
+        path: kRegisterView,
+        builder: (context, state) => AuthView(
+          isLogin: false,
+        ),
+      ),
+
       GoRoute(
         path: kHomeView,
         builder: (context, state) => HomeView(),

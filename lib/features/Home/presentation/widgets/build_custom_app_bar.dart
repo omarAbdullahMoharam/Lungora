@@ -8,6 +8,7 @@ AppBar buildCustomAppBar({
   required VoidCallback onPressed,
 }) {
   return AppBar(
+    automaticallyImplyLeading: false,
     title: Padding(
       padding: EdgeInsets.only(left: 16.w),
       child: Text(
