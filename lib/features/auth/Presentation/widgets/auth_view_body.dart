@@ -22,6 +22,7 @@ class AuthViewBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: 100.h),
             Text(
               'Lungora',
               style: Styles.textStyle32.copyWith(
