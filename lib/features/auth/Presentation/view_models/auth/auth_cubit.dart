@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
+import 'package:lungora/features/Auth/data/models/dio_handeler.dart';
+import 'package:lungora/features/Auth/data/models/handeler.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
 part 'auth_state.dart';
@@ -11,19 +14,39 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(
     this.authRepo,
   ) : super(AuthInitial());
+
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
+      log('Login attempt with email: $email'); // Don't log passwords in production
       AuthResponse response = await authRepo.login(email, password);
-      if (response.isSuccess) {
-        emit(AuthSuccess(response));
-      } else if (response.errors.isNotEmpty) {
-        log(response.errors[0].toString());
-        emit(AuthFailure(response.errors[0].toString()));
-      }
+      final handler = ResponseHandler.fromAuthResponse(response);
+
+      handler.when(
+        onSuccess: (data) {
+          emit(AuthSuccess(response));
+        },
+        onError: (message) {
+          emit(AuthFailure(message));
+        },
+      );
     } catch (e) {
+      if (e is DioException) {
+        log('Status Code: ${e.response?.statusCode}');
+        log('Response Data: ${e.response?.data}');
+
+        final errorHandler = DioErrorHandler.handleError(e);
+
+        if (e.response?.statusCode == 400) {
+          emit(AuthFailure('Invalid email or password. Please try again.'));
+          return;
+        }
+
+        emit(AuthFailure(errorHandler.errorMessage));
+      } else {
+        emit(AuthFailure('An unexpected error occurred'));
+      }
       log(e.toString());
-      emit(AuthFailure(e.toString()));
     }
   }
 
@@ -31,37 +54,26 @@ class AuthCubit extends Cubit<AuthState> {
       String confirmPassword) async {
     emit(AuthLoading());
     try {
-      await authRepo.register(name, email, password, confirmPassword);
-      emit(AuthRegister());
+      AuthResponse response =
+          await authRepo.register(name, email, password, confirmPassword);
+      final handler = ResponseHandler.fromAuthResponse(response);
+
+      handler.when(
+        onSuccess: (data) {
+          emit(AuthRegister());
+          // You might want to automatically log in the user after registration
+          // Or show a specific success message
+        },
+        onError: (message) => emit(AuthFailure(message)),
+      );
     } catch (e) {
-      emit(AuthFailure(e.toString()));
+      if (e is DioException) {
+        final errorHandler = DioErrorHandler.handleError(e);
+        emit(AuthFailure(errorHandler.errorMessage));
+      } else {
+        emit(AuthFailure('An unexpected error occurred during registration'));
+      }
+      log(e.toString());
     }
   }
-  // Future<void> logout() async {
-  //   emit(AuthLoading());
-  //   try {
-  //     await authRepo.logout();
-  //     emit(AuthLogout());
-  //   } catch (e) {
-  //     emit(AuthFailure(e.toString()));
-  //   }
-  // }
-  // Future<void> resetPassword(String email) async {
-  //   emit(AuthLoading());
-  //   try {
-  //     await authRepo.resetPassword(email);
-  //     emit(AuthResetPassword());
-  //   } catch (e) {
-  //     emit(AuthFailure(e.toString()));
-  //   }
-  // }
-  // Future<void> changePassword(String email, String password) async {
-  //   emit(AuthLoading());
-  //   try {
-  //     await authRepo.changePassword(email, password);
-  //     emit(AuthChangePassword());
-  //   } catch (e) {
-  //     emit(AuthFailure(e.toString()));
-  //   }
-  // }
 }

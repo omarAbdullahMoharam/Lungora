@@ -9,14 +9,15 @@ part of 'auth_response_model.dart';
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
       statusCode: (json['statusCode'] as num).toInt(),
       isSuccess: json['isSuccess'] as bool,
-      errors: json['errors'] as List<dynamic>,
-      result: TokenResultModel.fromJson(json['result'] as Map<String, dynamic>),
+      errors:
+          (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      message: json['message'] as String?,
     );
 
 Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>
     <String, dynamic>{
-      'statusCode': instance.statusCode,
       'isSuccess': instance.isSuccess,
+      'statusCode': instance.statusCode,
       'errors': instance.errors,
-      'result': instance.result,
+      'message': instance.message,
     };

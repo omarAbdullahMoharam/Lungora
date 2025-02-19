@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/helpers/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
@@ -34,7 +35,6 @@ class _AuthFormState extends State<AuthForm> {
   late String email;
   late String password;
   late String confirmPassword;
-  // late String validatedPassword;
   final _formKey = GlobalKey<FormState>();
   bool rememberMe = false;
   @override
@@ -43,20 +43,28 @@ class _AuthFormState extends State<AuthForm> {
     if (!widget.isLogin) {
       needHelper = true;
     }
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        if (state is AuthLoading) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: kPrimaryColor,
-            ),
-          );
+
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (!mounted) return;
+
+        if (state is AuthSuccess) {
+          SnackBarHandler.showSuccess(context, 'Login successful');
+          Future.delayed(const Duration(seconds: 3), () {
+            GoRouter.of(context).pushReplacement(AppRoture.kHomeView);
+          });
+        } else if (state is AuthFailure) {
+          log(state.errMessage.toString());
+          SnackBarHandler.showError(context, state.errMessage);
+        } else if (state is AuthRegister) {
+          SnackBarHandler.showSuccess(context, 'Registration successful');
+          Future.delayed(const Duration(seconds: 3), () {
+            GoRouter.of(context).push(AppRoture.kLoginView);
+          });
         }
-        if (state is AuthFailure) {
-          return Center(
-            child: Text(state.errMessage),
-          );
-        } else {
+      },
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 23.w),
             child: Form(
@@ -118,7 +126,7 @@ class _AuthFormState extends State<AuthForm> {
                       if (value!.isEmpty) {
                         return "Please enter your password";
                       } else if (value.length < 9) {
-                        return "Password must be at least 8 characters";
+                        return "Password must be at least 9 characters";
                       } else if (!widget.isLogin &&
                           !RegExp(r'^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$')
                               .hasMatch(value)) {
@@ -206,6 +214,7 @@ class _AuthFormState extends State<AuthForm> {
                   ],
                   ElevatedButton(
                     onPressed: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (_formKey.currentState!.validate()) {
                         try {
                           if (widget.isLogin) {
@@ -214,9 +223,6 @@ class _AuthFormState extends State<AuthForm> {
                               email,
                               password,
                             );
-                            Future.delayed(const Duration(seconds: 2));
-                            GoRouter.of(context)
-                                .pushReplacement(AppRoture.kHomeView);
                           } else {
                             log('Register request payload: name=$name, email=$email, password=$password');
                             await BlocProvider.of<AuthCubit>(context).register(
@@ -225,8 +231,6 @@ class _AuthFormState extends State<AuthForm> {
                               password,
                               confirmPassword,
                             );
-                            Future.delayed(const Duration(seconds: 2));
-                            GoRouter.of(context).push(AppRoture.kLoginView);
                           }
                         } catch (e) {
                           log(e.toString());
@@ -234,7 +238,10 @@ class _AuthFormState extends State<AuthForm> {
                             SnackBar(
                               backgroundColor: kSecondaryColor,
                               content: Text(
-                                'An error occurred, please try again later',
+                                // state is AuthFailure
+                                //     ? state.errMessage
+                                //     :
+                                'An error occurred',
                                 style: Styles.textStyle12
                                     .copyWith(color: Colors.black),
                               ),
@@ -250,10 +257,17 @@ class _AuthFormState extends State<AuthForm> {
                       minimumSize: Size(1.sw, 50.h),
                       backgroundColor: kPrimaryColor,
                     ),
-                    child: Text(
-                      widget.isLogin ? 'Login' : 'Register',
-                      style: const TextStyle(color: Colors.white),
-                    ),
+                    //  child: state is AuthLoading
+                    // ? CircularProgressIndicator()
+                    // : Text('Register'),
+                    child: state is AuthLoading
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            widget.isLogin ? 'Login' : 'Register',
+                            style: const TextStyle(color: Colors.white),
+                          ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Row(
@@ -279,8 +293,8 @@ class _AuthFormState extends State<AuthForm> {
               ),
             ),
           );
-        }
-      },
+        },
+      ),
     );
   }
 }
