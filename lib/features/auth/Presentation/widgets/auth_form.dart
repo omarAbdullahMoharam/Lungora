@@ -125,7 +125,11 @@ class _AuthFormState extends State<AuthForm> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please enter your password";
-                      } else if (value.length < 9) {
+                      }
+                      // else if (widget.isLogin) {
+                      //   return "Password is incorrect";
+                      // }
+                      else if (value.length < 9) {
                         return "Password must be at least 9 characters";
                       } else if (!widget.isLogin &&
                           !RegExp(r'^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$')

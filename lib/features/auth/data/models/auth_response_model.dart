@@ -8,8 +8,14 @@ class AuthResponse {
   final int statusCode;
   final List<String> errors;
   final String message;
+  // final String? token;
+  // final String? refreshToken;
+  // final String? expire;
 
   AuthResponse({
+    // this.token,
+    // this.refreshToken,
+    // this.expire,
     required this.statusCode,
     required this.isSuccess,
     List<String>? errors,
