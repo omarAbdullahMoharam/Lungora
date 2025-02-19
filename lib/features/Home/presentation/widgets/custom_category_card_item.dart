@@ -35,6 +35,7 @@ class CustomCategoryCardItem extends StatelessWidget {
               categoryDetails.vectorImagePath,
               height: 50.h,
               width: 50.w,
+              // ignore: deprecated_member_use
               color: kPrimaryColor,
             ),
             SizedBox(height: 8.h),
