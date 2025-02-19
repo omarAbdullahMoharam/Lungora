@@ -36,7 +36,7 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool obscureText = true;
 
-  late ValueNotifier<bool> lessThan8;
+  late ValueNotifier<bool> lessThan9;
   late ValueNotifier<bool> hasNumber;
   late ValueNotifier<bool> hasSpecialChar;
   late ValueNotifier<bool> hasUppercase;
@@ -44,7 +44,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   void initState() {
     super.initState();
-    lessThan8 = ValueNotifier(widget.controller.text.length < 9);
+    lessThan9 = ValueNotifier(widget.controller.text.length < 9);
     hasNumber =
         ValueNotifier(widget.controller.text.contains(RegExp(r'[0-9]')));
     hasSpecialChar = ValueNotifier(
@@ -59,7 +59,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   void dispose() {
     widget.controller.removeListener(_validatePassword);
-    lessThan8.dispose();
+    lessThan9.dispose();
     hasNumber.dispose();
     hasSpecialChar.dispose();
     hasUppercase.dispose();
@@ -67,12 +67,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   }
 
   void _validatePassword() {
-    lessThan8.value = widget.controller.text.length < 8;
+    lessThan9.value = widget.controller.text.length < 9;
     hasNumber.value = widget.controller.text.contains(RegExp(r'[0-9]'));
     hasSpecialChar.value =
         widget.controller.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     hasUppercase.value = widget.controller.text.contains(RegExp(r'[A-Z]'));
-    if (!lessThan8.value &&
+    if (!lessThan9.value &&
         hasNumber.value &&
         hasSpecialChar.value &&
         hasUppercase.value) {
@@ -114,12 +114,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ValueListenableBuilder<bool>(
-                    valueListenable: lessThan8,
+                    valueListenable: lessThan9,
                     builder: (context, value, child) {
                       return Row(
                         children: [
-                          Icon(Icons.check_circle,
-                              color: value ? Colors.grey : kPrimaryColor),
+                          Icon(
+                            Icons.check_circle,
+                            color: value ? Colors.grey : kPrimaryColor,
+                          ),
                           SizedBox(width: 5.w),
                           Text('Password must be at least 9 characters',
                               style: Styles.textStyle12),
