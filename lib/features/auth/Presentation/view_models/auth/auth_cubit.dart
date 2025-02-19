@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
-import 'package:lungora/features/Auth/data/models/dio_handeler.dart';
-import 'package:lungora/features/Auth/data/models/handeler.dart';
+import 'package:lungora/core/helpers/dio_handeler.dart';
+import 'package:lungora/core/helpers/response_handeler.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
 part 'auth_state.dart';
@@ -18,7 +18,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
-      log('Login attempt with email: $email'); // Don't log passwords in production
+      log('Login attempt with email: $email');
       AuthResponse response = await authRepo.login(email, password);
       final handler = ResponseHandler.fromAuthResponse(response);
 
@@ -61,8 +61,6 @@ class AuthCubit extends Cubit<AuthState> {
       handler.when(
         onSuccess: (data) {
           emit(AuthRegister());
-          // You might want to automatically log in the user after registration
-          // Or show a specific success message
         },
         onError: (message) => emit(AuthFailure(message)),
       );

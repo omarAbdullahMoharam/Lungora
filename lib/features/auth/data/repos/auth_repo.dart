@@ -25,5 +25,20 @@ class AuthRepo {
 
   // Future<void> logout() async {
   //   // Logout logic
+
+  // }
+  // // forget
+  // Future<void> forgetPassword(String email) async {
+  //   // forget password logic
+  // }
+
+  // // reset
+  // Future<void> resetPassword(String email, String password) async {
+  //   // reset password logic
+  // }
+
+  // // update
+  // Future<void> updatePassword(String oldPassword, String newPassword) async {
+  //   // update password logic
   // }
 }
