@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:lungora/features/Auth/data/models/handeler.dart';
+import 'package:lungora/core/helpers/response_handeler.dart';
 
 class DioErrorHandler {
   static ResponseHandler<T> handleError<T>(DioException error) {

@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
+import 'package:lungora/features/Home/presentation/widgets/show_otp_dialog.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
 import 'custom_password_appbar.dart';
@@ -60,7 +62,39 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.pushNamed(context, AppRoture.kOTP);
+                    // BlocProvider.of<AuthCubit>(context).forgetPassword(emailController.text);
+                    // Navigator.pushNamed(context, AppRoture.);
+                    // Navigate to OTP Screen with email as argument
+                    // @amera612
+                    // @omarAbdullahMoharam🚔📢
+
+                    if (formKey.currentState!.validate()) {
+                      return ShowOtpDialog.showOTPDialog(
+                        context: context,
+                        email: emailController.text,
+                        onVerify: (otp) {
+                          if (otp == '1234') {
+                            log('OTP is $otp');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('OTP is $otp'),
+                              ),
+                            );
+                          }
+                          // BlocProvider.of<AuthCubit>(context).verifyOTP(emailController.text, otp);
+                          // Navigator.pop(context);
+                          // GoRouter.of(context).go('/resetPassword');
+                        },
+                      );
+                    } else {
+                      debugPrint('Error'
+                          'Please enter a valid email');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please enter a valid email'),
+                        ),
+                      );
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(
