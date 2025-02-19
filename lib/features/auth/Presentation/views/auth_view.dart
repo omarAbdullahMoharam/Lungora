@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lungora/core/utils/api_services.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/auth_view_body.dart';
@@ -25,7 +24,7 @@ class _AuthViewState extends State<AuthView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => AuthCubit(AuthRepo(getIt<ApiServices>())),
+        create: (context) => AuthCubit(getIt<AuthRepo>()),
         child: AuthViewBody(
           isLogin: isLogin,
           toggleAuthBody: toggleAuthBody,

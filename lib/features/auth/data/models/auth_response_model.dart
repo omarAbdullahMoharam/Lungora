@@ -1,23 +1,35 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lungora/features/Auth/data/models/token_result_model.dart';
 
 part 'auth_response_model.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
-  final int statusCode;
   final bool isSuccess;
-  final List<dynamic> errors;
-  final TokenResultModel result;
+  final int statusCode;
+  final List<String> errors;
+  final String message;
 
   AuthResponse({
     required this.statusCode,
     required this.isSuccess,
-    required this.errors,
-    required this.result,
-  });
+    List<String>? errors,
+    String? message,
+  })  : errors = errors ?? [],
+        message = message ?? '';
 
-  factory AuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$AuthResponseFromJson(json);
+  factory AuthResponse.fromJson(Map<String, dynamic> json) {
+    try {
+      return _$AuthResponseFromJson(json);
+    } catch (e) {
+      // Fallback response if parsing fails
+      return AuthResponse(
+        statusCode: 500,
+        isSuccess: false,
+        errors: ['Error parsing response: $e'],
+        message: 'Failed to process response',
+      );
+    }
+  }
+
   Map<String, dynamic> toJson() => _$AuthResponseToJson(this);
 }
