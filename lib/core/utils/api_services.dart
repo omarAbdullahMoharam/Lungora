@@ -10,4 +10,5 @@ abstract class ApiServices {
   Future<AuthResponse> loginUser(@Body() Map<String, dynamic> body);
   @POST("api/Auth/Register")
   Future<AuthResponse> registerUser(@Body() Map<String, dynamic> body);
+  // add more endpoints here @amera612
 }
