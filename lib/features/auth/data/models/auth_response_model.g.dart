@@ -7,6 +7,9 @@ part of 'auth_response_model.dart';
 // **************************************************************************
 
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
+      result: json['result'] == null
+          ? null
+          : ResultModel.fromJson(json['result'] as Map<String, dynamic>),
       statusCode: (json['statusCode'] as num).toInt(),
       isSuccess: json['isSuccess'] as bool,
       errors:
@@ -20,4 +23,5 @@ Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>
       'statusCode': instance.statusCode,
       'errors': instance.errors,
       'message': instance.message,
+      'result': instance.result,
     };
