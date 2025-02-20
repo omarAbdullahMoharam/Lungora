@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
-import 'package:lungora/features/Home/presentation/widgets/show_otp_dialog.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/show_otp_dialog.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
 import 'custom_password_appbar.dart';
