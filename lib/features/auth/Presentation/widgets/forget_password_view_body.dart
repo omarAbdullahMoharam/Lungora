@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
@@ -59,7 +58,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.pushNamed(context, AppRoture.kOTP);
+                    // Navigator.pushNamed(context, AppRoture.otpVerification);
                   }
                 },
                 style: ElevatedButton.styleFrom(
