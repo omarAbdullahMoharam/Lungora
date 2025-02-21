@@ -17,7 +17,9 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     this.needHelper = false,
     required this.autoSuggest,
+    this.onChanged,
   });
+
   final bool autoSuggest;
   final bool needHelper;
   final String labelText;
@@ -28,6 +30,7 @@ class CustomTextFormField extends StatefulWidget {
   final IconData prefixIcon;
   final IconData? suffixIcon;
   final String? Function(String?)? validator;
+  final void Function(String value)? onChanged;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
