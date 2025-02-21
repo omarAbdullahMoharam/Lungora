@@ -59,7 +59,7 @@ class _AuthFormState extends State<AuthForm> {
         } else if (state is AuthRegister) {
           SnackBarHandler.showSuccess(context, 'Registration successful');
           Future.delayed(const Duration(seconds: 3), () {
-            GoRouter.of(context).push(AppRoture.kLoginView);
+            GoRouter.of(context).push(AppRoture.kAuthView);
           });
         }
       },
@@ -113,6 +113,7 @@ class _AuthFormState extends State<AuthForm> {
                     },
                     autoSuggest: true,
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   SizedBox(height: 24.h),
                   CustomTextFormField(
                     autoSuggest: widget.isLogin ? true : false,

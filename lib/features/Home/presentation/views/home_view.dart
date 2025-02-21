@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lungora/features/Home/presentation/widgets/home_view_body.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
   Widget build(BuildContext context) {
-    return HomeViewBody();
+    return Scaffold(
+      body: HomeViewBody(),
+    );
   }
 }
