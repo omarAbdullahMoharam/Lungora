@@ -2,8 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/show_otp_dialog.dart';
+import 'package:lungora/features/auth/Presentation/widgets/reset_password_params.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
 import 'custom_password_appbar.dart';
@@ -30,6 +33,9 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
           children: [
             CustomPasswordAppBar(
               text: 'Forget Password',
+              onPressed: () {
+                context.go(AppRoture.kAuthView);
+              },
             ),
             SizedBox(height: 8.h),
             Text(
@@ -61,40 +67,50 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             SizedBox(height: 32.h),
             ElevatedButton(
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    // BlocProvider.of<AuthCubit>(context).forgetPassword(emailController.text);
-                    // Navigator.pushNamed(context, AppRoture.);
-                    // Navigate to OTP Screen with email as argument
-                    // @amera612
-                    // @omarAbdullahMoharam🚔📢
+                  // BlocProvider.of<AuthCubit>(context).forgetPassword(emailController.text);
+                  // Navigator.pushNamed(context, AppRoture.);
+                  // Navigate to OTP Screen with email as argument
+                  // @amera612
+                  // @omarAbdullahMoharam🚔📢
 
-                    if (formKey.currentState!.validate()) {
-                      return ShowOtpDialog.showOTPDialog(
-                        context: context,
-                        email: emailController.text,
-                        onVerify: (otp) {
-                          if (otp == '1234') {
-                            log('OTP is $otp');
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('OTP is $otp'),
-                              ),
-                            );
-                          }
-                          // BlocProvider.of<AuthCubit>(context).verifyOTP(emailController.text, otp);
-                          // Navigator.pop(context);
-                          // GoRouter.of(context).go('/resetPassword');
-                        },
-                      );
-                    } else {
-                      debugPrint('Error'
-                          'Please enter a valid email');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Please enter a valid email'),
-                        ),
-                      );
-                    }
+                  if (formKey.currentState!.validate()) {
+                    return ShowOtpDialog.showOTPDialog(
+                      context: context,
+                      email: emailController.text,
+                      onVerify: (otp) {
+                        if (otp.isNotEmpty) {
+                          log('OTP is $otp');
+                          GoRouter.of(context).go(
+                            AppRoture.kResetPassView,
+                            extra: ResetPasswordParams(
+                              email: emailController.text,
+                              otp: otp,
+                            ),
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('OTP is $otp'),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('please enter a valid otp'),
+                            ),
+                          );
+                        }
+                        // BlocProvider.of<AuthCubit>(context).verifyOTP(emailController.text, otp);
+                        // Navigator.pop(context);
+                      },
+                    );
+                  } else {
+                    log('Error!  Please enter a valid email');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter a valid email'),
+                      ),
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(
