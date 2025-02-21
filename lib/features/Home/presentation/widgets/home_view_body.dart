@@ -42,13 +42,6 @@ class HomeViewBody extends StatelessWidget {
                     ],
                   ),
                   borderRadius: BorderRadius.circular(25.w),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 10,
-                      spreadRadius: 5,
-                    ),
-                  ],
                 ),
               ),
             ),
