@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lungora/core/helpers/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/show_otp_dialog.dart';
 import 'package:lungora/features/auth/Presentation/widgets/reset_password_params.dart';
@@ -24,92 +27,101 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 76.h),
-      child: Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Column(
-          children: [
-            CustomPasswordAppBar(
-              text: 'Forget Password',
-              onPressed: () {
-                context.go(AppRoture.kAuthView);
-              },
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              'Don’t worry! It happens. Please enter your email and we’ll send OTP to your email',
-              style: Styles.textStyleInter16.copyWith(
-                color: const Color.fromRGBO(119, 119, 119, 1),
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 32.h),
-            CustomTextFormField(
-              autoSuggest: true,
-              labelText: 'Email',
-              isPassword: false,
-              prefixIcon: Icons.email,
-              hintText: 'Email',
-              controller: emailController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return "Please enter your email";
-                } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                    .hasMatch(value)) {
-                  return "Please enter a valid email";
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 32.h),
-            ElevatedButton(
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthFailure) {
+          SnackBarHandler.showError(
+            context,
+            'Error: ${state.errMessage}',
+          );
+        } else if (state is AuthSuccess) {
+          SnackBarHandler.showSuccess(
+            context,
+            'OTP sent to ${emailController.text}',
+          );
+          Future.delayed(const Duration(seconds: 3), () {});
+          ShowOtpDialog.showOTPDialog(
+            context: context,
+            email: emailController.text,
+            onVerify: (otp) {
+              if (otp == '1234') {
+                log('OTP is $otp');
+                GoRouter.of(context).go(
+                  AppRoture.kResetPassView,
+                  extra: ResetPasswordParams(
+                    email: emailController.text,
+                    otp: otp,
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('wrong otp'),
+                  ),
+                );
+              }
+              // BlocProvider.of<AuthCubit>(context).verifyOTP(emailController.text, otp);
+              // Navigator.pop(context);
+            },
+          );
+        }
+      },
+      builder: (context, state) => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 76.h),
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+            children: [
+              CustomPasswordAppBar(
+                text: 'Forget Password',
                 onPressed: () {
-                  // BlocProvider.of<AuthCubit>(context).forgetPassword(emailController.text);
+                  context.go(AppRoture.kAuthView);
+                },
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                'Don’t worry! It happens. Please enter your email and we’ll send OTP to your email',
+                style: Styles.textStyleInter16.copyWith(
+                  color: const Color.fromRGBO(119, 119, 119, 1),
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 32.h),
+              CustomTextFormField(
+                autoSuggest: true,
+                labelText: 'Email',
+                isPassword: false,
+                prefixIcon: Icons.email,
+                hintText: 'Email',
+                controller: emailController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your email";
+                  } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                      .hasMatch(value)) {
+                    return "Please enter a valid email";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 32.h),
+              ElevatedButton(
+                onPressed: () {
                   // Navigator.pushNamed(context, AppRoture.);
                   // Navigate to OTP Screen with email as argument
                   // @amera612
                   // @omarAbdullahMoharam🚔📢
-
                   if (formKey.currentState!.validate()) {
-                    return ShowOtpDialog.showOTPDialog(
-                      context: context,
+                    BlocProvider.of<AuthCubit>(context).forgetUserPassword(
                       email: emailController.text,
-                      onVerify: (otp) {
-                        if (otp.isNotEmpty) {
-                          log('OTP is $otp');
-                          GoRouter.of(context).go(
-                            AppRoture.kResetPassView,
-                            extra: ResetPasswordParams(
-                              email: emailController.text,
-                              otp: otp,
-                            ),
-                          );
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('OTP is $otp'),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('please enter a valid otp'),
-                            ),
-                          );
-                        }
-                        // BlocProvider.of<AuthCubit>(context).verifyOTP(emailController.text, otp);
-                        // Navigator.pop(context);
-                      },
                     );
                   } else {
                     log('Error!  Please enter a valid email');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Please enter a valid email'),
-                      ),
+                    SnackBarHandler.showError(
+                      context,
+                      'Error!  Please enter a valid email',
                     );
                   }
                 },
@@ -120,13 +132,19 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   minimumSize: Size(1.sw, 60.h),
                   backgroundColor: kPrimaryColor,
                 ),
-                child: Text(
-                  'Contenue',
-                  style: Styles.textStyle20.copyWith(
-                    color: Colors.white,
-                  ),
-                ))
-          ],
+                child: context.watch<AuthCubit>().state is AuthLoading
+                    ? CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : Text(
+                        'Contenue',
+                        style: Styles.textStyle20.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+              )
+            ],
+          ),
         ),
       ),
     );

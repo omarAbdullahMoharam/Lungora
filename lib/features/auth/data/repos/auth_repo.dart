@@ -28,9 +28,13 @@ class AuthRepo {
 
   // }
   // // forget
-  // Future<void> forgetPassword(String email) async {
-  //   // forget password logic
-  // }
+  Future<AuthResponse> forgetUserPassword(String email) async {
+    // forget password logic
+    // log(email);
+    return apiServices.forgotPassword({
+      "email": email,
+    });
+  }
 
   // // reset
   // Future<void> resetPassword(String email, String password) async {

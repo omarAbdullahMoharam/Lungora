@@ -74,4 +74,49 @@ class AuthCubit extends Cubit<AuthState> {
       log(e.toString());
     }
   }
+
+  Future<void> forgetUserPassword({required String email}) async {
+    emit(AuthLoading());
+    try {
+      AuthResponse response = await authRepo.forgetUserPassword(email);
+      final handler = ResponseHandler.fromAuthResponse(response);
+
+      handler.when(
+        onSuccess: (data) {
+          log('Forget Password Success: ${response.message}');
+          emit(
+            AuthSuccess(response, responseResult: response.message),
+          );
+        },
+        onError: (message) {
+          // Get the most appropriate error message
+          String errorMessage = response.errors.isNotEmpty
+              ? response.errors.first.toString()
+              : response.message;
+
+          log('Forget Password Error: $errorMessage');
+          emit(AuthFailure(errorMessage));
+        },
+      );
+    } catch (e) {
+      if (e is DioException) {
+        final errorHandler = DioErrorHandler.handleError(e);
+        String errorMessage = errorHandler.errorMessage.toString();
+
+        // Handle specific DioException cases
+        if (e.response?.data is Map<String, dynamic>) {
+          final responseData = e.response?.data as Map<String, dynamic>;
+          if (responseData.containsKey('message')) {
+            errorMessage = responseData['message'].toString();
+          }
+        }
+
+        log('Dio Error in forget password: $errorMessage');
+        emit(AuthFailure(errorMessage));
+      } else {
+        log('Unexpected error in forget password: $e');
+        emit(AuthFailure('An unexpected error occurred during password reset'));
+      }
+    }
+  }
 }

@@ -8,8 +8,8 @@ final class AuthLoading extends AuthState {}
 
 final class AuthSuccess extends AuthState {
   final AuthResponse response;
-
-  AuthSuccess(this.response);
+  String? responseResult;
+  AuthSuccess(this.response, {this.responseResult});
 }
 
 final class AuthFailure extends AuthState {
