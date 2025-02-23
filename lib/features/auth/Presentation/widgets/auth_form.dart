@@ -49,15 +49,18 @@ class _AuthFormState extends State<AuthForm> {
         if (!mounted) return;
 
         if (state is AuthSuccess) {
-          SnackBarHandler.showSuccess(context, 'Login successful');
-          Future.delayed(const Duration(seconds: 3), () {
-            GoRouter.of(context).pushReplacement(AppRoture.kHomeView);
+          SnackBarHandler.showSuccess('Login successful');
+          Future.delayed(const Duration(seconds: 0), () {
+            if (mounted) {
+              // Double-check that the widget is still mounted.
+              GoRouter.of(context).pushReplacement(AppRoture.kHomeView);
+            }
           });
         } else if (state is AuthFailure) {
           log(state.errMessage.toString());
-          SnackBarHandler.showError(context, state.errMessage);
+          SnackBarHandler.showError(state.errMessage);
         } else if (state is AuthRegister) {
-          SnackBarHandler.showSuccess(context, 'Registration successful');
+          SnackBarHandler.showSuccess('Registration successful');
           Future.delayed(const Duration(seconds: 3), () {
             GoRouter.of(context).push(AppRoture.kAuthView);
           });
