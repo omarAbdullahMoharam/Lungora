@@ -22,58 +22,52 @@ class HomeViewBody extends StatelessWidget {
           horizontal: 24.w,
           vertical: 16.h,
         ),
-        child: ListView(
-          // shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
-          // padding: EdgeInsets.zero,
-          // scrollDirection: Axis.vertical,
+        child: Column(
           children: [
-            Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.213,
-                // 180 as height of the container in design
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF1A62FF),
-                      Color(0xFF0F3B99),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(25.w),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 10,
-                      spreadRadius: 5,
+            Expanded(
+              child: ListView(
+                children: [
+                  Center(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.213,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFF1A62FF),
+                            Color(0xFF0F3B99),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(25.w),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    'Our Categories',
+                    style: Styles.textStyle16.copyWith(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 8.h),
+                  CategoriesSection(),
+                  SizedBox(height: 16.h),
+                  Text(
+                    'Our Services',
+                    style: Styles.textStyle16.copyWith(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 8.h),
+                  ServicesSection(),
+                ],
               ),
             ),
-            SizedBox(height: 16.h),
-            Text(
-              'Our Categories',
-              style: Styles.textStyle16.copyWith(
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
-              ),
-              textAlign: TextAlign.start,
-            ),
-            SizedBox(height: 8.h),
-            CategoriesSection(),
-            SizedBox(height: 16.h),
-            Text(
-              'Our Services',
-              style: Styles.textStyle16.copyWith(
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
-              ),
-              textAlign: TextAlign.start,
-            ),
-            SizedBox(height: 8.h),
-            ServicesSection(),
           ],
         ),
       ),
