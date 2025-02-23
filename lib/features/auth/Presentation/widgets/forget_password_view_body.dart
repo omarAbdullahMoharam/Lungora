@@ -31,12 +31,10 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
       listener: (context, state) {
         if (state is AuthFailure) {
           SnackBarHandler.showError(
-            context,
             'Error: ${state.errMessage}',
           );
         } else if (state is AuthSuccess) {
           SnackBarHandler.showSuccess(
-            context,
             'OTP sent to ${emailController.text}',
           );
           Future.delayed(const Duration(seconds: 3), () {});
@@ -120,7 +118,6 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   } else {
                     log('Error!  Please enter a valid email');
                     SnackBarHandler.showError(
-                      context,
                       'Error!  Please enter a valid email',
                     );
                   }
