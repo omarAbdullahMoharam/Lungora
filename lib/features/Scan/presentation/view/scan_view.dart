@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:lungora/core/constants.dart';
+import 'package:lungora/features/Home/presentation/widgets/build_custom_app_bar.dart';
+import 'package:lungora/features/Scan/presentation/widgets/scan_view_body.dart';
 
 class ScanView extends StatelessWidget {
   const ScanView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: kPrimaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+    return Scaffold(
+      appBar: buildCustomAppBar(
+        context: context,
+        imagePath: 'assets/images/GoogleIcon.png',
+        // ⚠️alert: onPressed body here to navigate to the profile page ⚠️
+        onPressed: () {},
       ),
-      child: Center(
-        child: Text(
-          'Scan Screen',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+      body: ScanViewBody(),
     );
   }
 }

@@ -9,6 +9,7 @@ class AuthResponse {
   final int statusCode;
   final List<String> errors;
   final String message;
+
   final ResultModel? result;
   // final String? token;
   // final String? refreshToken;
@@ -18,11 +19,11 @@ class AuthResponse {
     // this.token,
     // this.refreshToken,
     // this.expire,
-    this.result,
     required this.statusCode,
     required this.isSuccess,
     List<String>? errors,
     String? message,
+    this.result,
   })  : errors = errors ?? [],
         message = message ?? '';
 
