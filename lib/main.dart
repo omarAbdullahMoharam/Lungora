@@ -9,6 +9,7 @@ void main() async {
   initGetIt();
   // AuthRepo authRepo = AuthRepo(ApiServices(Dio()));
   // getIt<AuthRepo>().login("email@gmail.com", "Password_12");
+  // getIt<AuthRepo>().forgetUserPassword("omarmoharam790@gmail.com");
   // authRepo.register("email@gmail.com", "Password_12", "emailname");
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");

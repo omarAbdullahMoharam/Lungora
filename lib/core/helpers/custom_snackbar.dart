@@ -37,6 +37,7 @@ class SnackBarHandler {
   }
 
   // Helper method to show success message
+
   static void showSuccess(BuildContext context, String message) {
     showSnackBar(context, message: message, isError: false);
   }
