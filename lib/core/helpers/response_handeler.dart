@@ -4,7 +4,7 @@ class ResponseHandler<T> {
   final bool isSuccess;
   final int? statusCode;
   final String? message;
-  final List<String> errors;
+  final List errors;
   final T? data;
 
   const ResponseHandler({
@@ -31,7 +31,7 @@ class ResponseHandler<T> {
 
   factory ResponseHandler.error({
     String? message,
-    List<String> errors = const [],
+    List errors = const [],
     int? statusCode,
   }) {
     return ResponseHandler(
@@ -53,9 +53,21 @@ class ResponseHandler<T> {
   }
 
   String get errorMessage {
-    if (errors.isNotEmpty) return errors.first;
-    if (message != null) return message!;
+    if (errors.isNotEmpty) return errors.first.toString();
+    if (message != null && message!.isNotEmpty) return message!;
     return 'An unexpected error occurred';
+  }
+
+  // Get all error messages as a list
+  List<String> get allErrorMessages {
+    List<String> messages = [];
+    if (errors.isNotEmpty) {
+      messages.addAll(errors.map((e) => e.toString()));
+    }
+    if (message != null && message!.isNotEmpty && !messages.contains(message)) {
+      messages.add(message!);
+    }
+    return messages;
   }
 
   bool get hasErrors => errors.isNotEmpty;
@@ -74,7 +86,7 @@ class ResponseHandler<T> {
   }
 
   ResponseHandler<R> map<R>(R Function(T? data) mapper) {
-    return ResponseHandler<R>(
+    return ResponseHandler(
       isSuccess: isSuccess,
       statusCode: statusCode,
       message: message,

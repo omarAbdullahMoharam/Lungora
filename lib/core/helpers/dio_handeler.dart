@@ -89,10 +89,28 @@ class DioErrorHandler {
         );
 
       case 404:
-        return ResponseHandler.error(
-          message: 'The requested resource was not found.',
-          statusCode: 404,
-        );
+        try {
+          final Map<String, dynamic> data = response.data;
+          final List<String> errors = [];
+          if (data.containsKey('errors') && data['errors'] is List) {
+            errors.addAll((data['errors'] as List).map((e) => e.toString()));
+          }
+          if (data.containsKey('message') && data['message'] is String) {
+            errors.add(data['message']);
+          }
+          return ResponseHandler.error(
+            message: errors.isNotEmpty
+                ? errors.first
+                : 'The requested resource was not found.',
+            errors: errors,
+            statusCode: 404,
+          );
+        } catch (e) {
+          return ResponseHandler.error(
+            message: 'The requested resource was not found.',
+            statusCode: 404,
+          );
+        }
 
       case 500:
         return ResponseHandler.error(
