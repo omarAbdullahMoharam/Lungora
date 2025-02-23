@@ -31,29 +31,24 @@ class SuccessDialog {
                 ),
               ],
             ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 50.h,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset('assets/icon/Success.svg'),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  Text(
-                    "Congratulation",
-                    textAlign: TextAlign.center,
-                    style: Styles.textStyle20,
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                  Text(
-                    "Successfully Completed the Process",
-                    textAlign: TextAlign.center,
-                    style: Styles.textStyle14.copyWith(color: Colors.grey),
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset('assets/icon/Success.svg'),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Text(
+                  "Congratulation",
+                  textAlign: TextAlign.center,
+                  style: Styles.textStyle20,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Text(
+                  "Successfully Completed the Process",
+                  textAlign: TextAlign.center,
+                  style: Styles.textStyle14.copyWith(color: Colors.grey),
+                ),
+              ],
             ),
           ),
         );

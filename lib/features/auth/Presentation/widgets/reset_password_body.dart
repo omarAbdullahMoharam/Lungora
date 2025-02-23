@@ -74,7 +74,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
               CustomPasswordAppBar(
                 text: 'Reset Password',
                 onPressed: () {
-                  GoRouter.of(context).go(AppRoture.kLoginView);
+                  GoRouter.of(context).go(AppRoture.kAuthView);
                 },
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.04),

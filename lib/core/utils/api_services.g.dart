@@ -102,6 +102,4 @@ class _ApiServices implements ApiServices {
 
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
-
-  //just try with @amera612
 }
