@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/main.dart';
 
 class SnackBarHandler {
-  static void showSnackBar(
-    BuildContext context, {
+  static void showSnackBar({
     required String message,
     bool isError = false,
     Duration duration = const Duration(seconds: 3),
@@ -15,9 +15,7 @@ class SnackBarHandler {
       ),
       content: Text(
         message,
-        style: Styles.textStyle16.copyWith(
-          color: Colors.white,
-        ),
+        style: Styles.textStyle16.copyWith(color: Colors.white),
       ),
       backgroundColor: isError ? Colors.red : Colors.green,
       behavior: SnackBarBehavior.floating,
@@ -26,24 +24,22 @@ class SnackBarHandler {
         label: 'Dismiss',
         textColor: Colors.white,
         onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
         },
       ),
     );
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
+    scaffoldMessengerKey.currentState
+      ?..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
 
-  // Helper method to show success message
-
-  static void showSuccess(BuildContext context, String message) {
-    showSnackBar(context, message: message, isError: false);
+  // Helper methods for success/error messages:
+  static void showSuccess(String message) {
+    showSnackBar(message: message, isError: false);
   }
 
-  // Helper method to show error message
-  static void showError(BuildContext context, String message) {
-    showSnackBar(context, message: message, isError: true);
+  static void showError(String message) {
+    showSnackBar(message: message, isError: true);
   }
 }

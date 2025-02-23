@@ -16,6 +16,9 @@ void main() async {
   runApp(const Lungora());
 }
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 class Lungora extends StatelessWidget {
   const Lungora({super.key});
 
@@ -26,6 +29,7 @@ class Lungora extends StatelessWidget {
       designSize: Size(defualtWidth, defualtHeight),
       minTextAdapt: false,
       child: MaterialApp.router(
+        scaffoldMessengerKey: scaffoldMessengerKey,
         routerConfig: AppRoture.router,
         debugShowCheckedModeBanner: false,
         title: 'Lungora',
