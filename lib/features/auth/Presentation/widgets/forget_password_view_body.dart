@@ -9,7 +9,6 @@ import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/show_otp_dialog.dart';
-import 'package:lungora/features/auth/Presentation/widgets/reset_password_params.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
 import 'custom_password_appbar.dart';
@@ -38,29 +37,10 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             'OTP sent to ${emailController.text}',
           );
           Future.delayed(const Duration(seconds: 3), () {});
-          ShowOtpDialog.showOTPDialog(
+
+          ShowOtpDialog.showOtpDialog(
             context: context,
             email: emailController.text,
-            onVerify: (otp) {
-              if (otp == '1234') {
-                log('OTP is $otp');
-                GoRouter.of(context).go(
-                  AppRoture.kResetPassView,
-                  extra: ResetPasswordParams(
-                    email: emailController.text,
-                    otp: otp,
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('wrong otp'),
-                  ),
-                );
-              }
-              // BlocProvider.of<AuthCubit>(context).verifyOTP(emailController.text, otp);
-              // Navigator.pop(context);
-            },
           );
         }
       },

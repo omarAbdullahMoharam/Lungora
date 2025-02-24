@@ -11,6 +11,7 @@ void main() async {
   // getIt<AuthRepo>().login("email@gmail.com", "Password_12");
   // getIt<AuthRepo>().forgetUserPassword("omarmoharam790@gmail.com");
   // authRepo.register("email@gmail.com", "Password_12", "emailname");
+  // authRepo.verifyUserOTP(email: "omarmoharam790@gmail.com", otp: "1234");
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");
   runApp(const Lungora());

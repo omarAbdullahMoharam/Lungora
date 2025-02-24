@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -14,6 +12,8 @@ abstract class ApiServices {
   Future<AuthResponse> registerUser(@Body() Map<String, dynamic> body);
   @POST("api/Auth/ForgotPassword")
   Future<AuthResponse> forgotPassword(@Body() Map<String, dynamic> body);
+  @POST("api/Auth/VerifyResetCode")
+  Future<AuthResponse> verifyOTP(@Body() Map<String, dynamic> body);
 
   // add more endpoints here @amera612
 }

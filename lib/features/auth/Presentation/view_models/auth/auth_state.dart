@@ -27,3 +27,5 @@ final class AuthLogin extends AuthState {}
 final class AuthResetPassword extends AuthState {}
 
 final class AuthChangePassword extends AuthState {}
+
+final class AuthVerifyPassword extends AuthState {}
