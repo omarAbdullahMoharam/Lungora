@@ -10,10 +10,14 @@ import 'package:lungora/features/auth/Presentation/widgets/custom_password_appba
 import 'show_success_dialog.dart' show SuccessDialog;
 
 class ResetPasswordBody extends StatefulWidget {
-  final String email;
-  final String otp;
+  // final String email;
+  // final String otp;
 
-  const ResetPasswordBody({super.key, required this.email, required this.otp});
+  const ResetPasswordBody({
+    super.key,
+    // required this.email,
+    // required this.otp,
+  });
 
   @override
   // ignore: library_private_types_in_public_api

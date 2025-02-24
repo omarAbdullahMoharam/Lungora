@@ -12,7 +12,7 @@ class CustomServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 187.w,
-      height: MediaQuery.of(context).size.height * 0.171,
+      // height: MediaQuery.of(context).size.height * 0.17,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,

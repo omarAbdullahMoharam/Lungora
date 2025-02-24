@@ -15,6 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
     this.authRepo,
   ) : super(AuthInitial());
 
+// Login Logic for user login with email and password
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
@@ -50,8 +51,13 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> register(String name, String email, String password,
-      String confirmPassword) async {
+// Register Logic for new user registration with name, email, password and confirm password
+  Future<void> register(
+    String name,
+    String email,
+    String password,
+    String confirmPassword,
+  ) async {
     emit(AuthLoading());
     try {
       AuthResponse response =
@@ -75,6 +81,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+// Forget Password Logic for reset password code
   Future<void> forgetUserPassword({required String email}) async {
     emit(AuthLoading());
     try {
@@ -83,7 +90,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       handler.when(
         onSuccess: (data) {
-          log('Forget Password Success: ${response.message}');
+          log('Forget Password Success: ${response.result!.message}');
           emit(
             AuthSuccess(response, responseResult: response.message),
           );
@@ -119,4 +126,35 @@ class AuthCubit extends Cubit<AuthState> {
       }
     }
   }
+
+// Verify OTP Logic for user verification with email and OTP
+  Future<void> verifyOTP({required String email, required String otp}) async {
+    emit(AuthLoading());
+    try {
+      AuthResponse response = await authRepo.verifyUserOTP(
+        email: email,
+        otp: otp,
+      );
+      final handler = ResponseHandler.fromAuthResponse(response);
+      handler.when(
+        onSuccess: (data) {
+          emit(AuthSuccess(response));
+        },
+        onError: (message) {
+          emit(AuthFailure(message));
+        },
+      );
+    } catch (e) {
+      if (e is DioException) {
+        final errorHandler = DioErrorHandler.handleError(e);
+        emit(AuthFailure(errorHandler.errorMessage));
+      } else {
+        emit(AuthFailure(
+            'An unexpected error occurred during OTP verification'));
+      }
+      log(e.toString());
+    }
+  }
+  // TODO: Add more methods here @omarAbdullahMoharam
+  // Reset Password Logic for user password reset
 }
