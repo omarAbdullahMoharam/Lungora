@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:lungora/core/utils/api_services.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
 
@@ -36,6 +38,15 @@ class AuthRepo {
     });
   }
 
+  Future<AuthResponse> verifyUserOTP(
+      {required String email, required String otp}) async {
+    log('returned email is $email OTP is $otp from main call');
+    // verify OTP logic
+    return apiServices.verifyOTP({
+      "email": email,
+      "code": otp,
+    });
+  }
   // // reset
   // Future<void> resetPassword(String email, String password) async {
   //   // reset password logic
