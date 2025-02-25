@@ -87,10 +87,6 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
               SizedBox(height: 32.h),
               ElevatedButton(
                 onPressed: () {
-                  // Navigator.pushNamed(context, AppRoture.);
-                  // Navigate to OTP Screen with email as argument
-                  // @amera612
-                  // @omarAbdullahMoharam🚔📢
                   if (formKey.currentState!.validate()) {
                     BlocProvider.of<AuthCubit>(context).forgetUserPassword(
                       email: emailController.text,

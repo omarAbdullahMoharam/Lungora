@@ -1,22 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/helpers/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/auth/Presentation/widgets/custom_password_appbar.dart';
 
 import 'show_success_dialog.dart' show SuccessDialog;
 
 class ResetPasswordBody extends StatefulWidget {
-  // final String email;
-  // final String otp;
+  final String email;
+  final String otp;
 
   const ResetPasswordBody({
     super.key,
-    // required this.email,
-    // required this.otp,
+    required this.email,
+    required this.otp,
   });
 
   @override
@@ -60,78 +65,108 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
 
   void _onConfirm() {
     if (_formKey.currentState!.validate()) {
-      SuccessDialog.show(context);
+      log("${widget.email} ${widget.otp} ${_passwordController.text} ${_confirmPasswordController.text}");
+      BlocProvider.of<AuthCubit>(context).resetUserPassword(
+        email: widget.email,
+        code: widget.otp,
+        newPassword: _passwordController.text,
+        confirmPassword: _confirmPasswordController.text,
+      );
+      log('Success');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 23.w, vertical: 76.h),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomPasswordAppBar(
-                text: 'Reset Password',
-                onPressed: () {
-                  GoRouter.of(context).go(AppRoture.kAuthView);
-                },
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-              CustomTextFormField(
-                labelText: 'New Password',
-                isPassword: true,
-                controller: _passwordController,
-                hintText: 'New Password',
-                suffixIcon: Icons.lock_clock_outlined,
-                prefixIcon: Icons.remove_red_eye,
-                autoSuggest: false,
-                validator: validatePassword,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Text(
-                  'Your password must be 8 or more characters long & contain upper & lower case letters, numbers, and a special character.',
-                  style: Styles.textStyle12,
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-              CustomTextFormField(
-                labelText: 'Confirm Password',
-                isPassword: true,
-                controller: _confirmPasswordController,
-                hintText: 'Confirm Password',
-                suffixIcon: Icons.lock_clock_outlined,
-                prefixIcon: Icons.remove_red_eye,
-                autoSuggest: false,
-                validator: validateConfirmPassword,
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-              ElevatedButton(
-                onPressed: _onConfirm,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.w),
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthFailure) {
+          SnackBarHandler.showError(
+            'Error: ${state.errMessage}',
+          );
+        } else if (state is AuthSuccess) {
+          SuccessDialog.show(context);
+        } else if (state is AuthLoading) {
+          SnackBarHandler.showSnackBar(
+            duration: Duration(milliseconds: 500),
+            message: 'Loading...',
+          );
+        }
+      },
+      builder: (context, state) {
+        return SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 23.w, vertical: 76.h),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomPasswordAppBar(
+                    text: 'Reset Password',
+                    onPressed: () {
+                      GoRouter.of(context).go(AppRoture.kAuthView);
+                    },
                   ),
-                  minimumSize: Size(1.sw, 60.h),
-                  backgroundColor: kPrimaryColor,
-                ),
-                child: Text(
-                  'Confirm',
-                  style: Styles.textStyle20.copyWith(
-                    color: Colors.white,
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                  CustomTextFormField(
+                    labelText: 'New Password',
+                    isPassword: true,
+                    controller: _passwordController,
+                    hintText: 'New Password',
+                    suffixIcon: Icons.lock_clock_outlined,
+                    prefixIcon: Icons.remove_red_eye,
+                    autoSuggest: false,
+                    validator: validatePassword,
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Text(
+                      'Your password must be 8 or more characters long & contain upper & lower case letters, numbers, and a special character.',
+                      style: Styles.textStyle12,
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                  CustomTextFormField(
+                    labelText: 'Confirm Password',
+                    isPassword: true,
+                    controller: _confirmPasswordController,
+                    hintText: 'Confirm Password',
+                    suffixIcon: Icons.lock_clock_outlined,
+                    prefixIcon: Icons.remove_red_eye,
+                    autoSuggest: false,
+                    validator: validateConfirmPassword,
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                  ElevatedButton(
+                    onPressed: _onConfirm,
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.w),
+                      ),
+                      minimumSize: Size(1.sw, 60.h),
+                      backgroundColor: kPrimaryColor,
+                    ),
+                    child: state is AuthLoading
+                        ? CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : Text(
+                            'Confirm',
+                            style: Styles.textStyle20.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                  ),
+                  SizedBox(height: 20.h),
+                ],
               ),
-              SizedBox(height: 20.h),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -28,7 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthSuccess(response));
         },
         onError: (message) {
-          emit(AuthFailure(message));
+          emit(AuthFailure(response.errors[0]));
         },
       );
     } catch (e) {
@@ -39,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
         final errorHandler = DioErrorHandler.handleError(e);
 
         if (e.response?.statusCode == 400) {
-          emit(AuthFailure('Invalid email or password. Please try again.'));
+          emit(AuthFailure(errorHandler.errors[0]));
           return;
         }
 
@@ -128,7 +128,8 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 // Verify OTP Logic for user verification with email and OTP
-  Future<void> verifyOTP({required String email, required String otp}) async {
+  Future<void> verifyUserOTP(
+      {required String email, required String otp}) async {
     emit(AuthLoading());
     try {
       AuthResponse response = await authRepo.verifyUserOTP(
@@ -155,6 +156,39 @@ class AuthCubit extends Cubit<AuthState> {
       log(e.toString());
     }
   }
-  // TODO: Add more methods here @omarAbdullahMoharam
+
   // Reset Password Logic for user password reset
+  Future<void> resetUserPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    emit(AuthLoading());
+    try {
+      AuthResponse response = await authRepo.resetUserPassword(
+        email: email,
+        code: code,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      final handler = ResponseHandler.fromAuthResponse(response);
+      handler.when(
+        onSuccess: (data) {
+          emit(AuthSuccess(response));
+        },
+        onError: (message) {
+          emit(AuthFailure(message));
+        },
+      );
+    } catch (e) {
+      if (e is DioException) {
+        final errorHandler = DioErrorHandler.handleError(e);
+        emit(AuthFailure(errorHandler.errorMessage));
+      } else {
+        emit(AuthFailure('An unexpected error occurred during password reset'));
+      }
+      log(e.toString());
+    }
+  }
 }
