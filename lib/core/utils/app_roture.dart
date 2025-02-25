@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/features/Auth/Presentation/views/auth_view.dart';
 import 'package:lungora/features/Auth/Presentation/views/forget_password_view.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Home/presentation/views/home_view.dart';
 import 'package:lungora/features/auth/Presentation/views/reset_password_view.dart';
 
@@ -74,14 +75,13 @@ abstract class AppRoture {
       ),
       GoRoute(
         path: kResetPassView,
-        builder: (context, state) => ResetPasswordView(),
-        // builder: (context, state) {
-        // final params = state.extra as ResetPasswordParams;
-        //   return ResetPasswordView(
-        //     email: params.email,
-        //     otp: params.otp,
-        //   );
-        // },
+        builder: (context, state) {
+          final params = state.extra as ResetPasswordParams;
+          return ResetPasswordView(
+            email: params.email,
+            otp: params.otp,
+          );
+        },
       ),
     ],
   );
