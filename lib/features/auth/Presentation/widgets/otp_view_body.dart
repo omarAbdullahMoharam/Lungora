@@ -8,6 +8,7 @@ import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
 import 'otp_input_field.dart';
@@ -54,11 +55,11 @@ class OTPDialogState extends State<OTPDialog> {
     setState(() {
       _timerManager.resetTimer(60);
     });
+    BlocProvider.of<AuthCubit>(context).forgetUserPassword(email: widget.email);
   }
 
   @override
   Widget build(BuildContext context) {
-    // GlobalKey formKey = GlobalKey<FormState>();
     return BlocProvider(
       create: (context) => AuthCubit(getIt<AuthRepo>()),
       child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
@@ -66,7 +67,13 @@ class OTPDialogState extends State<OTPDialog> {
           SnackBarHandler.showSuccess(
             'OTP verified successfully',
           );
-          GoRouter.of(context).go(AppRoture.kResetPassView);
+          GoRouter.of(context).go(
+            AppRoture.kResetPassView,
+            extra: ResetPasswordParams(
+              email: widget.email,
+              otp: otpController.text,
+            ),
+          );
         } else if (state is AuthFailure) {
           SnackBarHandler.showError('Error: ${state.errMessage}');
         }
@@ -134,7 +141,7 @@ class OTPDialogState extends State<OTPDialog> {
                     if (otpController.text.isEmpty) {
                       SnackBarHandler.showError('Please enter OTP');
                     } else {
-                      BlocProvider.of<AuthCubit>(context).verifyOTP(
+                      BlocProvider.of<AuthCubit>(context).verifyUserOTP(
                         email: widget.email,
                         otp: otpController.text,
                       );
@@ -147,30 +154,21 @@ class OTPDialogState extends State<OTPDialog> {
                       borderRadius: BorderRadius.circular(10.h),
                     ),
                   ),
-                  child: Text(
-                    "Verify",
-                    style: Styles.textStyle16.copyWith(color: Colors.white),
-                  ),
+                  child: state is AuthLoading
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          "Verify",
+                          style:
+                              Styles.textStyle16.copyWith(color: Colors.white),
+                        ),
                 ),
               ],
             ),
           ),
         );
-      }
-          //   if (otpController.text.isEmpty) {
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //       const SnackBar(
-          //         content: Text('Please enter OTP'),
-          //       ),
-          //     );
-          //   } else {
-          //     BlocProvider.of<AuthCubit>(context).verifyOTP(
-          //         email: widget.email, otp: otpController.text);
-          //     Navigator.pop(context);
-          //   }
-          // },
-          // child:
-          ),
+      }),
     );
   }
 }
