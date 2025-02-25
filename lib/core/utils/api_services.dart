@@ -14,6 +14,8 @@ abstract class ApiServices {
   Future<AuthResponse> forgotPassword(@Body() Map<String, dynamic> body);
   @POST("api/Auth/VerifyResetCode")
   Future<AuthResponse> verifyOTP(@Body() Map<String, dynamic> body);
+  @POST("api/Auth/ResetPassword")
+  Future<AuthResponse> resetPassword(@Body() Map<String, dynamic> body);
 
   // add more endpoints here @amera612
 }
