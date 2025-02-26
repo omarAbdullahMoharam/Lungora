@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/features/Auth/Presentation/views/auth_view.dart';
 import 'package:lungora/features/Auth/Presentation/views/forget_password_view.dart';
+import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Home/presentation/views/home_view.dart';
 import 'package:lungora/features/Settings/presentation/view/about_us_view_.dart';
 import 'package:lungora/features/Settings/presentation/view/contact_us_view.dart';
 import 'package:lungora/features/Settings/presentation/view/edit_profile_view.dart';
 import 'package:lungora/features/Settings/presentation/view/terms_conditions_view.dart';
 import 'package:lungora/features/auth/Presentation/views/reset_password_view.dart';
-import 'package:lungora/features/auth/Presentation/widgets/reset_password_params.dart';
 
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';

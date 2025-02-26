@@ -65,7 +65,7 @@ class DioErrorHandler {
           }
 
           return ResponseHandler.error(
-            message: errors.isNotEmpty ? errors.first : 'Invalid request',
+            message: errors.isNotEmpty ? errors[0] : errors.toString(),
             errors: errors,
             statusCode: 400,
           );
