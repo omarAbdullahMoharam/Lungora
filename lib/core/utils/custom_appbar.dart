@@ -9,7 +9,7 @@ class CustomAppBar extends StatelessWidget {
     this.onPressed,
   });
   final String text;
-  final void Function()? onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
