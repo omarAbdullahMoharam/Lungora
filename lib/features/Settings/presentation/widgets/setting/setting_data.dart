@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lungora/core/utils/app_roture.dart';
-import 'package:lungora/features/Auth/Presentation/views/forget_password_view.dart';
+import 'package:lungora/features/auth/Presentation/views/forget_password_view.dart';
 
 import '../edit_profile/edit_profile_view_body.dart';
 import 'setting_options.dart';
@@ -9,10 +9,11 @@ import '../testing_screens.dart';
 class SettingData {
   static final List<SettingOption> settingsItem = [
     SettingOption(
-        title: "Edit Profile",
-        icon: Icons.edit,
-        screen: EditProfileViewBody(),
-        path: AppRoture.kEditProfile),
+      title: "Edit Profile",
+      icon: Icons.edit,
+      screen: EditProfileViewBody(),
+      path: AppRoture.kEditProfile,
+    ),
     SettingOption(
       title: "Change Password",
       icon: Icons.lock,

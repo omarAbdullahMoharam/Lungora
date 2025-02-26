@@ -14,7 +14,9 @@ import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
-  const ForgetPasswordViewBody({super.key});
+  const ForgetPasswordViewBody({
+    super.key,
+  });
 
   @override
   State<ForgetPasswordViewBody> createState() => _ForgetPasswordViewBodyState();
@@ -54,7 +56,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
               CustomAppBar(
                 text: 'Forget Password',
                 onPressed: () {
-                  context.go(AppRoture.kAuthView);
+                  GoRouter.of(context).go(AppRoture.kAuthView);
                 },
               ),
               SizedBox(height: 8.h),
