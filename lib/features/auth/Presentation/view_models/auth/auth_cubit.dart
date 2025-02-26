@@ -15,6 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
     this.authRepo,
   ) : super(AuthInitial());
 
+// Login Logic for user login with email and password
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
     try {
@@ -27,7 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthSuccess(response));
         },
         onError: (message) {
-          emit(AuthFailure(message));
+          emit(AuthFailure(response.errors[0]));
         },
       );
     } catch (e) {
@@ -38,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
         final errorHandler = DioErrorHandler.handleError(e);
 
         if (e.response?.statusCode == 400) {
-          emit(AuthFailure('Invalid email or password. Please try again.'));
+          emit(AuthFailure(errorHandler.errors[0]));
           return;
         }
 
@@ -50,8 +51,13 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> register(String name, String email, String password,
-      String confirmPassword) async {
+// Register Logic for new user registration with name, email, password and confirm password
+  Future<void> register(
+    String name,
+    String email,
+    String password,
+    String confirmPassword,
+  ) async {
     emit(AuthLoading());
     try {
       AuthResponse response =
@@ -75,6 +81,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+// Forget Password Logic for reset password code
   Future<void> forgetUserPassword({required String email}) async {
     emit(AuthLoading());
     try {
@@ -83,7 +90,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       handler.when(
         onSuccess: (data) {
-          log('Forget Password Success: ${response.message}');
+          log('Forget Password Success: ${response.result!.message}');
           emit(
             AuthSuccess(response, responseResult: response.message),
           );
@@ -117,6 +124,71 @@ class AuthCubit extends Cubit<AuthState> {
         log('Unexpected error in forget password: $e');
         emit(AuthFailure('An unexpected error occurred during password reset'));
       }
+    }
+  }
+
+// Verify OTP Logic for user verification with email and OTP
+  Future<void> verifyUserOTP(
+      {required String email, required String otp}) async {
+    emit(AuthLoading());
+    try {
+      AuthResponse response = await authRepo.verifyUserOTP(
+        email: email,
+        otp: otp,
+      );
+      final handler = ResponseHandler.fromAuthResponse(response);
+      handler.when(
+        onSuccess: (data) {
+          emit(AuthSuccess(response));
+        },
+        onError: (message) {
+          emit(AuthFailure(message));
+        },
+      );
+    } catch (e) {
+      if (e is DioException) {
+        final errorHandler = DioErrorHandler.handleError(e);
+        emit(AuthFailure(errorHandler.errorMessage));
+      } else {
+        emit(AuthFailure(
+            'An unexpected error occurred during OTP verification'));
+      }
+      log(e.toString());
+    }
+  }
+
+  // Reset Password Logic for user password reset
+  Future<void> resetUserPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    emit(AuthLoading());
+    try {
+      AuthResponse response = await authRepo.resetUserPassword(
+        email: email,
+        code: code,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      final handler = ResponseHandler.fromAuthResponse(response);
+      handler.when(
+        onSuccess: (data) {
+          emit(AuthSuccess(response));
+        },
+        onError: (message) {
+          emit(AuthFailure(message));
+        },
+      );
+    } catch (e) {
+      if (e is DioException) {
+        final errorHandler = DioErrorHandler.handleError(e);
+        emit(AuthFailure(errorHandler.errorMessage));
+      } else {
+        emit(AuthFailure('An unexpected error occurred during password reset'));
+      }
+      log(e.toString());
     }
   }
 }

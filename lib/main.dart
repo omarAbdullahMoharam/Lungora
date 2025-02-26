@@ -12,8 +12,15 @@ void main() async {
   initGetIt();
   // AuthRepo authRepo = AuthRepo(ApiServices(Dio()));
   // getIt<AuthRepo>().login("email@gmail.com", "Password_12");
+  // getIt<AuthRepo>().resetUserPassword(
+  //   email: "omarmoharam790@gmail.com",
+  //   code: "7286",
+  //   newPassword: "Adel@1234",
+  //   confirmPassword: "Adel@1234",
+  // );
   // getIt<AuthRepo>().forgetUserPassword("omarmoharam790@gmail.com");
   // authRepo.register("email@gmail.com", "Password_12", "emailname");
+  // authRepo.verifyUserOTP(email: "omarmoharam790@gmail.com", otp: "1234");
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");
 
