@@ -5,7 +5,7 @@ import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
-import 'package:lungora/features/auth/Presentation/widgets/custom_password_appbar.dart';
+import 'package:lungora/core/utils/custom_appbar.dart';
 
 import 'show_success_dialog.dart' show SuccessDialog;
 
@@ -71,7 +71,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomPasswordAppBar(
+              CustomAppBar(
                 text: 'Reset Password',
                 onPressed: () {
                   GoRouter.of(context).go(AppRoture.kAuthView);
