@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/Scan/presentation/widgets/custom_scan_button.dart';
+import 'package:lungora/core/utils/custom_elevated_button.dart';
 import 'dart:io';
 import 'package:lungora/features/Scan/presentation/widgets/text_with_dividers.dart';
 
@@ -54,7 +54,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
                       _selectedImage!,
                       height: 290.h,
                       width: 240.w,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     ),
                   )
                 : Container(
@@ -65,10 +65,14 @@ class _ScanViewBodyState extends State<ScanViewBody> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
-                        child: Image.asset('assets/images/lung_scan.png')),
+                      child: Image.asset(
+                        'assets/images/lung_scan.png',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
           ),
-          CustomScanButton(
+          CustomElevatedButton(
             text: "Take Picture",
             onPressed: () => _pickImage(ImageSource.camera),
             backgroundColor: kSecondaryColor,
@@ -109,7 +113,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
           const TextWithDividers(
             text: 'if you finished click recognize button',
           ),
-          CustomScanButton(
+          CustomElevatedButton(
             text: "Recognize",
             onPressed: () => _recognizeImage(),
             backgroundColor: kPrimaryColor,

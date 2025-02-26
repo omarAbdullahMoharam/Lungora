@@ -12,7 +12,7 @@ import 'package:lungora/features/Auth/Presentation/widgets/show_otp_dialog.dart'
 import 'package:lungora/features/auth/Presentation/widgets/reset_password_params.dart';
 import '../../../../core/constants.dart';
 import '../../../../core/utils/styles.dart';
-import 'custom_password_appbar.dart';
+import '../../../../core/utils/custom_appbar.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
   const ForgetPasswordViewBody({super.key});
@@ -71,7 +71,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              CustomPasswordAppBar(
+              CustomAppBar(
                 text: 'Forget Password',
                 onPressed: () {
                   context.go(AppRoture.kAuthView);

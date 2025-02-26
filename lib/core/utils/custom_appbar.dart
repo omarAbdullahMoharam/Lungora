@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:lungora/core/utils/styles.dart';
 
-class CustomPasswordAppBar extends StatelessWidget {
-  const CustomPasswordAppBar({
+class CustomAppBar extends StatelessWidget {
+  const CustomAppBar({
     super.key,
     required this.text,
     this.onPressed,
