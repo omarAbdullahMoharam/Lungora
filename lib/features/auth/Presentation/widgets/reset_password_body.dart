@@ -22,7 +22,9 @@ class ResetPasswordBody extends StatefulWidget {
     super.key,
     required this.email,
     required this.otp,
+    this.navigatTo,
   });
+  final void Function()? navigatTo;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -85,7 +87,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
             'Error: ${state.errMessage}',
           );
         } else if (state is AuthSuccess) {
-          SuccessDialog.show(context);
+          SuccessDialog.show(context, onPressed: widget.navigatTo);
         } else if (state is AuthLoading) {
           SnackBarHandler.showSnackBar(
             duration: Duration(milliseconds: 500),
