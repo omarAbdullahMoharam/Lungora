@@ -61,6 +61,11 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                 },
               ),
               ForgetPasswordForm(
+                onPressed: () {
+                  BlocProvider.of<AuthCubit>(context).forgetUserPassword(
+                    email: emailController.text,
+                  );
+                },
                 emailController: emailController,
                 formKey: formKey,
               )
@@ -77,8 +82,9 @@ class ForgetPasswordForm extends StatelessWidget {
     super.key,
     required this.emailController,
     required this.formKey,
+    required this.onPressed,
   });
-
+  final void Function()? onPressed;
   final TextEditingController emailController;
   final GlobalKey<FormState> formKey;
 
@@ -117,9 +123,7 @@ class ForgetPasswordForm extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
-              BlocProvider.of<AuthCubit>(context).forgetUserPassword(
-                email: emailController.text,
-              );
+              onPressed!();
             } else {
               log('Error!  Please enter a valid email');
               SnackBarHandler.showError(
