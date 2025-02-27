@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/features/Settings/presentation/widgets/setting/change_password/views/change_password_view.dart';
-import 'package:lungora/features/auth/Presentation/widgets/forget_password_view_body.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
+import '../../../../../core/utils/dependency_injection.dart';
 import '../edit_profile/edit_profile_view_body.dart';
 import 'setting_options.dart';
 import '../testing_screens.dart';
@@ -19,7 +21,10 @@ class SettingData {
     SettingOption(
       title: "Change Password",
       icon: Icons.lock,
-      screen: ChangePasswordView(),
+      screen: BlocProvider(
+        create: (context) => AuthCubit(getIt<AuthRepo>()),
+        child: ChangePasswordView(),
+      ),
       path: AppRoture.kChangePasswordView,
     ),
     SettingOption(
