@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/app_roture.dart';
-import 'package:lungora/features/auth/Presentation/views/forget_password_view.dart';
+import 'package:lungora/features/Settings/presentation/widgets/setting/change_password/views/change_password_view.dart';
+import 'package:lungora/features/auth/Presentation/widgets/forget_password_view_body.dart';
 
 import '../edit_profile/edit_profile_view_body.dart';
 import 'setting_options.dart';
@@ -17,8 +19,8 @@ class SettingData {
     SettingOption(
       title: "Change Password",
       icon: Icons.lock,
-      screen: ForgetPasswordView(),
-      path: AppRoture.kForgetPassView,
+      screen: ChangePasswordView(),
+      path: AppRoture.kChangePasswordView,
     ),
     SettingOption(
       title: "Language",

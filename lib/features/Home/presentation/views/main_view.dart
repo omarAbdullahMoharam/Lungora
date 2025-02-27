@@ -39,7 +39,7 @@ class _MainViewState extends State<MainView> {
         context.go(AppRoture.kScanView);
         break;
       case 2:
-        context.go(AppRoture.kSettingsView);
+        context.push(AppRoture.kSettingsView);
         break;
     }
   }
