@@ -8,6 +8,7 @@ import 'package:lungora/features/Settings/presentation/view/about_us_view_.dart'
 import 'package:lungora/features/Settings/presentation/view/contact_us_view.dart';
 import 'package:lungora/features/Settings/presentation/view/edit_profile_view.dart';
 import 'package:lungora/features/Settings/presentation/view/terms_conditions_view.dart';
+import 'package:lungora/features/Settings/presentation/widgets/setting/change_password/views/change_password_view.dart';
 import 'package:lungora/features/auth/Presentation/views/reset_password_view.dart';
 
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
@@ -28,6 +29,7 @@ abstract class AppRoture {
   static const kTermsConditionsView = '/termsConditionsView';
   static const kContactUsView = '/contactUsView';
   static const kAboutUsView = '/aboutUsView';
+  static const kChangePasswordView = '/changePasswordView';
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -83,6 +85,7 @@ abstract class AppRoture {
         path: kHomeView,
         builder: (context, state) => HomeView(),
       ),
+
       GoRoute(
         path: kResetPassView,
         builder: (context, state) {
@@ -100,6 +103,10 @@ abstract class AppRoture {
       GoRoute(
         path: kPrivacyView,
         builder: (context, state) => const PrivacyView(),
+      ),
+      GoRoute(
+        path: kChangePasswordView,
+        builder: (context, state) => const ChangePasswordView(),
       ),
       GoRoute(
         path: kTermsConditionsView,

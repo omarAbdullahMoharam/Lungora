@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
@@ -44,6 +45,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
@@ -64,11 +66,11 @@ class _ScanViewBodyState extends State<ScanViewBody> {
                       color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/lung_scan.png',
-                        fit: BoxFit.fill,
-                      ),
+                    child: Image.asset(
+                      'assets/images/lung_scan.png',
+                      height: 290.h,
+                      width: 230.w,
+                      fit: BoxFit.fill,
                     ),
                   ),
           ),
@@ -87,22 +89,34 @@ class _ScanViewBodyState extends State<ScanViewBody> {
               ),
               side: BorderSide(color: kSecondaryColor),
             ),
-            icon: Icon(Icons.upload_file, color: kSecondaryColor),
+            // icon: Icon(Icons.upload_file, color: kSecondaryColor),
             label: Text(
               "Upload from device",
-              style: Styles.textStyleInter16,
+              style: Styles.textStyleInter16.copyWith(color: kSecondaryColor),
             ),
           ),
           if (_selectedImage != null)
             ListTile(
-              leading: Icon(Icons.image, color: kPrimaryColor),
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.file(
+                  _selectedImage!,
+                  height: 25.h,
+                  width: 25.w,
+                  fit: BoxFit.fill,
+                ),
+              ),
               title: Text(
                 _selectedImage!.path.split('/').last,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
+                icon: SvgPicture.asset(
+                  'assets/icon/trash.svg',
+                  // ignore: deprecated_member_use
+                  color: Colors.red,
+                ),
                 onPressed: () {
                   setState(() {
                     _selectedImage = null;
