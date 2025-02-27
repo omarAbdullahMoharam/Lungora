@@ -68,6 +68,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                 },
                 emailController: emailController,
                 formKey: formKey,
+                // state: BlocProvider.of<AuthCubit>(context).state,
               )
             ],
           ),
@@ -83,7 +84,9 @@ class ForgetPasswordForm extends StatelessWidget {
     required this.emailController,
     required this.formKey,
     required this.onPressed,
+    // required this.state,
   });
+  // final AuthState state;
   final void Function()? onPressed;
   final TextEditingController emailController;
   final GlobalKey<FormState> formKey;
@@ -139,7 +142,7 @@ class ForgetPasswordForm extends StatelessWidget {
             backgroundColor: kPrimaryColor,
           ),
           child:
-              // context.watch<AuthCubit>().state is AuthLoading
+              //  BlocProvider.of<AuthCubit>(context).state is AuthLoading
               //     ? CircularProgressIndicator(
               //         color: Colors.white,
               //       )
