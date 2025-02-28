@@ -108,17 +108,23 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                   CustomAppBar(
                     text: 'Reset Password',
                     onPressed: () {
+                      if (widget.navigatTo != null) {
+                        GoRouter.of(context)
+                            .pushReplacement(AppRoture.kForgetPassView);
+                      } else {
+                        GoRouter.of(context).go(AppRoture.kAuthView);
+                      }
                       GoRouter.of(context).go(AppRoture.kAuthView);
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   CustomTextFormField(
+                    needHelper: true,
                     labelText: 'New Password',
                     isPassword: true,
                     controller: _passwordController,
                     hintText: 'New Password',
-                    suffixIcon: Icons.lock_clock_outlined,
-                    prefixIcon: Icons.remove_red_eye,
+                    prefixIcon: Icons.lock,
                     autoSuggest: false,
                     validator: validatePassword,
                   ),
@@ -135,8 +141,8 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                     isPassword: true,
                     controller: _confirmPasswordController,
                     hintText: 'Confirm Password',
-                    suffixIcon: Icons.lock_clock_outlined,
-                    prefixIcon: Icons.remove_red_eye,
+                    suffixIcon: Icons.remove_red_eye,
+                    prefixIcon: Icons.lock,
                     autoSuggest: false,
                     validator: validateConfirmPassword,
                   ),

@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/helpers/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
+import 'package:lungora/features/Settings/presentation/widgets/change_password/widgets/change_password_form.dart';
 import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
-import 'package:lungora/features/auth/Presentation/widgets/forget_password_view_body.dart';
 import 'package:lungora/features/auth/Presentation/widgets/show_otp_dialog.dart';
 
 class ChangePasswordViewBody extends StatefulWidget {
@@ -58,14 +58,15 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
                     GoRouter.of(context).go(AppRoture.kSettingsView);
                   },
                 ),
-                ForgetPasswordForm(
-                    emailController: emailController,
-                    formKey: formKey,
-                    onPressed: () {
-                      BlocProvider.of<AuthCubit>(context).forgetUserPassword(
-                        email: emailController.text,
-                      );
-                    })
+                ChangePasswordForm(
+                  emailController: emailController,
+                  formKey: formKey,
+                  onPressed: () {
+                    BlocProvider.of<AuthCubit>(context).forgetUserPassword(
+                      email: emailController.text,
+                    );
+                  },
+                )
               ],
             ),
           ),

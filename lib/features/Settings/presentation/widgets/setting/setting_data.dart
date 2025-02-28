@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/utils/app_roture.dart';
-import 'package:lungora/features/Settings/presentation/widgets/setting/change_password/views/change_password_view.dart';
+import 'package:lungora/features/Settings/presentation/widgets/change_password/views/change_password_view.dart';
 import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 

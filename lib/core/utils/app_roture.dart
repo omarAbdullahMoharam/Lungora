@@ -10,7 +10,7 @@ import 'package:lungora/features/Settings/presentation/view/about_us_view_.dart'
 import 'package:lungora/features/Settings/presentation/view/contact_us_view.dart';
 import 'package:lungora/features/Settings/presentation/view/edit_profile_view.dart';
 import 'package:lungora/features/Settings/presentation/view/terms_conditions_view.dart';
-import 'package:lungora/features/Settings/presentation/widgets/setting/change_password/views/change_password_view.dart';
+import 'package:lungora/features/Settings/presentation/widgets/change_password/views/change_password_view.dart';
 import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/auth/Presentation/views/reset_password_view.dart';
 
