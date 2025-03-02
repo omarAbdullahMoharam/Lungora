@@ -5,6 +5,7 @@ import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/features/Auth/Presentation/views/auth_view.dart';
 import 'package:lungora/features/Auth/Presentation/views/forget_password_view.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
+import 'package:lungora/features/Chat/presentation/view/chat_view.dart';
 import 'package:lungora/features/Home/presentation/views/home_view.dart';
 import 'package:lungora/features/Settings/presentation/view/about_us_view_.dart';
 import 'package:lungora/features/Settings/presentation/view/contact_us_view.dart';
@@ -34,7 +35,7 @@ abstract class AppRoture {
   static const kContactUsView = '/contactUsView';
   static const kAboutUsView = '/aboutUsView';
   static const kChangePasswordView = '/changePasswordView';
-
+  static const kChatView = '/chatView';
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -73,6 +74,7 @@ abstract class AppRoture {
           ),
         ],
       ),
+
       GoRoute(
         path: kAuthView,
         builder: (context, state) => AuthView(
@@ -88,6 +90,10 @@ abstract class AppRoture {
       GoRoute(
         path: kHomeView,
         builder: (context, state) => HomeView(),
+      ),
+      GoRoute(
+        path: kChatView,
+        builder: (context, state) => const ChatView(),
       ),
 
       GoRoute(
