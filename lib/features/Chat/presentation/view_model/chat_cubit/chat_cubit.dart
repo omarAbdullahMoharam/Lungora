@@ -19,10 +19,11 @@ class ChatCubit extends Cubit<ChatState> {
       content: content,
     );
 
-    // Update state with user message and loading status
+    // Update state with user message and typing indicator
     emit(state.copyWith(
       messages: [...state.messages, userMessage],
       isLoading: true,
+      isTyping: true, // Show typing indicator
     ));
 
     try {
@@ -44,10 +45,11 @@ class ChatCubit extends Cubit<ChatState> {
         content: _openRouterService.extractCompletionText(response),
       );
 
-      // Update state with assistant response and turn off loading
+      // Update state with assistant response and turn off loading/typing
       emit(state.copyWith(
         messages: [...state.messages, assistantMessage],
         isLoading: false,
+        isTyping: false, // Hide typing indicator
       ));
     } catch (e) {
       // Handle error
@@ -59,6 +61,7 @@ class ChatCubit extends Cubit<ChatState> {
       emit(state.copyWith(
         messages: [...state.messages, errorMessage],
         isLoading: false,
+        isTyping: false, // Hide typing indicator on error too
         error: e.toString(),
       ));
     }
