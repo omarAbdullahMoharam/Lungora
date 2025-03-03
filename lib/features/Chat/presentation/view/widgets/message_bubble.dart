@@ -50,8 +50,9 @@ class ChatMessageBubble extends StatelessWidget {
             style: isUser
                 ? Styles.textStyle12
                     .copyWith(color: Colors.white, fontSize: 16.sp)
-                : Styles.textStyle12
-                    .copyWith(color: Colors.black, fontSize: 16.sp),
+                : Styles.textStyle12.copyWith(
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                    fontSize: 16.sp),
           ),
         ),
         Padding(
