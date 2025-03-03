@@ -14,7 +14,6 @@ class ChatCubit extends Cubit<ChatState> {
   void sendMessage(String content) async {
     if (content.isEmpty || state is ChatLoading) return;
 
-    // إضافة رسالة المستخدم
     final userMessage = ChatMessage(role: 'user', content: content);
     messages.add(userMessage);
 
@@ -28,7 +27,6 @@ class ChatCubit extends Cubit<ChatState> {
     try {
       final messagesJson = messages.map((msg) => msg.toJson()).toList();
 
-      // طلب API
       final response = await _openRouterService.generateChatCompletion(
         messages: messagesJson,
         additionalParams: {'temperature': 0.7, 'max_tokens': 800},
@@ -42,8 +40,6 @@ class ChatCubit extends Cubit<ChatState> {
       messages.add(assistantMessage);
       emit(ChatSuccess(messages: List.from(messages), isTyping: false));
     } catch (e) {
-      // handle if the network is not available
-
       emit(
         ChatFailure(
           errorMessage: e.toString().replaceFirst('Exception: ', ''),

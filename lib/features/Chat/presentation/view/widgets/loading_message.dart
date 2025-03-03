@@ -14,7 +14,11 @@ class LoadingMessageIndicator extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
         padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
-          color: const Color(0xFFEDF2F7),
+          color: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .color!
+              .withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Row(
@@ -28,7 +32,9 @@ class LoadingMessageIndicator extends StatelessWidget {
             SizedBox(width: 8.w),
             Text(
               'Loading...',
-              style: Styles.textStyle12,
+              style: Styles.textStyle12.copyWith(
+                color: Theme.of(context).textTheme.bodyLarge!.color,
+              ),
             ),
           ],
         ),
