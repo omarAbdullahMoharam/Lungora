@@ -1,32 +1,20 @@
-import 'package:equatable/equatable.dart';
 import 'package:lungora/features/Chat/data/models/message_model.dart';
 
-class ChatState extends Equatable {
+abstract class ChatState {}
+
+final class ChatInitial extends ChatState {}
+
+final class ChatLoading extends ChatState {}
+
+final class ChatSuccess extends ChatState {
   final List<ChatMessage> messages;
-  final bool isLoading;
-  final String? error;
   final bool isTyping;
-  const ChatState({
-    this.messages = const [],
-    this.isLoading = false,
-    this.error,
-    this.isTyping = false,
-  });
 
-  ChatState copyWith({
-    List<ChatMessage>? messages,
-    bool? isLoading,
-    String? error,
-    bool? isTyping,
-  }) {
-    return ChatState(
-      messages: messages ?? this.messages,
-      isLoading: isLoading ?? this.isLoading,
-      error: error,
-      isTyping: isTyping ?? this.isTyping,
-    );
-  }
+  ChatSuccess({required this.messages, this.isTyping = false});
+}
 
-  @override
-  List<Object?> get props => [messages, isLoading, error, isTyping];
+final class ChatFailure extends ChatState {
+  final String errorMessage;
+
+  ChatFailure({required this.errorMessage});
 }

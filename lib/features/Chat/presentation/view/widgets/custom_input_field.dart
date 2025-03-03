@@ -32,12 +32,15 @@ class _ChatInputFieldState extends State<ChatInputField> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey[300]!)),
+        color: Theme.of(context).scaffoldBackgroundColor,
+        border: Border(
+          top: BorderSide(color: Theme.of(context).scaffoldBackgroundColor),
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
+            color: Colors.grey.withValues(alpha: 0.3),
+            spreadRadius: 2,
+            blurRadius: 1,
             offset: Offset(0, 2),
           ),
         ],
@@ -46,7 +49,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
         children: [
           SizedBox(
             height: 48.h,
-            width: MediaQuery.of(context).size.width * 0.65,
+            width: MediaQuery.of(context).size.width * 0.75,
             child: Scrollbar(
               controller: widget.scrollController,
               scrollbarOrientation: ScrollbarOrientation.right,
@@ -68,6 +71,8 @@ class _ChatInputFieldState extends State<ChatInputField> {
                 enabled: !widget.isLoading,
                 controller: widget.promptController,
                 decoration: InputDecoration(
+                  // get the current theme
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
                   hintText: 'Type your message...',
                   hintStyle: Styles.textStyle12,
                   border: OutlineInputBorder(
@@ -84,7 +89,6 @@ class _ChatInputFieldState extends State<ChatInputField> {
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 8,
                   ),
                 ),
               ),

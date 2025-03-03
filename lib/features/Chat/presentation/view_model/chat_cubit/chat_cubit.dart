@@ -5,69 +5,55 @@ import 'package:lungora/features/Chat/presentation/view_model/chat_cubit/chat_st
 
 class ChatCubit extends Cubit<ChatState> {
   final OpenRouterService _openRouterService;
+  List<ChatMessage> messages = [];
 
   ChatCubit({required OpenRouterService openRouterService})
       : _openRouterService = openRouterService,
-        super(const ChatState());
+        super(ChatInitial());
 
   void sendMessage(String content) async {
-    if (content.isEmpty || state.isLoading) return;
+    if (content.isEmpty || state is ChatLoading) return;
 
-    // Create user message
-    final userMessage = ChatMessage(
-      role: 'user',
-      content: content,
+    // إضافة رسالة المستخدم
+    final userMessage = ChatMessage(role: 'user', content: content);
+    messages.add(userMessage);
+
+    emit(
+      ChatSuccess(
+        messages: List.from(messages),
+        isTyping: true,
+      ),
     );
 
-    // Update state with user message and typing indicator
-    emit(state.copyWith(
-      messages: [...state.messages, userMessage],
-      isLoading: true,
-      isTyping: true, // Show typing indicator
-    ));
-
     try {
-      // Prepare messages for API request
-      final messages = state.messages.map((msg) => msg.toJson()).toList();
+      final messagesJson = messages.map((msg) => msg.toJson()).toList();
 
-      // Call API
+      // طلب API
       final response = await _openRouterService.generateChatCompletion(
-        messages: messages,
-        additionalParams: {
-          'temperature': 0.7,
-          'max_tokens': 800,
-        },
+        messages: messagesJson,
+        additionalParams: {'temperature': 0.7, 'max_tokens': 800},
       );
 
-      // Create assistant message from response
       final assistantMessage = ChatMessage(
         role: 'assistant',
         content: _openRouterService.extractCompletionText(response),
       );
 
-      // Update state with assistant response and turn off loading/typing
-      emit(state.copyWith(
-        messages: [...state.messages, assistantMessage],
-        isLoading: false,
-        isTyping: false, // Hide typing indicator
-      ));
+      messages.add(assistantMessage);
+      emit(ChatSuccess(messages: List.from(messages), isTyping: false));
     } catch (e) {
-      // Handle error
-      final errorMessage = ChatMessage(
-        role: 'system',
-        content: 'Error: $e',
-      );
+      // handle if the network is not available
 
-      emit(state.copyWith(
-        messages: [...state.messages, errorMessage],
-        isLoading: false,
-        isTyping: false, // Hide typing indicator on error too
-        error: e.toString(),
-      ));
+      emit(
+        ChatFailure(
+          errorMessage: e.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
     }
   }
 
   void clearChat() {
-    emit(const ChatState());
+    messages.clear();
+    emit(ChatInitial());
   }
 }
