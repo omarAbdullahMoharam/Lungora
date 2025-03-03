@@ -30,7 +30,9 @@ class ChatMessageBubble extends StatelessWidget {
           ),
           padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
-            color: isUser ? const Color(0xFF1071B8) : const Color(0xFFEDF2F7),
+            color: isUser
+                ? const Color(0xFF1071B8)
+                : const Color(0xFF1071B8).withValues(alpha: 0.1),
             borderRadius: isUser
                 ? BorderRadius.only(
                     topRight: Radius.circular(16),
@@ -60,9 +62,10 @@ class ChatMessageBubble extends StatelessWidget {
           ),
           child: Text(
             timeFormat.format(message.timestamp),
-            style: TextStyle(
-              fontSize: 12.sp,
+            style: Styles.textStyle14.copyWith(
               color: Colors.grey,
+              fontWeight: FontWeight.w400,
+              fontSize: 12.sp,
             ),
           ),
         ),

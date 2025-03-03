@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Chat/presentation/view_model/chat_cubit/chat_cubit.dart';
@@ -96,7 +97,17 @@ class _ChatInputFieldState extends State<ChatInputField> {
           ),
           Spacer(),
           IconButton(
-            icon: const Icon(Icons.send),
+            icon: SvgPicture.asset(
+              'assets/icon/SendIconButton.svg',
+              colorFilter: ColorFilter.mode(
+                widget.isLoading || widget.promptController.text.isEmpty
+                    ? Colors.grey
+                    : Colors.white,
+                BlendMode.srcIn,
+              ),
+              height: 24.h,
+              width: 24.w,
+            ),
             onPressed: () {
               if (widget.promptController.text.isNotEmpty) {
                 context
