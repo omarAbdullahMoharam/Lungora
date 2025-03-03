@@ -39,6 +39,8 @@ class OpenRouterService {
 
       return response.data;
     } on DioException catch (e) {
+      // Handle API errors if the network is not available
+
       if (e.response != null) {
         throw Exception('OpenRouter API error: ${e.response?.data}');
       } else {
@@ -68,6 +70,14 @@ class OpenRouterService {
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception('OpenRouter API error: ${e.response?.data}');
+      } else if (e.type == DioExceptionType.connectionTimeout) {
+        throw Exception('OpenRouter API request timed out: ${e.message}');
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        throw Exception('OpenRouter API response timed out: ${e.message}');
+      } else if (e.type == DioExceptionType.sendTimeout) {
+        throw Exception('OpenRouter API request timed out: ${e.message}');
+      } else if (e.type == DioExceptionType.connectionError) {
+        throw Exception('Please check your internet connection and try again');
       } else {
         throw Exception('Failed to connect to OpenRouter: ${e.message}');
       }
