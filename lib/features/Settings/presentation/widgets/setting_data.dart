@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/utils/app_roture.dart';
-<<<<<<< HEAD:lib/features/Settings/presentation/widgets/setting_data.dart
+
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
-import 'package:lungora/features/auth/Presentation/views/forget_password_view.dart';
 import 'package:lungora/features/edit_profile/presentation/widgets/edit_profile_view_body.dart';
 
-=======
 import 'package:lungora/features/Settings/presentation/widgets/change_password/views/change_password_view.dart';
 import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
 import '../../../../../core/utils/dependency_injection.dart';
-import '../edit_profile/edit_profile_view_body.dart';
->>>>>>> origin/Chat:lib/features/Settings/presentation/widgets/setting/setting_data.dart
+
 import 'setting_options.dart';
 
 class SettingData {
