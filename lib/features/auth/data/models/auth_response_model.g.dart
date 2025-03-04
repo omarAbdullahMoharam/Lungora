@@ -12,9 +12,6 @@ AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
       errors:
           (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
       message: json['message'] as String?,
-      result: json['result'] == null
-          ? null
-          : ResultModel.fromJson(json['result'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>
@@ -23,5 +20,4 @@ Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>
       'statusCode': instance.statusCode,
       'errors': instance.errors,
       'message': instance.message,
-      'result': instance.result,
     };

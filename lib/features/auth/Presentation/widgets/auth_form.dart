@@ -13,6 +13,8 @@ import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/social_auth_section.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/login_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/register_cubit/register_cubit.dart';
 
 class AuthForm extends StatefulWidget {
   const AuthForm({
@@ -44,28 +46,46 @@ class _AuthFormState extends State<AuthForm> {
       needHelper = true;
     }
 
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (!mounted) return;
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (!mounted) return;
 
-        if (state is AuthSuccess) {
-          SnackBarHandler.showSuccess('Login successful');
-          Future.delayed(const Duration(seconds: 0), () {
-            if (mounted) {
-              // Double-check that the widget is still mounted.
-              GoRouter.of(context).pushReplacement(AppRoture.kHomeView);
+            if (state is AuthRegister) {
+              SnackBarHandler.showSuccess('Registration successful');
+              Future.delayed(const Duration(seconds: 1), () {
+                GoRouter.of(context).push(AppRoture.kLoginView);
+              });
             }
-          });
-        } else if (state is AuthFailure) {
-          log(state.errMessage.toString());
-          SnackBarHandler.showError(state.errMessage);
-        } else if (state is AuthRegister) {
-          SnackBarHandler.showSuccess('Registration successful');
-          Future.delayed(const Duration(seconds: 3), () {
-            GoRouter.of(context).push(AppRoture.kLoginView);
-          });
-        }
-      },
+          },
+        ),
+        BlocListener<LoginCubit, LoginState>(
+          listener: (context, state) {
+            if (state is LoginSuccess) {
+              SnackBarHandler.showSuccess('Login successful');
+              Future.delayed(const Duration(seconds: 1), () {
+                GoRouter.of(context).pushReplacement(AppRoture.kHomeView);
+              });
+            } else if (state is LoginFailure) {
+              log('\n${state.errMessage} from login failure');
+              SnackBarHandler.showError(state.errMessage);
+            }
+          },
+        ),
+        BlocListener<RegisterCubit, RegisterState>(
+          listener: (context, state) {
+            if (state is RegisterSuccess) {
+              SnackBarHandler.showSuccess('Registration successful');
+              Future.delayed(const Duration(seconds: 3), () {
+                GoRouter.of(context).push(AppRoture.kLoginView);
+              });
+            } else if (state is RegisterFailure) {
+              SnackBarHandler.showError('Error: ${state.errMessage}');
+            }
+          },
+        ),
+      ],
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Padding(
@@ -105,14 +125,13 @@ class _AuthFormState extends State<AuthForm> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please enter your email";
-                      } else {
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
-                          return "Please enter a valid email";
-                        }
-                        email = value.trim();
-                        return null;
+                      } else if (!RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                          .hasMatch(value)) {
+                        return "Please enter a valid email address";
                       }
+                      email = value;
+                      return null;
                     },
                     autoSuggest: true,
                   ),
@@ -128,11 +147,7 @@ class _AuthFormState extends State<AuthForm> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please enter your password";
-                      }
-                      // else if (widget.isLogin) {
-                      //   return "Password is incorrect";
-                      // }
-                      else if (value.length < 9) {
+                      } else if (value.length < 9) {
                         return "Password must be at least 9 characters";
                       } else if (!widget.isLogin &&
                           !RegExp(r'^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$')
@@ -226,15 +241,16 @@ class _AuthFormState extends State<AuthForm> {
                         try {
                           if (widget.isLogin) {
                             log('Login request payload: email=$email, password=$password');
-                            await BlocProvider.of<AuthCubit>(context).login(
+                            await BlocProvider.of<LoginCubit>(context).login(
                               email,
                               password,
                             );
                           } else {
                             log('Register request payload: name=$name, email=$email, password=$password');
-                            await BlocProvider.of<AuthCubit>(context).register(
+                            await BlocProvider.of<RegisterCubit>(context)
+                                .register(
                               name,
-                              email,
+                              email.trim(),
                               password,
                               confirmPassword,
                             );
@@ -245,9 +261,6 @@ class _AuthFormState extends State<AuthForm> {
                             SnackBar(
                               backgroundColor: kSecondaryColor,
                               content: Text(
-                                // state is AuthFailure
-                                //     ? state.errMessage
-                                //     :
                                 'An error occurred',
                                 style: Styles.textStyle12
                                     .copyWith(color: Colors.black),
@@ -264,10 +277,7 @@ class _AuthFormState extends State<AuthForm> {
                       minimumSize: Size(1.sw, 50.h),
                       backgroundColor: kPrimaryColor,
                     ),
-                    //  child: state is AuthLoading
-                    // ? CircularProgressIndicator()
-                    // : Text('Register'),
-                    child: state is AuthLoading
+                    child: state is LoginLoading || state is RegisterLoading
                         ? CircularProgressIndicator(
                             color: Colors.white,
                           )
