@@ -28,6 +28,7 @@ class ServicesSection extends StatelessWidget {
             serviceName: 'Chat with Medical Bot',
             onTapped: () {
               // Navigate to chat screen
+              GoRouter.of(context).push(AppRoture.kChatView);
             },
           ),
         ],

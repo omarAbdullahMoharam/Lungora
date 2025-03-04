@@ -41,6 +41,9 @@ class _MainViewState extends State<MainView> {
       case 2:
         context.go(AppRoture.kSettingsView);
         break;
+      default:
+        context.go(AppRoture.kHomeView);
+        break;
     }
   }
 
