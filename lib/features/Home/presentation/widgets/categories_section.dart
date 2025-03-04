@@ -24,7 +24,7 @@ class CategoriesSection extends StatelessWidget {
             ),
             SizedBox(width: 8.w),
             CustomCategoryCardItem(
-              divider: 1 / 3,
+              divider: 1.04 / 3,
               categoryDetails: CategoryModel(
                 vectorImagePath: 'assets/icon/Heart.svg',
                 categoryName: 'Cardiovascular Diseases',
