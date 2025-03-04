@@ -1,4 +1,5 @@
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
+import 'package:lungora/features/auth/data/models/login_response_model.dart';
 
 class ResponseHandler<T> {
   final bool isSuccess;
@@ -49,6 +50,16 @@ class ResponseHandler<T> {
       message: response.message,
       errors: response.errors,
       data: data,
+    );
+  }
+
+  factory ResponseHandler.fromLoginResponse(LoginResponse response) {
+    return ResponseHandler(
+      isSuccess: response.isSuccess,
+      statusCode: response.statusCode,
+      message: response.errors.isNotEmpty ? response.errors.first : null,
+      errors: response.errors,
+      data: response.result as T,
     );
   }
 
