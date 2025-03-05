@@ -4,6 +4,8 @@ import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/auth_view_body.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/login_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/register_cubit/register_cubit.dart';
 
 class AuthView extends StatefulWidget {
   const AuthView({super.key, isLogin = true});
@@ -23,8 +25,18 @@ class _AuthViewState extends State<AuthView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => AuthCubit(getIt<AuthRepo>()),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthCubit(getIt<AuthRepo>()),
+          ),
+          BlocProvider(
+            create: (context) => LoginCubit(getIt<AuthRepo>()),
+          ),
+          BlocProvider(
+            create: (context) => RegisterCubit(getIt<AuthRepo>()),
+          ),
+        ],
         child: AuthViewBody(
           isLogin: isLogin,
           toggleAuthBody: toggleAuthBody,
