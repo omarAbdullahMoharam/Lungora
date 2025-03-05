@@ -58,6 +58,8 @@ class _AuthFormState extends State<AuthForm> {
             } else if (state is LoginFailure) {
               log('\n${state.errMessage} from login failure');
               SnackBarHandler.showError(state.errMessage);
+            } else if (state is LoginLoading) {
+              CircularProgressIndicator();
             }
           },
         ),
@@ -267,14 +269,25 @@ class _AuthFormState extends State<AuthForm> {
                       minimumSize: Size(1.sw, 50.h),
                       backgroundColor: kPrimaryColor,
                     ),
-                    child: state is LoginLoading || state is RegisterLoading
-                        ? CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : Text(
-                            widget.isLogin ? 'Login' : 'Register',
-                            style: const TextStyle(color: Colors.white),
-                          ),
+                    child: BlocBuilder<RegisterCubit, RegisterState>(
+                      builder: (context, state) {
+                        return BlocBuilder<LoginCubit, LoginState>(
+                          builder: (context, state) {
+                            if (state is LoginLoading) {
+                              return const CircularProgressIndicator(
+                                color: Colors.white,
+                              );
+                            }
+                            return Text(
+                              widget.isLogin ? 'Login' : 'Sign up',
+                              style: Styles.textStyleInter16.copyWith(
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Row(
