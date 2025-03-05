@@ -21,7 +21,7 @@ class _ApiServices implements ApiServices {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<AuthResponse> loginUser(Map<String, dynamic> body) async {
+  Future<LoginResponse> loginUser(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -38,18 +38,19 @@ class _ApiServices implements ApiServices {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthResponse _value;
+    late LoginResponse _value;
     try {
-      _value = AuthResponse.fromJson(_result.data!);
+      _value = LoginResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
     }
+    log("\n\n ${_value} from api_services\n\n");
     return _value;
   }
 
   @override
-  Future<AuthResponse> registerUser(Map<String, dynamic> body) async {
+  Future<RegisterResponse> registerUser(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -66,9 +67,9 @@ class _ApiServices implements ApiServices {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthResponse _value;
+    late RegisterResponse _value;
     try {
-      _value = AuthResponse.fromJson(_result.data!);
+      _value = RegisterResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

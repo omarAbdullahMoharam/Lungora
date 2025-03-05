@@ -16,70 +16,67 @@ class AuthCubit extends Cubit<AuthState> {
   ) : super(AuthInitial());
 
 // Login Logic for user login with email and password
-  Future<void> login(String email, String password) async {
-    emit(AuthLoading());
-    try {
-      log('Login attempt with email: $email');
-      AuthResponse response = await authRepo.login(email, password);
-      final handler = ResponseHandler.fromAuthResponse(response);
+  // Future<void> login(String email, String password) async {
+  //   emit(AuthLoading());
+  //   try {
+  //     log('Login attempt with email: $email');
+  //     LoginResponse response = await authRepo.login(email, password);
 
-      handler.when(
-        onSuccess: (data) {
-          emit(AuthSuccess(response));
-        },
-        onError: (message) {
-          emit(AuthFailure(response.errors[0]));
-        },
-      );
-    } catch (e) {
-      if (e is DioException) {
-        log('Status Code: ${e.response?.statusCode}');
-        log('Response Data: ${e.response?.data}');
+  //     if (response.isSuccess && response.result?.token != null) {
+  //       emit(LoginSuccess(response));
+  //     } else {
+  //       emit(AuthFailure(
+  //           response.errors.isNotEmpty ? response.errors[0] : 'Login failed'));
+  //     }
+  //   } catch (e) {
+  //     if (e is DioException) {
+  //       log('Status Code: ${e.response?.statusCode}');
+  //       log('Response Data: ${e.response?.data}');
 
-        final errorHandler = DioErrorHandler.handleError(e);
+  //       final errorHandler = DioErrorHandler.handleError(e);
 
-        if (e.response?.statusCode == 400) {
-          emit(AuthFailure(errorHandler.errors[0]));
-          return;
-        }
+  //       if (e.response?.statusCode == 400) {
+  //         emit(AuthFailure(errorHandler.errors[0]));
+  //         return;
+  //       }
 
-        emit(AuthFailure(errorHandler.errorMessage));
-      } else {
-        emit(AuthFailure('An unexpected error occurred'));
-      }
-      log(e.toString());
-    }
-  }
+  //       emit(AuthFailure(errorHandler.errorMessage));
+  //     } else {
+  //       emit(AuthFailure('An unexpected error occurred'));
+  //     }
+  //     log(e.toString());
+  //   }
+  // }
 
 // Register Logic for new user registration with name, email, password and confirm password
-  Future<void> register(
-    String name,
-    String email,
-    String password,
-    String confirmPassword,
-  ) async {
-    emit(AuthLoading());
-    try {
-      AuthResponse response =
-          await authRepo.register(name, email, password, confirmPassword);
-      final handler = ResponseHandler.fromAuthResponse(response);
+  // Future<void> register(
+  //   String name,
+  //   String email,
+  //   String password,
+  //   String confirmPassword,
+  // ) async {
+  //   emit(AuthLoading());
+  //   try {
+  //     AuthResponse response =
+  //         await authRepo.register(name, email, password, confirmPassword);
+  //     final handler = ResponseHandler.fromAuthResponse(response);
 
-      handler.when(
-        onSuccess: (data) {
-          emit(AuthRegister());
-        },
-        onError: (message) => emit(AuthFailure(message)),
-      );
-    } catch (e) {
-      if (e is DioException) {
-        final errorHandler = DioErrorHandler.handleError(e);
-        emit(AuthFailure(errorHandler.errorMessage));
-      } else {
-        emit(AuthFailure('An unexpected error occurred during registration'));
-      }
-      log(e.toString());
-    }
-  }
+  //     handler.when(
+  //       onSuccess: (data) {
+  //         emit(AuthRegister());
+  //       },
+  //       onError: (message) => emit(AuthFailure(message)),
+  //     );
+  //   } catch (e) {
+  //     if (e is DioException) {
+  //       final errorHandler = DioErrorHandler.handleError(e);
+  //       emit(AuthFailure(errorHandler.errorMessage));
+  //     } else {
+  //       emit(AuthFailure('An unexpected error occurred during registration'));
+  //     }
+  //     log(e.toString());
+  //   }
+  // }
 
 // Forget Password Logic for reset password code
   Future<void> forgetUserPassword({required String email}) async {
@@ -90,7 +87,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       handler.when(
         onSuccess: (data) {
-          log('Forget Password Success: ${response.result!.message}');
+          log('Forget Password Success: ${response.message}');
           emit(
             AuthSuccess(response, responseResult: response.message),
           );
