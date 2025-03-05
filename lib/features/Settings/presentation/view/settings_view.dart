@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/utils/styles.dart';
-import '../widgets/setting/setting_view_body.dart';
+import '../widgets/setting_view_body.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
