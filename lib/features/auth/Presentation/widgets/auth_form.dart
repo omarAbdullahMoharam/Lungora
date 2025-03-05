@@ -123,14 +123,15 @@ class _AuthFormState extends State<AuthForm> {
                     hintText: 'Email',
                     controller: emailController,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      value = value!.trim();
+                      if (value.isEmpty) {
                         return "Please enter your email";
                       } else if (!RegExp(
                               r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
                           .hasMatch(value)) {
                         return "Please enter a valid email address";
                       }
-                      email = value;
+                      email = value.trim();
                       return null;
                     },
                     autoSuggest: true,
