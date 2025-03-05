@@ -7,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/helpers/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/custom_loading_indicator.dart';
+import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
@@ -71,7 +72,7 @@ class _AuthFormState extends State<AuthForm> {
               log('\n${state.errMessage} from login failure');
               SnackBarHandler.showError(state.errMessage);
             } else if (state is LoginLoading) {
-              CircularProgressIndicator();
+              const CustomLoadingIndicator();
             }
           },
         ),
@@ -285,9 +286,7 @@ class _AuthFormState extends State<AuthForm> {
                         return BlocBuilder<LoginCubit, LoginState>(
                           builder: (context, state) {
                             if (state is LoginLoading) {
-                              return const CircularProgressIndicator(
-                                color: Colors.white,
-                              );
+                              return CustomLoadingIndicator();
                             }
                             return Text(
                               widget.isLogin ? 'Login' : 'Sign up',
