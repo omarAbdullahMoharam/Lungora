@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
-import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/Auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/show_otp_dialog.dart';
 import '../../../../core/constants.dart';

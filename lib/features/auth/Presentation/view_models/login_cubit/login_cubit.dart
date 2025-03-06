@@ -16,9 +16,12 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
     try {
       LoginResponse loginResponse = await authRepo.login(email, password);
+      log(' \nLogin Token: ${loginResponse.toJson()}');
+      log('\n\n\n\n\nLogin Response: ${loginResponse.result!.token}');
 
       // TODO: Save the token and user details for future use
       if (loginResponse.isSuccess && loginResponse.result?.token != null) {
+        // saveUserData(loginResponse);
         emit(LoginSuccess(loginResponse));
       } else {
         emit(LoginFailure(loginResponse.errors.isNotEmpty

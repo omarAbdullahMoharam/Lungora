@@ -8,7 +8,7 @@ import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/Auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 

@@ -11,11 +11,11 @@ import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_loading_indicator.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/social_auth_section.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/login_cubit.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/register_cubit/register_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/login_cubit/login_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/register_cubit/register_cubit.dart';
 
 class AuthForm extends StatefulWidget {
   const AuthForm({

@@ -29,6 +29,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
 
       if (response.isSuccess && response.result?.token != null) {
+        log('Registration successful - Token: ${response.result?.token}');
+        log('\n\n\n\n\n\nRegistration Response: ${response.toJson()}');
         emit(RegisterSuccess(response));
       } else {
         emit(

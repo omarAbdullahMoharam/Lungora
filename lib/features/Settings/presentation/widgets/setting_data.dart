@@ -6,7 +6,7 @@ import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
 import 'package:lungora/features/edit_profile/presentation/widgets/edit_profile_view_body.dart';
 
 import 'package:lungora/features/Settings/presentation/widgets/change_password/views/change_password_view.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
 import '../../../../../core/utils/dependency_injection.dart';
