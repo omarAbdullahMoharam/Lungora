@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/helpers/custom_snackbar.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/features/Settings/presentation/widgets/change_password/widgets/change_password_form.dart';
 import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
@@ -55,7 +55,7 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
                   text: 'Change Password',
                   onPressed: () {
                     // Navigate to change password screen
-                    GoRouter.of(context).go(AppRoture.kSettingsView);
+                    GoRouter.of(context).go(AppRouter.kSettingsView);
                   },
                 ),
                 ChangePasswordForm(

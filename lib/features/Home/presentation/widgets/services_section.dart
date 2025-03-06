@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/features/Home/presentation/widgets/custom_service_card.dart';
 
 class ServicesSection extends StatelessWidget {
@@ -19,7 +19,7 @@ class ServicesSection extends StatelessWidget {
             imagePath: 'assets/images/Scan_XRay_Service.png',
             serviceName: 'Scan your X-Ray',
             onTapped: () {
-              GoRouter.of(context).push(AppRoture.kScanView);
+              GoRouter.of(context).push(AppRouter.kScanView);
             },
           ),
           SizedBox(width: 8.w),
@@ -28,7 +28,7 @@ class ServicesSection extends StatelessWidget {
             serviceName: 'Chat with Medical Bot',
             onTapped: () {
               // Navigate to chat screen
-              GoRouter.of(context).push(AppRoture.kChatView);
+              GoRouter.of(context).push(AppRouter.kChatView);
             },
           ),
         ],

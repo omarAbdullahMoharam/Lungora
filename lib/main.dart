@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +19,7 @@ void main() async {
   //   confirmPassword: "Adel@1234",
   // );
   // getIt<AuthRepo>().forgetUserPassword("omarmoharam790@gmail.com");
-  // authRepo.register("email@gmail.com", "Password_12", "emailname");
+  // authRepo.register("email@gmail.com", "Password_12", "email-name");
   // authRepo.verifyUserOTP(email: "omarmoharam790@gmail.com", otp: "1234");
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");
@@ -51,7 +51,7 @@ class Lungora extends StatelessWidget {
           builder: (context, themeProvider, child) {
             return MaterialApp.router(
               scaffoldMessengerKey: scaffoldMessengerKey,
-              routerConfig: AppRoture.router,
+              routerConfig: AppRouter.router,
               debugShowCheckedModeBanner: false,
               title: 'Lungora',
               theme: ThemeData(
