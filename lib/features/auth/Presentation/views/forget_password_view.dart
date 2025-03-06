@@ -10,10 +10,10 @@ class ForgetPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => AuthCubit(getIt<AuthRepo>()),
-        child: ForgetPasswordViewBody(),
+    return BlocProvider(
+      create: (context) => AuthCubit(getIt<AuthRepo>()),
+      child: Scaffold(
+        body: ForgetPasswordViewBody(),
       ),
     );
   }

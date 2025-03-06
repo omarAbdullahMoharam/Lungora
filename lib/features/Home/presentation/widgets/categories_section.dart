@@ -16,7 +16,7 @@ class CategoriesSection extends StatelessWidget {
               child: CustomCategoryCardItem(
                 divider: 2 / 3,
                 categoryDetails: CategoryModel(
-                  vectorImagePath: 'assets/images/Lungs_Outline_Icon.svg',
+                  vectorImagePath: 'assets/icon/Lungs_Outline_Icon.svg',
                   categoryName: 'Chest & Lungs',
                 ),
                 onPressed: () {},
@@ -24,9 +24,9 @@ class CategoriesSection extends StatelessWidget {
             ),
             SizedBox(width: 8.w),
             CustomCategoryCardItem(
-              divider: 1 / 3,
+              divider: 1.04 / 3,
               categoryDetails: CategoryModel(
-                vectorImagePath: 'assets/images/Heart.svg',
+                vectorImagePath: 'assets/icon/Heart.svg',
                 categoryName: 'Cardiovascular Diseases',
               ),
               onPressed: () {},
@@ -39,7 +39,7 @@ class CategoriesSection extends StatelessWidget {
             CustomCategoryCardItem(
               divider: 1 / 3,
               categoryDetails: CategoryModel(
-                vectorImagePath: 'assets/images/X_Ray.svg',
+                vectorImagePath: 'assets/icon/X_Ray.svg',
                 categoryName: 'Bones & \nMuscles',
               ),
               onPressed: () {},
@@ -49,7 +49,7 @@ class CategoriesSection extends StatelessWidget {
               child: CustomCategoryCardItem(
                 divider: 2 / 3,
                 categoryDetails: CategoryModel(
-                  vectorImagePath: 'assets/images/Virous.svg',
+                  vectorImagePath: 'assets/icon/Virous.svg',
                   categoryName: 'Gastrointestinal Diseases',
                 ),
                 onPressed: () {},

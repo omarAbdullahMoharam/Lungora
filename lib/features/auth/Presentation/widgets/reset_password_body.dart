@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/utils/app_roture.dart';
 import 'package:lungora/core/utils/custom_loading_indicator.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
+import 'package:lungora/core/utils/app_router.dart';
+import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
-import 'package:lungora/features/auth/Presentation/widgets/custom_password_appbar.dart';
 
 import 'show_success_dialog.dart' show SuccessDialog;
 
@@ -23,7 +23,9 @@ class ResetPasswordBody extends StatefulWidget {
     super.key,
     required this.email,
     required this.otp,
+    this.navigatTo,
   });
+  final void Function()? navigatTo;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -86,7 +88,7 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
             'Error: ${state.errMessage}',
           );
         } else if (state is AuthSuccess) {
-          SuccessDialog.show(context);
+          SuccessDialog.show(context, onPressed: widget.navigatTo);
         } else if (state is AuthLoading) {
           SnackBarHandler.showSnackBar(
             duration: Duration(milliseconds: 500),
@@ -104,20 +106,26 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomPasswordAppBar(
+                  CustomAppBar(
                     text: 'Reset Password',
                     onPressed: () {
-                      GoRouter.of(context).go(AppRoture.kAuthView);
+                      if (widget.navigatTo != null) {
+                        GoRouter.of(context)
+                            .pushReplacement(AppRouter.kForgetPassView);
+                      } else {
+                        GoRouter.of(context).go(AppRouter.kAuthView);
+                      }
+                      GoRouter.of(context).go(AppRouter.kAuthView);
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   CustomTextFormField(
+                    needHelper: true,
                     labelText: 'New Password',
                     isPassword: true,
                     controller: _passwordController,
                     hintText: 'New Password',
-                    suffixIcon: Icons.lock_clock_outlined,
-                    prefixIcon: Icons.remove_red_eye,
+                    prefixIcon: Icons.lock,
                     autoSuggest: false,
                     validator: validatePassword,
                   ),
@@ -134,8 +142,8 @@ class _ResetPasswordBodyState extends State<ResetPasswordBody> {
                     isPassword: true,
                     controller: _confirmPasswordController,
                     hintText: 'Confirm Password',
-                    suffixIcon: Icons.lock_clock_outlined,
-                    prefixIcon: Icons.remove_red_eye,
+                    suffixIcon: Icons.remove_red_eye,
+                    prefixIcon: Icons.lock,
                     autoSuggest: false,
                     validator: validateConfirmPassword,
                   ),
