@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/core/utils/custom_elevated_button.dart';
 
@@ -23,7 +23,7 @@ class ContactUsViewBody extends StatelessWidget {
               child: CustomAppBar(
                 text: 'Contact Us',
                 onPressed: () {
-                  GoRouter.of(context).go(AppRoture.kSettingsView);
+                  GoRouter.of(context).go(AppRouter.kSettingsView);
                 },
               ),
             ),

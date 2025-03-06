@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
 
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
 import 'package:lungora/features/edit_profile/presentation/widgets/edit_profile_view_body.dart';
@@ -19,7 +19,7 @@ class SettingData {
       title: "Edit Profile",
       icon: Icons.edit,
       screen: EditProfileViewBody(),
-      path: AppRoture.kEditProfile,
+      path: AppRouter.kEditProfile,
     ),
     SettingOption(
       title: "Change Password",
@@ -28,50 +28,50 @@ class SettingData {
         create: (context) => AuthCubit(getIt<AuthRepo>()),
         child: ChangePasswordView(),
       ),
-      path: AppRoture.kChangePasswordView,
+      path: AppRouter.kChangePasswordView,
     ),
     SettingOption(
       title: "Language",
       icon: Icons.language,
       screen: SettingsView(),
-      path: AppRoture.kSettingsView,
+      path: AppRouter.kSettingsView,
     ),
     SettingOption(
       title: "Theme",
       icon: Icons.color_lens,
       screen: SettingsView(),
-      path: AppRoture.kSettingsView,
+      path: AppRouter.kSettingsView,
     ),
     SettingOption(
       title: "Notifications",
       icon: Icons.notifications_active,
       screen: SettingsView(),
       hasSwitch: true,
-      path: AppRoture.kSettingsView,
+      path: AppRouter.kSettingsView,
     ),
     SettingOption(
       title: "Terms and Conditions",
       icon: Icons.description,
       screen: SettingsView(),
-      path: AppRoture.kTermsConditionsView,
+      path: AppRouter.kTermsConditionsView,
     ),
     SettingOption(
       title: "Privacy",
       icon: Icons.privacy_tip,
       screen: SettingsView(),
-      path: AppRoture.kPrivacyView,
+      path: AppRouter.kPrivacyView,
     ),
     SettingOption(
       title: "About us",
       icon: Icons.info,
       screen: SettingsView(),
-      path: AppRoture.kAboutUsView,
+      path: AppRouter.kAboutUsView,
     ),
     SettingOption(
       title: "Contact us",
       icon: Icons.contact_mail,
       screen: SettingsView(),
-      path: AppRoture.kContactUsView,
+      path: AppRouter.kContactUsView,
     ),
   ];
 }

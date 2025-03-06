@@ -21,7 +21,7 @@ import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 import '../../features/Auth/Presentation/views/auth_view.dart' show AuthView;
 import '../../features/privacy/presentation/view/privacy_view.dart';
 
-abstract class AppRoture {
+abstract class AppRouter {
   static const kAuthView = '/';
   static const kHomeView = '/homeView';
   static const kScanView = '/cameraView';
