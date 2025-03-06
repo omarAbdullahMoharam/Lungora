@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/helpers/dio_handeler.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
+import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
 part 'register_state.dart';
 
@@ -31,6 +32,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       if (response.isSuccess && response.result?.token != null) {
         log('Registration successful - Token: ${response.result?.token}');
         log('\n\n\n\n\n\nRegistration Response: ${response.toJson()}');
+        SecureStorageService.saveRegisterResponse(response.toJson());
         emit(RegisterSuccess(response));
       } else {
         emit(
