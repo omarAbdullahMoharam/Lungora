@@ -8,11 +8,13 @@ import 'package:lungora/features/auth/data/models/register_response_model.dart';
 class AuthRepo {
   ApiServices apiServices;
   AuthRepo(this.apiServices);
-  Future<LoginResponse> login(String email, String password) async {
+  Future<LoginResponse> login(String email, String password,
+      {bool rememberMe = false}) async {
     // trigger login
     return apiServices.loginUser({
       'email': email,
       'password': password,
+      'rememberMe': rememberMe,
     });
   }
 

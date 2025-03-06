@@ -69,7 +69,7 @@ class _AuthFormState extends State<AuthForm> {
             if (state is RegisterSuccess) {
               SnackBarHandler.showSuccess('Registration successful');
               Future.delayed(const Duration(seconds: 3), () {
-                GoRouter.of(context).push(AppRouter.kAuthView);
+                GoRouter.of(context).push(AppRouter.kHomeView);
               });
             } else if (state is RegisterFailure) {
               SnackBarHandler.showError('Error: ${state.errMessage}');
@@ -190,7 +190,7 @@ class _AuthFormState extends State<AuthForm> {
                             activeColor: rememberMe
                                 ? kPrimaryColor
                                 : Colors.grey.shade400,
-                            onChanged: (bool? value) {
+                            onChanged: (value) {
                               setState(() {
                                 rememberMe = !rememberMe;
                               });
@@ -233,10 +233,11 @@ class _AuthFormState extends State<AuthForm> {
                       if (_formKey.currentState!.validate()) {
                         try {
                           if (widget.isLogin) {
-                            log('Login request payload: email=$email, password=$password');
+                            log('Login request: email=$email, password=$password , rememberMe=$rememberMe');
                             await BlocProvider.of<LoginCubit>(context).login(
                               email,
                               password,
+                              rememberMe: rememberMe,
                             );
                           } else {
                             log('Register request payload: name=$name, email=$email, password=$password');
