@@ -10,8 +10,8 @@ import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/custom_text_form_field.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 
 import 'show_success_dialog.dart' show SuccessDialog;
 

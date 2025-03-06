@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lungora/core/helpers/api_services.dart';
-import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/Auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/login_cubit.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/login_cubit/register_cubit/register_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/login_cubit/login_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/register_cubit/register_cubit.dart';
 
 GetIt getIt = GetIt.instance;
 

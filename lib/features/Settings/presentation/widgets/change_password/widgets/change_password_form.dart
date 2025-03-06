@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/auth/Presentation/widgets/custom_text_form_field.dart';
 
 class ChangePasswordForm extends StatelessWidget {

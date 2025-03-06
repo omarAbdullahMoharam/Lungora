@@ -6,7 +6,7 @@ import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/features/Settings/presentation/view/change_password/widgets/change_password_form.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/auth/Presentation/widgets/show_otp_dialog.dart';
 
 class ChangePasswordViewBody extends StatefulWidget {
