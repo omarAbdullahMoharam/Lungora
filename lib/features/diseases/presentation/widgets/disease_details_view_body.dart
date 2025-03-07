@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
+
 import 'package:lungora/core/utils/styles.dart';
 
 import 'disease_stats_section.dart';
@@ -106,7 +107,7 @@ class DiseaseDetailsViewBody extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    context.push(AppRoture.kDoctorView);
+                    context.push(AppRouter.kDoctorView);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kPrimaryColor,
@@ -119,7 +120,7 @@ class DiseaseDetailsViewBody extends StatelessWidget {
                 ),
                 OutlinedButton(
                   onPressed: () {
-                    context.push(AppRoture.kChatView);
+                    context.push(AppRouter.kChatView);
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: kPrimaryColor,
