@@ -24,6 +24,8 @@ abstract class ApiServices {
   @POST("api/Auth/ChangePassword")
   Future<ChangePasswordResponse> changePassword(
       @Body() Map<String, dynamic> body, @Header("Authorization") String token);
-
+// TODO: implement logout method for the api services to log out the user from the app using token
+  // @POST("api/Auth/LogOutSingle")
+  // Future<AuthResponse> logout(@Header("Authorization") String token);
   // add more endpoints here @amera612
 }
