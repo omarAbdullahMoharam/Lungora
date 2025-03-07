@@ -57,10 +57,7 @@ abstract class AppRouter {
     initialLocation: kAuthView,
     routes: [
       // Auth routes
-      GoRoute(
-        path: kAuthView,
-        builder: (context, state) => const AuthView(),
-      ),
+      GoRoute(path: kAuthView, builder: (context, state) => const AuthView()),
       GoRoute(
         path: kForgetPassView,
         builder: (context, state) => const ForgetPasswordView(),
@@ -90,33 +87,20 @@ abstract class AppRouter {
 
       GoRoute(
         path: kAuthView,
-        builder: (context, state) => AuthView(
-          isLogin: true,
-        ),
+        builder: (context, state) => AuthView(isLogin: true),
       ),
       GoRoute(
         path: kAuthView,
-        builder: (context, state) => AuthView(
-          isLogin: false,
-        ),
+        builder: (context, state) => AuthView(isLogin: false),
       ),
-      GoRoute(
-        path: kHomeView,
-        builder: (context, state) => HomeView(),
-      ),
-      GoRoute(
-        path: kChatView,
-        builder: (context, state) => const ChatView(),
-      ),
+      GoRoute(path: kHomeView, builder: (context, state) => HomeView()),
+      GoRoute(path: kChatView, builder: (context, state) => const ChatView()),
 
       GoRoute(
         path: kResetPassView,
         builder: (context, state) {
           final params = state.extra as ResetPasswordParams;
-          return ResetPasswordView(
-            email: params.email,
-            otp: params.otp,
-          );
+          return ResetPasswordView(email: params.email, otp: params.otp);
         },
       ),
       GoRoute(
@@ -129,10 +113,11 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kChangePasswordView,
-        builder: (context, state) => BlocProvider(
-          create: (context) => SettingsCubit(getIt<ApiServices>()),
-          child: const ChangePasswordView(),
-        ),
+        builder:
+            (context, state) => BlocProvider(
+              create: (context) => SettingsCubit(getIt<ApiServices>()),
+              child: const ChangePasswordView(),
+            ),
       ),
       GoRoute(
         path: kTermsConditionsView,
