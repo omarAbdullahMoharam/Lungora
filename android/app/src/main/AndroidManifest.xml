@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    
 
     
     <application
@@ -58,4 +60,8 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+    <queries>
+        <package android:name="com.android.vending"/>
+    </queries>
+
 </manifest>
