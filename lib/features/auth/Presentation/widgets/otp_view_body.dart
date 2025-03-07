@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/helpers/custom_snackbar.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/custom_loading_indicator.dart';
+import 'package:lungora/core/utils/custom_snackbar.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/Auth/Presentation/view_models/auth/auth_cubit.dart';
+import 'package:lungora/features/Auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
 
@@ -68,7 +69,7 @@ class OTPDialogState extends State<OTPDialog> {
             'OTP verified successfully',
           );
           GoRouter.of(context).go(
-            AppRoture.kResetPassView,
+            AppRouter.kResetPassView,
             extra: ResetPasswordParams(
               email: widget.email,
               otp: otpController.text,
@@ -155,9 +156,7 @@ class OTPDialogState extends State<OTPDialog> {
                     ),
                   ),
                   child: state is AuthLoading
-                      ? CircularProgressIndicator(
-                          color: Colors.white,
-                        )
+                      ? CustomLoadingIndicator()
                       : Text(
                           "Verify",
                           style:

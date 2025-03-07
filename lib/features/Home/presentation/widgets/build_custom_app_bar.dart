@@ -20,7 +20,7 @@ AppBar buildCustomAppBar({
         ),
       ),
     ),
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
     elevation: 0,
     actions: [
       IconButton(

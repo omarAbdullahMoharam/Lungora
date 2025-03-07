@@ -1,23 +1,32 @@
 import 'dart:developer';
 
-import 'package:lungora/core/utils/api_services.dart';
+import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
+import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
+import 'package:lungora/features/auth/data/models/login_response_model.dart';
+import 'package:lungora/features/auth/data/models/register_response_model.dart';
 
 class AuthRepo {
   ApiServices apiServices;
   AuthRepo(this.apiServices);
-  Future<AuthResponse> login(String email, String password) async {
+  Future<LoginResponse> loginUser(String email, String password,
+      {bool rememberMe = false}) async {
     // trigger login
-    return apiServices.loginUser({
+    return apiServices.login({
       'email': email,
       'password': password,
+      'rememberMe': rememberMe,
     });
   }
 
-  Future<AuthResponse> register(String name, String email, String password,
-      String confirmPassword) async {
+  Future<RegisterResponse> registerUser(
+    String name,
+    String email,
+    String password,
+    String confirmPassword,
+  ) async {
     // trigger Register
-    return apiServices.registerUser({
+    return apiServices.register({
       'name': name,
       'email': email,
       'password': password,
@@ -25,10 +34,6 @@ class AuthRepo {
     });
   }
 
-  // Future<void> logout() async {
-  //   // Logout logic
-
-  // }
   // // forget
   Future<AuthResponse> forgetUserPassword(String email) async {
     // forget password logic
@@ -66,7 +71,12 @@ class AuthRepo {
   }
 
   // // change password
-  // Future<void> changePassword(String oldPassword, String newPassword) async {
-  //   // change password logic
-  // }
+  Future<ChangePasswordResponse> changeUserPassword(
+      String currentPassword, String newPassword, String token) async {
+    // change password logic
+    return apiServices.changePassword({
+      "currentPassword": currentPassword,
+      "newPassword": newPassword,
+    }, token);
+  }
 }
