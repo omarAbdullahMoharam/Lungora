@@ -8,16 +8,8 @@ class AuthResponse {
   final int statusCode;
   final List<String> errors;
   final String message;
-  // final ResultModel? result;
-  // final String? token;
-  // final String? refreshToken;
-  // final String? expire;
 
   AuthResponse({
-    // this.token,
-    // this.refreshToken,
-    // this.expire,
-    // this.result,
     required this.statusCode,
     required this.isSuccess,
     List<String>? errors,
@@ -35,7 +27,6 @@ class AuthResponse {
         isSuccess: false,
         errors: ['Error parsing response: $e'],
         message: 'Failed to process response',
-        // result: null,
       );
     }
   }

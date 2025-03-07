@@ -21,7 +21,7 @@ class _ApiServices implements ApiServices {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<LoginResponse> loginUser(Map<String, dynamic> body) async {
+  Future<LoginResponse> login(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -50,7 +50,7 @@ class _ApiServices implements ApiServices {
   }
 
   @override
-  Future<RegisterResponse> registerUser(Map<String, dynamic> body) async {
+  Future<RegisterResponse> register(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -154,6 +154,41 @@ class _ApiServices implements ApiServices {
     late AuthResponse _value;
     try {
       _value = AuthResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ChangePasswordResponse> changePassword(
+      Map<String, dynamic> body, String token) async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final _data = <String, dynamic>{}..addAll(body);
+
+    final _options = _setStreamType<ChangePasswordResponse>(
+      Options(
+        method: 'POST',
+        headers: _headers,
+      )
+          .compose(
+            _dio.options,
+            'api/Auth/ChangePassword',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ChangePasswordResponse _value;
+    try {
+      _value = ChangePasswordResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

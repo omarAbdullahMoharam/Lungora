@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
+import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
 import 'package:lungora/features/Settings/presentation/view/change_password/widgets/change_password_form.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
-import 'package:lungora/features/auth/Presentation/widgets/show_otp_dialog.dart';
+import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
 class ChangePasswordViewBody extends StatefulWidget {
   const ChangePasswordViewBody({super.key});
@@ -17,29 +19,28 @@ class ChangePasswordViewBody extends StatefulWidget {
 }
 
 class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController currentPasswordController =
+      TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<SettingsCubit, SettingsState>(
       listener: (context, state) {
-        if (state is AuthFailure) {
+        if (state is SettingsFailure) {
           SnackBarHandler.showError(
             'Error: ${state.errMessage}',
           );
-        } else if (state is AuthSuccess) {
+        } else if (state is SettingsSuccess) {
           SnackBarHandler.showSuccess(
-            'OTP sent to ${emailController.text}',
+            ' Success: ${state.message}',
           );
           Future.delayed(const Duration(seconds: 3), () {});
 
-          ShowOtpDialog.showOtpDialog(
-            context: context,
-            email: emailController.text,
-          );
+          GoRouter.of(context).go(AppRouter.kSettingsView);
         }
-        if (state is AuthLoading) {
+        if (state is SettingsLoading) {
           CircularProgressIndicator();
         }
       },
@@ -59,11 +60,24 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
                   },
                 ),
                 ChangePasswordForm(
-                  emailController: emailController,
+                  currentPassController: currentPasswordController,
+                  newPassController: newPasswordController,
                   formKey: formKey,
-                  onPressed: () {
-                    BlocProvider.of<AuthCubit>(context).forgetUserPassword(
-                      email: emailController.text,
+                  onPressed: () async {
+                    formKey.currentState!.save();
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
+                    final token = await SecureStorageService.getToken();
+                    if (token == null) {
+                      GoRouter.of(context).go(AppRouter.kAuthView);
+                      return;
+                    }
+
+                    BlocProvider.of<SettingsCubit>(context).changePassword(
+                      currentPasswordController.text,
+                      newPasswordController.text,
+                      token,
                     );
                   },
                 )

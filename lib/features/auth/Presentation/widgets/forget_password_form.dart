@@ -1,16 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/auth/Presentation/widgets/custom_text_form_field.dart';
 
-class ChangePasswordForm extends StatelessWidget {
-  const ChangePasswordForm({
+class ForgetPasswordForm extends StatelessWidget {
+  const ForgetPasswordForm({
     super.key,
     required this.emailController,
     required this.formKey,
@@ -70,16 +68,18 @@ class ChangePasswordForm extends StatelessWidget {
             minimumSize: Size(1.sw, 60.h),
             backgroundColor: kPrimaryColor,
           ),
-          child: BlocProvider.of<AuthCubit>(context).state is AuthLoading
-              ? CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              : Text(
-                  'Contenue',
-                  style: Styles.textStyle20.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
+          child:
+              //  BlocProvider.of<AuthCubit>(context).state is AuthLoading
+              //     ? CircularProgressIndicator(
+              //         color: Colors.white,
+              //       )
+              //     :
+              Text(
+            'Contenue',
+            style: Styles.textStyle20.copyWith(
+              color: Colors.white,
+            ),
+          ),
         ),
       ],
     );

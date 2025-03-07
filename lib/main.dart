@@ -23,7 +23,7 @@ void main() async {
   // authRepo.verifyUserOTP(email: "omarmoharam790@gmail.com", otp: "1234");
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");
-
+  // authRepo.changeUserPassword("Adel@1234", "Adel@1234");
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider()..loadTheme(),
