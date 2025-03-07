@@ -33,11 +33,7 @@ class AuthRepo {
       'confirmPassword': confirmPassword,
     });
   }
-  // TODO: logout for settings screen
-  // Future<void> logout() async {
-  //   // Logout logic
 
-  // }
   // // forget
   Future<AuthResponse> forgetUserPassword(String email) async {
     // forget password logic

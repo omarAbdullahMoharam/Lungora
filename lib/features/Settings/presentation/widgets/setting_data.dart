@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/features/Settings/presentation/view/change_password/views/change_password_view.dart';
+import 'package:lungora/features/Settings/presentation/view/edit_profile/presentation/widgets/edit_profile_view_body.dart';
 
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
-import 'package:lungora/features/edit_profile/presentation/widgets/edit_profile_view_body.dart';
 
 import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
