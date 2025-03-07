@@ -48,4 +48,9 @@ class SettingsCubit extends Cubit<SettingsState> {
       log(e.toString());
     }
   }
+
+//  TODO: implement edit profile method for the settings cubit to edit the user profile
+  // Future<void> editProfile() async {}
+  // TODO: Implement logout method for the settings cubit to log out the user from the app using token
+  // Future<void> logout() async {}
 }
