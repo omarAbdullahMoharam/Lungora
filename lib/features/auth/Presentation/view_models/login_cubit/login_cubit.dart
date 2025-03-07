@@ -17,7 +17,7 @@ class LoginCubit extends Cubit<LoginState> {
       {bool rememberMe = false}) async {
     emit(LoginLoading());
     try {
-      LoginResponse loginResponse = await authRepo.login(
+      LoginResponse loginResponse = await authRepo.loginUser(
         email,
         password,
         rememberMe: rememberMe,

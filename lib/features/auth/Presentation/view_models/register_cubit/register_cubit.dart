@@ -22,7 +22,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(RegisterLoading());
     try {
       log('Registration attempt with email: $email');
-      RegisterResponse response = await authRepo.register(
+      RegisterResponse response = await authRepo.registerUser(
         name,
         email,
         password,

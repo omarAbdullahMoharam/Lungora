@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/features/Auth/Presentation/views/auth_view.dart';
 import 'package:lungora/features/Auth/Presentation/views/forget_password_view.dart';
 import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Chat/presentation/view/chat_view.dart';
 import 'package:lungora/features/Home/presentation/views/home_view.dart';
+import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
+import 'package:lungora/features/Settings/presentation/view/change_password/views/change_password_view.dart';
 import 'package:lungora/features/about_us/presentation/views/about_us_view_.dart';
 import 'package:lungora/features/contact_us/presentation/views/contact_us_view.dart';
 import 'package:lungora/features/edit_profile/presentation/views/edit_profile_view.dart';
 import 'package:lungora/features/terms_conditions/views/terms_conditions_view.dart';
-import 'package:lungora/features/Settings/presentation/widgets/change_password/views/change_password_view.dart';
-import 'package:lungora/features/auth/Presentation/view_models/auth_cubit/auth_cubit.dart';
 import 'package:lungora/features/auth/Presentation/views/reset_password_view.dart';
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
-import 'package:lungora/features/Auth/data/repos/auth_repo.dart';
-import '../../features/Auth/Presentation/views/auth_view.dart' show AuthView;
 import '../../features/privacy/presentation/view/privacy_view.dart';
 
 abstract class AppRouter {
@@ -116,7 +115,7 @@ abstract class AppRouter {
       GoRoute(
         path: kChangePasswordView,
         builder: (context, state) => BlocProvider(
-          create: (context) => AuthCubit(getIt<AuthRepo>()),
+          create: (context) => SettingsCubit(getIt<ApiServices>()),
           child: const ChangePasswordView(),
         ),
       ),
