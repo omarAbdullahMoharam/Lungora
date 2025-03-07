@@ -8,6 +8,9 @@ import 'package:lungora/features/Auth/Presentation/views/forget_password_view.da
 import 'package:lungora/features/Auth/Presentation/widgets/reset_password_params.dart';
 import 'package:lungora/features/Chat/presentation/view/chat_view.dart';
 import 'package:lungora/features/Home/presentation/views/home_view.dart';
+import 'package:lungora/features/Scan/presentation/widgets/covid_19_result.dart';
+import 'package:lungora/features/Scan/presentation/widgets/normal_scan_result.dart';
+import 'package:lungora/features/Scan/presentation/widgets/unable_determine_result.dart';
 import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
 import 'package:lungora/features/Settings/presentation/view/change_password/views/change_password_view.dart';
 import 'package:lungora/features/Settings/presentation/view/contact_us/presentation/views/contact_us_view.dart';
@@ -28,6 +31,7 @@ import 'package:lungora/features/auth/Presentation/views/reset_password_view.dar
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
+import 'package:lungora/features/doctor/presentation/view/doctor_view.dart';
 
 abstract class AppRouter {
   static const kAuthView = '/';
@@ -113,11 +117,10 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kChangePasswordView,
-        builder:
-            (context, state) => BlocProvider(
-              create: (context) => SettingsCubit(getIt<ApiServices>()),
-              child: const ChangePasswordView(),
-            ),
+        builder: (context, state) => BlocProvider(
+          create: (context) => SettingsCubit(getIt<ApiServices>()),
+          child: const ChangePasswordView(),
+        ),
       ),
       GoRoute(
         path: kTermsConditionsView,
@@ -152,22 +155,22 @@ abstract class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   path: kDoctorView,
-      //   builder: (context, state) => const DoctorView(),
-      // ),
-      // GoRoute(
-      //   path: kNormalScanResult,
-      //   builder: (context, state) => const NormalScanResult(),
-      // ),
-      // GoRoute(
-      //   path: kUnableDetermineResult,
-      //   builder: (context, state) => const UnableDetermineResult(),
-      // ),
-      // GoRoute(
-      //   path: kCovid19Result,
-      //   builder: (context, state) => const Covid19Result(),
-      // ),
+      GoRoute(
+        path: kDoctorView,
+        builder: (context, state) => const DoctorView(),
+      ),
+      GoRoute(
+        path: kNormalScanResult,
+        builder: (context, state) => const NormalScanResult(),
+      ),
+      GoRoute(
+        path: kUnableDetermineResult,
+        builder: (context, state) => const UnableDetermineResult(),
+      ),
+      GoRoute(
+        path: kCovid19Result,
+        builder: (context, state) => const Covid19Result(),
+      ),
     ],
   );
 }

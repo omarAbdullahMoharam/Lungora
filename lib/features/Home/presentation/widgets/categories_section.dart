@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
+
 import 'package:lungora/features/Home/data/models/category_model.dart';
 import 'package:lungora/features/Home/presentation/widgets/custom_category_card_item.dart';
 
@@ -23,7 +24,7 @@ class CategoriesSection extends StatelessWidget {
                 ),
                 onPressed: () {
                   context.go(
-                    AppRoture.kCategoryDetailsView,
+                    AppRouter.kCategoryDetailsView,
                     extra: 'Chest & Lungs',
                   );
                 },
@@ -38,7 +39,7 @@ class CategoriesSection extends StatelessWidget {
               ),
               onPressed: () {
                 context.go(
-                  AppRoture.kCategoryDetailsView,
+                  AppRouter.kCategoryDetailsView,
                   extra: 'Cardiovascular Diseases',
                 );
               },
@@ -56,7 +57,7 @@ class CategoriesSection extends StatelessWidget {
               ),
               onPressed: () {
                 context.go(
-                  AppRoture.kCategoryDetailsView,
+                  AppRouter.kCategoryDetailsView,
                   extra: 'Bones & Muscles',
                 );
               },
@@ -71,7 +72,7 @@ class CategoriesSection extends StatelessWidget {
                 ),
                 onPressed: () {
                   context.go(
-                    AppRoture.kCategoryDetailsView,
+                    AppRouter.kCategoryDetailsView,
                     extra: 'Gastrointestinal Diseases',
                   );
                 },

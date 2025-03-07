@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+
 import 'package:lungora/features/diseases/presentation/widgets/disease_stats_section.dart';
 import 'floting_action_button.dart';
 import 'scan_result_image.dart';
@@ -25,7 +26,7 @@ class Covid19Result extends StatelessWidget {
                   ScanResultImage(
                     imageUrl: 'assets/images/scan_result.png',
                     onPressed: () {
-                      context.go(AppRoture.kScanView);
+                      context.go(AppRouter.kScanView);
                     },
                   ),
                   SizedBox(height: 16.h),

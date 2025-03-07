@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+
 import 'package:lungora/features/diseases/presentation/widgets/disease_details_view_body.dart';
 
 class DiseaseDetailsView extends StatelessWidget {
