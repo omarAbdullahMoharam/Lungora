@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lungora/core/utils/app_router.dart';
 
 import 'package:lungora/core/utils/styles.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+
 import 'floting_action_button.dart';
 import 'scan_result_image.dart';
 
@@ -24,7 +25,7 @@ class NormalScanResult extends StatelessWidget {
                   ScanResultImage(
                     imageUrl: 'assets/images/scan_result.png',
                     onPressed: () {
-                      context.go(AppRoture.kUnableDetermineResult);
+                      context.go(AppRouter.kUnableDetermineResult);
                     },
                   ),
                   SizedBox(height: 16.h),

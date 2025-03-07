@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/utils/app_roture.dart';
+import 'package:lungora/core/utils/app_router.dart';
 
 import 'package:lungora/core/utils/styles.dart';
 
@@ -25,7 +25,7 @@ class UnableDetermineResult extends StatelessWidget {
                   ScanResultImage(
                     imageUrl: 'assets/images/scan_result.png',
                     onPressed: () {
-                      context.go(AppRoture.kCovid19Result);
+                      context.go(AppRouter.kCovid19Result);
                     },
                   ),
                   SizedBox(height: 16.h),
