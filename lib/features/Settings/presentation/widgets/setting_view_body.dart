@@ -20,13 +20,15 @@ class SettingViewBody extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              // const Color(0xFFF5F9FC),
+              decoration: BoxDecoration(
+                color: Color(0xFF1071B8).withValues(alpha: 0.04),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
               child: const SettingListView(),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.only(bottom: 12.h, top: 2),
             child: OutlinedButton(
               onPressed: () {
                 showDialog(
