@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -18,6 +19,7 @@ class _EditProfileImageState extends State<EditProfileImage> {
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
@@ -30,26 +32,41 @@ class _EditProfileImageState extends State<EditProfileImage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 34.0),
       child: Stack(
-        alignment: Alignment.bottomRight,
         children: [
           CircleAvatar(
             radius: 80.h,
             backgroundColor: Colors.grey.shade100,
-            backgroundImage: _imageFile != null
-                ? FileImage(_imageFile!) as ImageProvider
-                : AssetImage('assets/images/image_profile.png'),
+            child: _imageFile != null
+                ? CircleAvatar(
+                    radius: 80.r,
+                    backgroundImage: FileImage(_imageFile!),
+                  )
+                : CircleAvatar(
+                    radius: 80.r,
+                    backgroundColor: Colors.grey.shade100,
+                    child: SvgPicture.asset(
+                      'assets/images/profile_avatar.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: kPrimaryColor,
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
+          Positioned(
+            bottom: 0,
+            right: 10,
+            child: Container(
+              height: 40.h,
+              width: 40.h,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: kPrimaryColor,
               ),
-              onPressed: _pickImage,
+              child: IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                onPressed: _pickImage,
+              ),
             ),
           ),
         ],
