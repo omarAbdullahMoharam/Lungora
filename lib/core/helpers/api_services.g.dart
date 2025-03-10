@@ -196,6 +196,64 @@ class _ApiServices implements ApiServices {
     return _value;
   }
 
+  @override
+  Future<LogoutResponse> logout(String token) async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    // Add an empty request body
+    final _data = {};
+
+    try {
+      final _options = _setStreamType<LogoutResponse>(
+        Options(
+          method: 'POST',
+          headers: _headers,
+        )
+            .compose(
+              _dio.options,
+              'api/Auth/LogOutSingle',
+              queryParameters: queryParameters,
+              data: _data, // Adding the empty request body
+            )
+            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+      );
+
+      log("Sending logout request with headers: $_headers");
+      final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+
+      log("Logout response status: ${_result.statusCode}");
+      log("Logout response data: ${_result.data}");
+
+      late LogoutResponse _value;
+      try {
+        // AuthResponse.fromJson(_result.data!{});
+        _value = LogoutResponse.fromJson(_result.data!);
+      } catch (e, s) {
+        log("Error parsing response: $e");
+        errorLogger?.logError(e, s, _options);
+        rethrow;
+      }
+
+      log("\n\n $_value from api_services\n\n");
+      return _value;
+    } catch (e) {
+      if (e is DioException) {
+        log("DioException during logout: ${e.toString()}");
+        log("Response status: ${e.response?.statusCode}");
+        log("Response data: ${e.response?.data}");
+        log("Request path: ${e.requestOptions.path}");
+        log("Request headers: ${e.requestOptions.headers}");
+      } else {
+        log("Unexpected error during logout: $e");
+      }
+      rethrow;
+    }
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

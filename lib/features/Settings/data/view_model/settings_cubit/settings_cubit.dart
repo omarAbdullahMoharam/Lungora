@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:lungora/core/helpers/dio_handeler.dart';
+import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
 part 'settings_state.dart';
 
@@ -49,8 +50,75 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-//  TODO: implement edit profile method for the settings cubit to edit the user profile
+  //  TODO: implement edit profile method for the settings cubit to edit the user profile
   // Future<void> editProfile() async {}
-  // TODO: Implement logout method for the settings cubit to log out the user from the app using token
-  // Future<void> logout() async {}
+  Future<void> logout({required String token}) async {
+    log('Logout called from settings cubit');
+    emit(SettingsLoading());
+    try {
+      final response = await _apiServices.logout(token);
+      if (response.isSuccess) {
+        // Delete token and user data from secure storage
+        await SecureStorageService.deleteAll();
+        // Or if you prefer to be more selective:
+        // await SecureStorageService.deleteToken();
+        // await SecureStorageService.deleteData();
+        log(response.result.message.toString());
+        emit(SettingsSuccess(response.result.message.toString()));
+      } else {
+        emit(SettingsFailure(response.errors.isNotEmpty
+            ? response.errors[0]
+            : 'Failed to logout'));
+      }
+    } catch (e) {
+      log('Logout error: ${e.toString()}');
+      emit(SettingsFailure('An unexpected error occurred'));
+    }
+  }
+}
+
+class LogoutResponse {
+  final int statusCode;
+  final bool isSuccess;
+  final List<String> errors;
+  final Result result;
+
+  LogoutResponse({
+    required this.statusCode,
+    required this.isSuccess,
+    required this.errors,
+    required this.result,
+  });
+
+  factory LogoutResponse.fromJson(Map<String, dynamic> json) {
+    return LogoutResponse(
+      statusCode: json['statusCode'],
+      isSuccess: json['isSuccess'],
+      errors: List<String>.from(json['errors']),
+      result: Result.fromJson(json['result']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'statusCode': statusCode,
+      'isSuccess': isSuccess,
+      'errors': errors,
+      'result': result.toJson(),
+    };
+  }
+}
+
+class Result {
+  final String message;
+
+  Result({required this.message});
+
+  factory Result.fromJson(Map<String, dynamic> json) {
+    return Result(message: json['message']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'message': message};
+  }
 }
