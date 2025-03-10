@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
+import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
@@ -24,8 +25,7 @@ abstract class ApiServices {
   @POST("api/Auth/ChangePassword")
   Future<ChangePasswordResponse> changePassword(
       @Body() Map<String, dynamic> body, @Header("Authorization") String token);
-// TODO: implement logout method for the api services to log out the user from the app using token
-  // @POST("api/Auth/LogOutSingle")
-  // Future<AuthResponse> logout(@Header("Authorization") String token);
+  @POST("api/Auth/LogOutSingle")
+  Future<LogoutResponse> logout(@Header("Authorization") String token);
   // add more endpoints here @amera612
 }

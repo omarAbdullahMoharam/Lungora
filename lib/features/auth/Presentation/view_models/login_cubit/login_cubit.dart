@@ -25,7 +25,6 @@ class LoginCubit extends Cubit<LoginState> {
       log(' \nLogin Token: ${loginResponse.toJson()}');
       log('\n\n\n\n\nLogin Response: ${loginResponse.result!.token}');
 
-      // TODO: Save the token and user details for future use
       if (loginResponse.isSuccess && loginResponse.result?.token != null) {
         emit(LoginSuccess(loginResponse));
         // final responseMap = loginResponse.toJson();
