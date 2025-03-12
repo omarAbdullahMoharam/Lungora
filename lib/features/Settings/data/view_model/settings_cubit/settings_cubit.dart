@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lungora/core/helpers/api_services.dart';
 import 'package:dio/dio.dart';
+import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/helpers/dio_handeler.dart';
+import 'package:lungora/features/Settings/data/repos/settings_repo.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
 part 'settings_state.dart';
@@ -16,12 +17,17 @@ class SettingsCubit extends Cubit<SettingsState> {
     log('Change Password called from settings cubit');
     log('Token: $token from settings cubit');
 
+    if (isClosed) return;
     emit(SettingsLoading());
+
     try {
-      final response = await _apiServices.changePassword({
-        'currentPassword': currentPassword,
-        'newPassword': newPassword,
-      }, token);
+      final response = await SettingsRepo(_apiServices).changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        token: token,
+      );
+
+      if (isClosed) return;
 
       if (response.isSuccess) {
         log('Password change successful');
@@ -34,6 +40,8 @@ class SettingsCubit extends Cubit<SettingsState> {
         );
       }
     } catch (e) {
+      if (isClosed) return;
+
       if (e is DioException) {
         log('Settings Dio Error - Status Code: ${e.response?.statusCode}');
         log('Response Data: ${e.response?.data}');
@@ -50,13 +58,63 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-  //  TODO: implement edit profile method for the settings cubit to edit the user profile
-  // Future<void> editProfile() async {}
+  Future<void> editInfo(
+      {String? username, String? image, required String token}) async {
+    log('Edit Info called from settings cubit');
+    log('Token: $token from settings cubit');
+
+    if (isClosed) return;
+    emit(SettingsLoading());
+
+    try {
+      final response = await SettingsRepo(_apiServices).editInfo(
+        name: username,
+        image: image,
+        token: token,
+      );
+
+      if (isClosed) return;
+
+      if (response.isSuccess) {
+        log('Edit Info successful');
+        // String message = response.result!.message!;
+        emit(SettingsSuccess(response.result!.toJson().toString()));
+      } else {
+        emit(
+          SettingsFailure(response.errors.isNotEmpty
+              ? response.errors[0]
+              : 'Failed to edit info'),
+        );
+      }
+    } catch (e) {
+      if (isClosed) return;
+
+      if (e is DioException) {
+        log('Settings Dio Error - Status Code: ${e.response?.statusCode}');
+        log('Response Data: ${e.response?.data}');
+
+        final errorHandler = DioErrorHandler.handleError(e);
+
+        emit(SettingsFailure(e.response?.statusCode == 400
+            ? errorHandler.errors[0]
+            : errorHandler.errorMessage));
+      } else {
+        emit(SettingsFailure('An unexpected error occurred'));
+      }
+      log(e.toString());
+    }
+  }
+
   Future<void> logout({required String token}) async {
     log('Logout called from settings cubit');
+    if (isClosed) return;
     emit(SettingsLoading());
+
     try {
       final response = await _apiServices.logout(token);
+
+      if (isClosed) return;
+
       if (response.isSuccess) {
         // Delete token and user data from secure storage
         await SecureStorageService.deleteAll();
@@ -71,6 +129,7 @@ class SettingsCubit extends Cubit<SettingsState> {
             : 'Failed to logout'));
       }
     } catch (e) {
+      if (isClosed) return;
       log('Logout error: ${e.toString()}');
       emit(SettingsFailure('An unexpected error occurred'));
     }
@@ -121,4 +180,21 @@ class Result {
   Map<String, dynamic> toJson() {
     return {'message': message};
   }
+}
+
+// Custom exception classes
+class NetworkException implements Exception {
+  final String message;
+  NetworkException(this.message);
+
+  @override
+  String toString() => 'NetworkException: $message';
+}
+
+class ServerException implements Exception {
+  final String message;
+  ServerException(this.message);
+
+  @override
+  String toString() => 'ServerException: $message';
 }

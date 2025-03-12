@@ -197,6 +197,71 @@ class _ApiServices implements ApiServices {
   }
 
   @override
+  Future<LogoutResponse> editInfo(
+      Map<String, dynamic> body, String token) async {
+    // Prepare headers with content type and authorization
+    final _headers = <String, dynamic>{
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    // Create options for the network request
+    final _options = _setStreamType<LogoutResponse>(
+      Options(method: 'POST', headers: _headers)
+          .compose(
+            _dio.options,
+            'api/Auth/EditInfo',
+            data: body,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    try {
+      log("Sending edit info request with headers: $_headers\n\n\n $body");
+      // Perform the network request
+      final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+      log(_result.data.toString());
+      // Parse the response
+      final _value = LogoutResponse.fromJson(_result.data!);
+
+      log("\n\n $_value from api_services\n\n");
+      return _value;
+    } on DioException catch (e) {
+      // More specific error handling for Dio exceptions
+      if (e.response != null) {
+        // Server responded with an error
+        log('Server error: ${e.response?.data}');
+        log('Status code: ${e.response?.statusCode}');
+
+        // You might want to throw a custom exception or handle specific error cases
+        throw 'Server error: ${e.response?.data}';
+      } else {
+        // Something went wrong before the request completed
+        log('Network error: ${e.message}');
+        rethrow;
+      }
+    } catch (e) {
+      log('Unexpected error: $e');
+      // Catch any other unexpected errors
+      // errorLogger?.logError(e, stackTrace);
+      rethrow;
+    }
+  }
+
+// Custom exception class for more detailed error handling
+// class EditInfoException implements Exception {
+//   final String message;
+//   final int? statusCode;
+
+//   EditInfoException({required this.message, this.statusCode});
+
+//   @override
+//   String toString() {
+//     return 'EditInfoException: $message (Status Code: $statusCode)';
+//   }
+// }
+
+  @override
   Future<LogoutResponse> logout(String token) async {
     final queryParameters = <String, dynamic>{};
     final _headers = {
