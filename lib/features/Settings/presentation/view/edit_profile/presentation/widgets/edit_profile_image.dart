@@ -1,20 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lungora/core/constants.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:lungora/core/constants.dart';
 
 class EditProfileImage extends StatefulWidget {
-  const EditProfileImage({super.key});
+  final Function(File?) onImageSelected;
+
+  const EditProfileImage({super.key, required this.onImageSelected});
 
   @override
-  // ignore: library_private_types_in_public_api
   _EditProfileImageState createState() => _EditProfileImageState();
 }
 
 class _EditProfileImageState extends State<EditProfileImage> {
-  File? _imageFile;
+  File? imageFile;
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage() async {
@@ -22,8 +24,10 @@ class _EditProfileImageState extends State<EditProfileImage> {
 
     if (pickedFile != null) {
       setState(() {
-        _imageFile = File(pickedFile.path);
+        imageFile = File(pickedFile.path);
       });
+      // Pass the selected image back using the callback
+      widget.onImageSelected(imageFile);
     }
   }
 
@@ -36,10 +40,10 @@ class _EditProfileImageState extends State<EditProfileImage> {
           CircleAvatar(
             radius: 80.h,
             backgroundColor: Colors.grey.shade100,
-            child: _imageFile != null
+            child: imageFile != null
                 ? CircleAvatar(
                     radius: 80.r,
-                    backgroundImage: FileImage(_imageFile!),
+                    backgroundImage: FileImage(imageFile!),
                   )
                 : CircleAvatar(
                     radius: 80.r,
