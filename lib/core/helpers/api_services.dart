@@ -26,9 +26,10 @@ abstract class ApiServices {
   @POST("api/Auth/ChangePassword")
   Future<ChangePasswordResponse> changePassword(
       @Body() Map<String, dynamic> body, @Header("Authorization") String token);
-  @POST("api/Auth/EditInfo")
-  Future<LogoutResponse> editInfo(
-      @Body() Map<String, dynamic> body, @Header("Authorization") String token);
+
+  @POST("https://lungora.runasp.net/api/Auth/EditInfo")
+  Future<EditInfoResponse> editInfo(
+      @Part() FormData formData, @Header("Authorization") String token);
 
   @POST("api/Auth/LogOutSingle")
   Future<LogoutResponse> logout(@Header("Authorization") String token);

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:lungora/core/helpers/api_services.dart';
@@ -59,10 +60,11 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> editInfo(
-      {String? username, String? image, required String token}) async {
+      {String? username, File? image, required String token}) async {
     log('Edit Info called from settings cubit');
-    log('Token: $token from settings cubit');
-
+    log('Token: \n\n$token\n\n from settings cubit');
+    log('Username: \n\n$username\n\n from settings cubit');
+    log('Image: \n\n$image\n\n from settings cubit');
     if (isClosed) return;
     emit(SettingsLoading());
 
@@ -77,8 +79,12 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       if (response.isSuccess) {
         log('Edit Info successful');
-        // String message = response.result!.message!;
-        emit(SettingsSuccess(response.result!.toJson().toString()));
+        final message = response.result!.message.isEmpty
+            ? "Success"
+            : response.result!.message;
+
+        log(message);
+        emit(SettingsSuccess(message));
       } else {
         emit(
           SettingsFailure(response.errors.isNotEmpty
@@ -91,7 +97,6 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       if (e is DioException) {
         log('Settings Dio Error - Status Code: ${e.response?.statusCode}');
-        log('Response Data: ${e.response?.data}');
 
         final errorHandler = DioErrorHandler.handleError(e);
 
