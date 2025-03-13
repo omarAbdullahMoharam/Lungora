@@ -40,9 +40,6 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
 
           GoRouter.of(context).go(AppRouter.kSettingsView);
         }
-        if (state is SettingsLoading) {
-          CircularProgressIndicator();
-        }
       },
       builder: (context, state) {
         return Padding(
@@ -50,38 +47,41 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
           child: Form(
             key: formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: [
-                CustomAppBar(
-                  text: 'Change Password',
-                  onPressed: () {
-                    // Navigate to change password screen
-                    GoRouter.of(context).go(AppRouter.kSettingsView);
-                  },
-                ),
-                ChangePasswordForm(
-                  currentPassController: currentPasswordController,
-                  newPassController: newPasswordController,
-                  formKey: formKey,
-                  onPressed: () async {
-                    formKey.currentState!.save();
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-                    final token = await SecureStorageService.getToken();
-                    if (token == null) {
-                      GoRouter.of(context).go(AppRouter.kAuthView);
-                      return;
-                    }
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  CustomAppBar(
+                    text: 'Change Password',
+                    onPressed: () {
+                      // Navigate to change password screen
+                      GoRouter.of(context).go(AppRouter.kSettingsView);
+                    },
+                  ),
+                  ChangePasswordForm(
+                    currentPassController: currentPasswordController,
+                    newPassController: newPasswordController,
+                    formKey: formKey,
+                    onPressed: () async {
+                      formKey.currentState!.save();
+                      if (!formKey.currentState!.validate()) {
+                        return;
+                      }
+                      final token = await SecureStorageService.getToken();
+                      if (token == null) {
+                        GoRouter.of(context).go(AppRouter.kAuthView);
+                        return;
+                      }
 
-                    BlocProvider.of<SettingsCubit>(context).changePassword(
-                      currentPasswordController.text,
-                      newPasswordController.text,
-                      token,
-                    );
-                  },
-                )
-              ],
+                      BlocProvider.of<SettingsCubit>(context).changePassword(
+                        currentPasswordController.text,
+                        newPasswordController.text,
+                        token,
+                      );
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         );
