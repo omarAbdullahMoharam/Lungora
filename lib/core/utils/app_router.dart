@@ -31,6 +31,8 @@ import 'package:lungora/features/auth/Presentation/views/reset_password_view.dar
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
+import 'package:lungora/features/doctor/data/doctor_model.dart';
+import 'package:lungora/features/doctor/presentation/view/doctor_details_view.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_view.dart';
 
 abstract class AppRouter {
@@ -50,9 +52,11 @@ abstract class AppRouter {
   static const kDiseaseDetailsView = '/diseaseDetailsView';
   static const kCategoryDetailsView = '/categoryDetailsView';
   static const kDoctorView = '/doctorView';
-  static const kNormalScanResult = '/kNormalScanResult';
-  static const kUnableDetermineResult = '/kUnableDetermineResult';
+  static const kNormalScanResult = '/NormalScanResult';
+  static const kUnableDetermineResult = '/UnableDetermineResult';
   static const kCovid19Result = '/covid19Result';
+  static const kDoctorDetailsView = '/DoctorDetailsView';
+
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -170,6 +174,13 @@ abstract class AppRouter {
       GoRoute(
         path: kCovid19Result,
         builder: (context, state) => const Covid19Result(),
+      ),
+      GoRoute(
+        path: kDoctorDetailsView,
+        builder: (context, state) {
+          final doctorModel = state.extra as DoctorModel;
+          return DoctorDetailsView(doctorModel: doctorModel);
+        },
       ),
     ],
   );
