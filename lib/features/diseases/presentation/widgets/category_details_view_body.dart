@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/core/constants.dart';
+
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/diseases/presentation/widgets/disease_data.dart';
 import 'disease_card_item.dart';
@@ -22,7 +22,6 @@ class CategoryDetailsViewBody extends StatelessWidget {
             categoryName,
             style: Styles.textStyle16.copyWith(
               fontWeight: FontWeight.w800,
-              color: kPrimaryColor,
               fontFamily: 'poppins',
             ),
           ),
