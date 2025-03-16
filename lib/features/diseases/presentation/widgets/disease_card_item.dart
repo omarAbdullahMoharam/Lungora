@@ -23,7 +23,9 @@ class DiseaseCardItem extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16.h),
       child: Card(
-        color: kBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.black
+            : kBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.w),
         ),
