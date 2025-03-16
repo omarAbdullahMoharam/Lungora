@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/core/constants.dart';
-
 import 'package:lungora/core/utils/styles.dart';
 import '../../data/doctor_model.dart';
 import 'contact_info_section.dart';
@@ -85,7 +83,7 @@ class DoctorDetailsViewBody extends StatelessWidget {
                   children: [
                     Text(
                       'About doctor',
-                      style: Styles.textStyle20.copyWith(color: kPrimaryColor),
+                      style: Styles.textStyle20,
                     ),
                     Text(
                       doctorModel.about,
