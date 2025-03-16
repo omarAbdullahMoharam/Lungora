@@ -45,7 +45,7 @@ class DoctorViewBody extends StatelessWidget {
           WorkingTime(
             day: 'wed',
             from: '10:00 AM',
-            to: '6:00 PM',
+            to: '7:00 PM',
           ),
           WorkingTime(
             day: 'Thu',

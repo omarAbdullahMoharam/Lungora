@@ -8,16 +8,10 @@ import 'package:lungora/core/utils/styles.dart';
 import '../../data/doctor_model.dart';
 
 class DoctorCard extends StatelessWidget {
-  // final String name;
-  // final String imageUrl;
-  // final String availability;
   final DoctorModel doctorModel;
 
   const DoctorCard({
     super.key,
-    // required this.name,
-    // required this.imageUrl,
-    // required this.availability,
     required this.doctorModel,
   });
 
@@ -67,7 +61,7 @@ class DoctorCard extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () {
                           context.push(
-                            AppRouter.kdoctorDetailsView,
+                            AppRouter.kDoctorDetailsView,
                             extra: doctorModel,
                           );
                         },

@@ -23,9 +23,9 @@ class WorkingTimeItem extends StatelessWidget {
         width: 130.w,
         height: 130.h,
         decoration: BoxDecoration(
-          //  color: Theme.of(context).brightness == Brightness.dark
-          //   ? Colors.black
-          //   : Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black
+              : Colors.white,
           borderRadius: BorderRadius.circular(12.w),
           // border: Border.all(
           //   color: Colors.grey.withOpacity(0.2),

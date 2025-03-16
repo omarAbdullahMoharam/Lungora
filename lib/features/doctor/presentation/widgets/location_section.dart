@@ -46,7 +46,7 @@ class LocationSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.h),
           ),
           child: Image.asset(
-            'assets/images/locationnnn.png',
+            'assets/images/locationnn.png',
             height: 120.h,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.fill,
