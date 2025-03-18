@@ -38,6 +38,7 @@ abstract class AppRouter {
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static final router = GoRouter(
+    
     navigatorKey: _rootNavigatorKey,
     initialLocation: kAuthView,
     routes: [

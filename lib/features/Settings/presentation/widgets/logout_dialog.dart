@@ -20,7 +20,7 @@ class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});
 
   void _exitApp(BuildContext context) {
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
     Future.delayed(Duration(milliseconds: 300), () {
       GoRouter.of(context).go(AppRouter.kAuthView);
     });
@@ -39,9 +39,13 @@ class LogoutDialog extends StatelessWidget {
             SnackBarHandler.showError(state.errMessage);
           }
           if (state is SettingsSuccess) {
-            SnackBarHandler.showSuccess(state.message);
-            Future.delayed(const Duration(seconds: 3), () {});
+            // SnackBarHandler.showSuccess(state.message);
+            // Clear the storage after successful logout
+            SecureStorageService.deleteAll();
             _exitApp(context);
+            // Future.delayed(Duration(milliseconds: 300), () {
+            //   _exitApp(context);
+            // });
           }
         },
         builder: (context, state) {

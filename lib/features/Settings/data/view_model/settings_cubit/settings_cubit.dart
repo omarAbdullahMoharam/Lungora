@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/helpers/dio_handeler.dart';
+import 'package:lungora/features/Settings/data/models/user_model.dart';
 import 'package:lungora/features/Settings/data/repos/settings_repo.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
@@ -110,6 +111,31 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
+  Future<void> getUserData( {required String token}) async {
+    log('Get User Data called from settings cubit');
+    if (isClosed) return;
+    // emit(SettingsLoading());
+
+    try {
+      final response = await SettingsRepo(_apiServices).getUserData(token);
+
+      if (isClosed) return;
+
+      if (response.isSuccess) {
+        log('Get User Data successful');
+        emit(SettingsGetUserDataSuccess(  response.userModel!));
+      } else {
+        emit(SettingsFailure(response.errors != null && response.errors!.isNotEmpty
+            ? response.errors![0]
+            : 'Failed to get user data'));
+      }
+    } catch (e) {
+      if (isClosed) return;
+      log('Get User Data error: ${e.toString()}');
+      emit(SettingsFailure('An unexpected error occurred'));
+    }
+  }
+
   Future<void> logout({required String token}) async {
     log('Logout called from settings cubit');
     if (isClosed) return;
@@ -141,65 +167,3 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 }
 
-class LogoutResponse {
-  final int statusCode;
-  final bool isSuccess;
-  final List<String> errors;
-  final Result result;
-
-  LogoutResponse({
-    required this.statusCode,
-    required this.isSuccess,
-    required this.errors,
-    required this.result,
-  });
-
-  factory LogoutResponse.fromJson(Map<String, dynamic> json) {
-    return LogoutResponse(
-      statusCode: json['statusCode'],
-      isSuccess: json['isSuccess'],
-      errors: List<String>.from(json['errors']),
-      result: Result.fromJson(json['result']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'statusCode': statusCode,
-      'isSuccess': isSuccess,
-      'errors': errors,
-      'result': result.toJson(),
-    };
-  }
-}
-
-class Result {
-  final String message;
-
-  Result({required this.message});
-
-  factory Result.fromJson(Map<String, dynamic> json) {
-    return Result(message: json['message']);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'message': message};
-  }
-}
-
-// Custom exception classes
-class NetworkException implements Exception {
-  final String message;
-  NetworkException(this.message);
-
-  @override
-  String toString() => 'NetworkException: $message';
-}
-
-class ServerException implements Exception {
-  final String message;
-  ServerException(this.message);
-
-  @override
-  String toString() => 'ServerException: $message';
-}
