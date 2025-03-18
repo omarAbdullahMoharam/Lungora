@@ -7,10 +7,8 @@ class ContactUsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: const ContactUsViewBody(),
-      ),
+    return Scaffold(
+      body: const ContactUsViewBody(),
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lungora/core/utils/app_router.dart';
+
 import 'package:lungora/features/Home/data/models/category_model.dart';
 import 'package:lungora/features/Home/presentation/widgets/custom_category_card_item.dart';
 
@@ -19,7 +22,12 @@ class CategoriesSection extends StatelessWidget {
                   vectorImagePath: 'assets/icon/Lungs_Outline_Icon.svg',
                   categoryName: 'Chest & Lungs',
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.go(
+                    AppRouter.kCategoryDetailsView,
+                    extra: 'Chest & Lungs',
+                  );
+                },
               ),
             ),
             SizedBox(width: 8.w),
@@ -29,7 +37,12 @@ class CategoriesSection extends StatelessWidget {
                 vectorImagePath: 'assets/icon/Heart.svg',
                 categoryName: 'Cardiovascular Diseases',
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.go(
+                  AppRouter.kCategoryDetailsView,
+                  extra: 'Cardiovascular Diseases',
+                );
+              },
             ),
           ],
         ),
@@ -42,7 +55,12 @@ class CategoriesSection extends StatelessWidget {
                 vectorImagePath: 'assets/icon/X_Ray.svg',
                 categoryName: 'Bones & \nMuscles',
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.go(
+                  AppRouter.kCategoryDetailsView,
+                  extra: 'Bones & Muscles',
+                );
+              },
             ),
             SizedBox(width: 8.w),
             Expanded(
@@ -52,7 +70,12 @@ class CategoriesSection extends StatelessWidget {
                   vectorImagePath: 'assets/icon/Virous.svg',
                   categoryName: 'Gastrointestinal Diseases',
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.go(
+                    AppRouter.kCategoryDetailsView,
+                    extra: 'Gastrointestinal Diseases',
+                  );
+                },
               ),
             ),
           ],
