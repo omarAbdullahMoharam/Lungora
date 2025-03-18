@@ -7,10 +7,8 @@ class TermsConditionsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: const TermsConditionsBody(),
-      ),
+    return Scaffold(
+      body: const TermsConditionsBody(),
     );
   }
 }

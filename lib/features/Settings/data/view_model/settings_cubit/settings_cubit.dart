@@ -111,7 +111,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-  Future<void> getUserData( {required String token}) async {
+  Future<void> getUserData({required String token}) async {
     log('Get User Data called from settings cubit');
     if (isClosed) return;
     // emit(SettingsLoading());
@@ -123,11 +123,12 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       if (response.isSuccess) {
         log('Get User Data successful');
-        emit(SettingsGetUserDataSuccess(  response.userModel!));
+        emit(SettingsGetUserDataSuccess(response.userModel!));
       } else {
-        emit(SettingsFailure(response.errors != null && response.errors!.isNotEmpty
-            ? response.errors![0]
-            : 'Failed to get user data'));
+        emit(SettingsFailure(
+            response.errors != null && response.errors!.isNotEmpty
+                ? response.errors![0]
+                : 'Failed to get user data'));
       }
     } catch (e) {
       if (isClosed) return;
@@ -166,4 +167,3 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 }
-

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/utils/app_router.dart';
+
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/core/utils/custom_elevated_button.dart';
 import 'dart:io';
@@ -33,6 +37,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Processing image...")),
       );
+      context.go(AppRouter.kNormalScanResult);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please select an image first.")),
