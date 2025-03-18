@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
-import 'package:lungora/features/Settings/data/repos/settings_repo.dart';
-import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
+import 'package:lungora/features/Settings/data/models/edit_info_response_model.dart';
+import 'package:lungora/features/Settings/data/models/logout_response_model.dart';
+import 'package:lungora/features/Settings/data/models/user_data_response_model.dart';
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
@@ -30,7 +31,8 @@ abstract class ApiServices {
   @POST("https://lungora.runasp.net/api/Auth/EditInfo")
   Future<EditInfoResponse> editInfo(
       @Part() FormData formData, @Header("Authorization") String token);
-
+  @GET("api/Auth/GetDataUser")
+  Future<UserDataResponseModel> getUserData(@Header("Authorization") String token);
   @POST("api/Auth/LogOutSingle")
   Future<LogoutResponse> logout(@Header("Authorization") String token);
 }

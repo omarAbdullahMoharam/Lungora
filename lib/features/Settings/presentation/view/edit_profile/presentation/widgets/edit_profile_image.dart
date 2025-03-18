@@ -7,11 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lungora/core/constants.dart';
-
 class EditProfileImage extends StatefulWidget {
   final Function(File?) onImageSelected;
+  final String? imageUrl; // Add this
 
-  const EditProfileImage({super.key, required this.onImageSelected});
+  const EditProfileImage({super.key, required this.onImageSelected, this.imageUrl});
 
   @override
   _EditProfileImageState createState() => _EditProfileImageState();
@@ -28,7 +28,6 @@ class _EditProfileImageState extends State<EditProfileImage> {
       setState(() {
         imageFile = File(pickedFile.path);
       });
-      // Pass the selected image back using the callback
       widget.onImageSelected(imageFile);
     }
   }
@@ -47,14 +46,19 @@ class _EditProfileImageState extends State<EditProfileImage> {
                     radius: 80.r,
                     backgroundImage: FileImage(imageFile!),
                   )
-                : CircleAvatar(
-                    radius: 80.r,
-                    backgroundColor: Colors.grey.shade100,
-                    child: SvgPicture.asset(
-                      'assets/images/profile_avatar.svg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                : widget.imageUrl != null && widget.imageUrl!.isNotEmpty
+                    ? CircleAvatar(
+                        radius: 80.r,
+                        backgroundImage:  NetworkImage(widget.imageUrl!),
+                      )
+                    : CircleAvatar(
+                        radius: 80.r,
+                        backgroundColor: Colors.grey.shade100,
+                        child: SvgPicture.asset(
+                          'assets/images/profile_avatar.svg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
           ),
           Positioned(
             bottom: 0,
@@ -67,10 +71,7 @@ class _EditProfileImageState extends State<EditProfileImage> {
                 color: kPrimaryColor,
               ),
               child: IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+                icon: Icon(Icons.add, color: Colors.white),
                 onPressed: _pickImage,
               ),
             ),

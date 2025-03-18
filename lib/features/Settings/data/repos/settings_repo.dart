@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:lungora/core/helpers/api_services.dart';
-import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
+import 'package:lungora/features/Settings/data/models/edit_info_response_model.dart';
+import 'package:lungora/features/Settings/data/models/logout_response_model.dart';
+import 'package:lungora/features/Settings/data/models/user_data_response_model.dart';
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 
 class SettingsRepo {
@@ -49,61 +51,12 @@ class SettingsRepo {
     return _apiServices.editInfo(formData, token);
   }
 
+  Future<UserDataResponseModel> getUserData(String token) async {
+    return _apiServices.getUserData(token);
+  }
+
   Future<LogoutResponse> logout(String token) async {
     return _apiServices.logout(token);
   }
 }
 
-class EditInfoResponse {
-  final bool isSuccess;
-  final int statusCode;
-  final List<String> errors;
-  final ResultMessage? result;
-
-  EditInfoResponse({
-    required this.isSuccess,
-    required this.statusCode,
-    required this.errors,
-    this.result,
-  });
-
-  factory EditInfoResponse.fromJson(Map<String, dynamic> json) {
-    return EditInfoResponse(
-      isSuccess: json['isSuccess'] as bool,
-      statusCode: json['statusCode'] as int,
-      errors: (json['errors'] as List).map((e) => e as String).toList(),
-      result: json['result'] != null
-          ? (json['result'] is Map
-              ? ResultMessage.fromJson(json['result'])
-              : ResultMessage(message: json['result'].toString()))
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "isSuccess": isSuccess,
-      "statusCode": statusCode,
-      "errors": errors,
-      "result": result?.toJson(),
-    };
-  }
-}
-
-class ResultMessage {
-  final String message;
-
-  ResultMessage({required this.message});
-
-  factory ResultMessage.fromJson(Map<String, dynamic> json) {
-    return ResultMessage(
-      message: json['message'] as String,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "message": message,
-    };
-  }
-}

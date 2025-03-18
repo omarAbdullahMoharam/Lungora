@@ -10,6 +10,29 @@ class SecureStorageService {
   static const _dataKey = "auth_data";
   static const _refreshTokenKey = "refresh_token";
   static const _tokenExpiryKey = "token_expiry";
+  static const _userNameKey = "user_name";
+static const _userImageKey = "user_image";
+
+// Save user name
+static Future<void> saveUserName(String name) async {
+  await _secureStorage.write(key: _userNameKey, value: name);
+}
+
+// Get user name
+static Future<String?> getUserName() async {
+  return await _secureStorage.read(key: _userNameKey);
+}
+
+// Save user image
+static Future<void> saveUserImage(String imageUrl) async {
+  await _secureStorage.write(key: _userImageKey, value: imageUrl);
+}
+
+// Get user image
+static Future<String?> getUserImage() async {
+  return await _secureStorage.read(key: _userImageKey);
+}
+
 
   static Future<void> saveToken(String token) async {
     try {
