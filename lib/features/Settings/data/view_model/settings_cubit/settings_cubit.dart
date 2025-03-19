@@ -76,6 +76,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         token: token,
       );
 
+      log('\n\n\n\n Response from edit cubit: \n\n${response.toJson()}\n\n');
       if (isClosed) return;
 
       if (response.isSuccess) {
