@@ -21,6 +21,7 @@ class CategoryDetailsViewBody extends StatelessWidget {
           Text(
             categoryName,
             style: Styles.textStyle16.copyWith(
+              // color: Colors.blue,
               fontWeight: FontWeight.w800,
               fontFamily: 'poppins',
             ),

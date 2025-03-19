@@ -29,6 +29,7 @@ import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_details_view.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_view.dart';
+import 'package:lungora/features/onbording/presentation/view/onbording_view.dart';
 
 abstract class AppRouter {
   static const kAuthView = '/';
@@ -51,6 +52,7 @@ abstract class AppRouter {
   static const kUnableDetermineResult = '/UnableDetermineResult';
   static const kCovid19Result = '/covid19Result';
   static const kDoctorDetailsView = '/DoctorDetailsView';
+  static const kOnbordingView = '/onbordingView';
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -162,6 +164,13 @@ abstract class AppRouter {
         path: kNormalScanResult,
         builder: (context, state) => const NormalScanResult(),
       ),
+      //    GoRoute(
+      //   path: kNormalScanResult,
+      //   builder: (context, state) {
+      //     final imageUrl = state.extra as String;
+      //     return NormalScanResult(imageUrl: imageUrl);
+      //   },
+      // ),
       GoRoute(
         path: kUnableDetermineResult,
         builder: (context, state) => const UnableDetermineResult(),
@@ -176,6 +185,10 @@ abstract class AppRouter {
           final doctorModel = state.extra as DoctorModel;
           return DoctorDetailsView(doctorModel: doctorModel);
         },
+      ),
+      GoRoute(
+        path: kOnbordingView,
+        builder: (context, state) => const OnbordingView(),
       ),
     ],
   );
