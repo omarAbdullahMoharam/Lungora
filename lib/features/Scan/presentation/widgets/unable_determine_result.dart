@@ -1,15 +1,18 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/app_router.dart';
-
 import 'package:lungora/core/utils/styles.dart';
-
-import 'floting_action_button.dart';
+import 'floating_action_button.dart';
 import 'scan_result_image.dart';
 
 class UnableDetermineResult extends StatelessWidget {
-  const UnableDetermineResult({super.key});
+  final File imageFile;
+  const UnableDetermineResult({
+    super.key,
+    required this.imageFile,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +26,12 @@ class UnableDetermineResult extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ScanResultImage(
-                    imageUrl: 'assets/images/scan_result.png',
+                    imageFile: File(imageFile.path),
                     onPressed: () {
-                      context.go(AppRouter.kCovid19Result);
+                      context.push(
+                        AppRouter.kCovid19Result,
+                        extra: imageFile,
+                      );
                     },
                   ),
                   SizedBox(height: 16.h),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -158,17 +160,37 @@ abstract class AppRouter {
         path: kDoctorView,
         builder: (context, state) => const DoctorView(),
       ),
+      // GoRoute(
+      //   path: kNormalScanResult,
+      //   builder: (context, state) => const NormalScanResult(),
+      // ),
       GoRoute(
-        path: kNormalScanResult,
-        builder: (context, state) => const NormalScanResult(),
+        path: AppRouter.kNormalScanResult,
+        builder: (context, state) {
+          final file = state.extra as File;
+          return NormalScanResult(
+            imageFile: file,
+          );
+        },
       ),
+
       GoRoute(
         path: kUnableDetermineResult,
-        builder: (context, state) => const UnableDetermineResult(),
+        builder: (context, state) {
+          final file = state.extra as File;
+          return UnableDetermineResult(
+            imageFile: file,
+          );
+        },
       ),
       GoRoute(
         path: kCovid19Result,
-        builder: (context, state) => const Covid19Result(),
+        builder: (context, state) {
+          final file = state.extra as File;
+          return Covid19Result(
+            imageFile: file,
+          );
+        },
       ),
       GoRoute(
         path: kDoctorDetailsView,
