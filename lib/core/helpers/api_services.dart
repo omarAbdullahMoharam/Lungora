@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
+import 'package:lungora/features/Settings/data/models/edit_info_response_model.dart';
+import 'package:lungora/features/Settings/data/models/logout_response_model.dart';
+import 'package:lungora/features/Settings/data/models/user_data_response_model.dart';
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
@@ -25,5 +28,12 @@ abstract class ApiServices {
   Future<ChangePasswordResponse> changePassword(
       @Body() Map<String, dynamic> body, @Header("Authorization") String token);
 
-  // add more endpoints here @amera612
+  @POST("api/Auth/EditInfo")
+  Future<EditInfoResponse> editInfo(
+      @Part() FormData formData, @Header("Authorization") String token);
+  @GET("api/Auth/GetDataUser")
+  Future<UserDataResponseModel> getUserData(
+      @Header("Authorization") String token);
+  @POST("api/Auth/LogOutSingle")
+  Future<LogoutResponse> logout(@Header("Authorization") String token);
 }
