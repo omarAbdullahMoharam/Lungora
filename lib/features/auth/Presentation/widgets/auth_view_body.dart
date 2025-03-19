@@ -22,7 +22,22 @@ class AuthViewBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: 100.h),
+            SizedBox(height: 55.h),
+             Center(
+                    child: CircleAvatar(
+                      radius: 50.r,
+                      backgroundColor: Colors.grey.shade100,
+                      
+                      child: ClipRRect(borderRadius: BorderRadius.circular(100.r),
+                      child: FittedBox(
+                        child: Image.asset(
+                          'assets/icon/lung app OUT FONT PNG.png',
+                          fit: BoxFit.cover,
+                          
+                        ),
+                      ),),),
+                  ),
+            SizedBox(height: 16.h),
             Text(
               'Lungora',
               style: Styles.textStyle32.copyWith(
@@ -31,7 +46,7 @@ class AuthViewBody extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 56.h),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.055),
             AuthForm(isLogin: isLogin),
             CustomAuthNavigatorButton(
               isLogin: isLogin,
