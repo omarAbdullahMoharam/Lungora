@@ -47,9 +47,10 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
     if (cachedName != null || (cachedImage != null && cachedImage.isNotEmpty)) {
       setState(() {
         userNameController.text = cachedName ?? "";
-        _selectedImage = (cachedImage != null && !cachedImage.startsWith("https"))
-            ? File(cachedImage)
-            : null;
+        _selectedImage =
+            (cachedImage != null && !cachedImage.startsWith("https"))
+                ? File(cachedImage)
+                : null;
       });
     }
 
@@ -76,7 +77,6 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
         } else if (state is SettingsFailure) {
           SnackBarHandler.showError(state.errMessage);
         } else if (state is SettingsGetUserDataSuccess) {
-          // حفظ البيانات في التخزين المؤقت (بدون setState هنا)
           await SecureStorageService.saveUserName(state.userModel.fullName);
           await SecureStorageService.saveUserImage(state.userModel.imageUser);
         }
@@ -123,13 +123,14 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
 
                     try {
                       final token = await SecureStorageService.getToken();
-                      if (token != null&&userNameController.text.isNotEmpty && _selectedImage != null) {
-
-                        await SecureStorageService.saveUserName(userNameController.text);
-                        await SecureStorageService.saveUserImage(_selectedImage?.path ?? "");
-                       setState(() {
-                         
-                       });
+                      if (token != null &&
+                          userNameController.text.isNotEmpty &&
+                          _selectedImage != null) {
+                        await SecureStorageService.saveUserName(
+                            userNameController.text);
+                        await SecureStorageService.saveUserImage(
+                            _selectedImage?.path ?? "");
+                        setState(() {});
                         BlocProvider.of<SettingsCubit>(context).editInfo(
                           token: token,
                           username: userNameController.text,

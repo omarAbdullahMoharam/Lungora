@@ -18,6 +18,7 @@ import 'package:lungora/features/Settings/presentation/view/edit_profile/present
 import 'package:lungora/features/Settings/presentation/view/privacy/presentation/view/privacy_view.dart';
 import 'package:lungora/features/Settings/presentation/view/terms_conditions/views/terms_conditions_view.dart';
 import 'package:lungora/features/Settings/presentation/view/about_us/presentation/views/about_us_view_.dart';
+import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
 import 'package:lungora/features/diseases/presentation/views/category_details_view.dart';
 import 'package:lungora/features/diseases/presentation/views/disease_details_view.dart';
@@ -77,11 +78,35 @@ abstract class AppRouter {
         routes: [
           GoRoute(
             path: kHomeView,
-            builder: (context, state) => const HomeView(),
+            builder: (context, state) => BlocProvider(
+              create: (context) {
+                SecureStorageService.getToken().then(
+                  (token) {
+                    if (token != null) {
+                      BlocProvider.of<SettingsCubit>(context)
+                          .getUserData(token: token);
+                    }
+                  },
+                );
+                return SettingsCubit(getIt<ApiServices>());
+              },
+              child: const HomeView(),
+            ),
           ),
           GoRoute(
             path: kScanView,
-            builder: (context, state) => const ScanView(),
+            builder: (context, state) => BlocProvider(
+              create: (context) {
+                SecureStorageService.getToken().then((token) {
+                  if (token != null) {
+                    BlocProvider.of<SettingsCubit>(context)
+                        .getUserData(token: token);
+                  }
+                });
+                return SettingsCubit(getIt<ApiServices>());
+              },
+              child: const ScanView(),
+            ),
           ),
           GoRoute(
             path: kSettingsView,
