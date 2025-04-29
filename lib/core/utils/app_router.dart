@@ -54,6 +54,7 @@ abstract class AppRouter {
   static const kCovid19Result = '/covid19Result';
   static const kDoctorDetailsView = '/DoctorDetailsView';
   static const kOnbordingView = '/onbordingView';
+  static const kProfileView = '/profileView';
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -159,6 +160,10 @@ abstract class AppRouter {
       GoRoute(
         path: kAboutUsView,
         builder: (context, state) => const AboutUsView(),
+      ),
+      GoRoute(
+        path: kProfileView,
+        builder: (context, state) => const EditProfileView(),
       ),
       GoRoute(
         path: kCategoryDetailsView,

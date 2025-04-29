@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,17 +10,44 @@ import 'package:lungora/features/Home/presentation/widgets/services_section.dart
 import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
-class HomeViewBody extends StatelessWidget {
+class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    SecureStorageService.getToken().then((token) {
+  State<HomeViewBody> createState() => _HomeViewBodyState();
+}
+
+class _HomeViewBodyState extends State<HomeViewBody> {
+  String? _userImage;
+
+  _loadUserData() async {
+    try {
+      final cachedImage = await SecureStorageService.getUserImage();
+      if (cachedImage != null) {
+        setState(() {
+          _userImage = cachedImage;
+        });
+        // ✅ Don't call API if cached image is available
+        return;
+      }
+
+      final token = await SecureStorageService.getToken();
       if (token != null) {
         BlocProvider.of<SettingsCubit>(context).getUserData(token: token);
       }
-    });
+    } catch (e) {
+      log('Error loading user data: $e');
+    }
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
@@ -28,10 +57,18 @@ class HomeViewBody extends StatelessWidget {
               context: context,
               imagePath: state is SettingsGetUserDataSuccess
                   ? state.userModel.imageUser
-                  : 'https://res.cloudinary.com/deoayl2hl/image/upload/v1742340954/Users/f446ff10-d23b-42ed-bb90-be18f88d9f01_2025_03_19_profile_avatar_brm2oi.jpg',
-              // : 'assets/images/GoogleIcon.png',
-              // ⚠️alert: onPressed body here to navigate to the profile page ⚠️
-              onPressed: () {},
+                  : _userImage ??
+                      'https://res.cloudinary.com/deoayl2hl/image/upload/v1742340954/Users/f446ff10-d23b-42ed-bb90-be18f88d9f01_2025_03_19_profile_avatar_brm2oi.jpg',
+              onPressed: () async {
+                String? profileImage =
+                    await SecureStorageService.getUserImage();
+                if (profileImage != null) {
+                  // Do something with the profile image, like navigating to the profile page
+                  print("Profile Image: $profileImage");
+                } else {
+                  print("No cached profile image found.");
+                }
+              },
             );
           },
         ),
