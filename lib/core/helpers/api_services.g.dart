@@ -204,10 +204,8 @@ class _ApiServices implements ApiServices {
     };
 
     try {
-      // Perform the network request using Dio directly
       final response = await _dio.post(
         'https://lungora.runasp.net/api/Auth/EditInfo',
-        // 'api/Auth/EditInfo',
         data: formData,
         options: Options(headers: _headers),
       );
@@ -220,7 +218,11 @@ class _ApiServices implements ApiServices {
 
       return result;
     } on DioException catch (e) {
+      log('Dio error: ${e.message}');
       if (e.response != null) {
+        log('Server error: ${e.response?.headers}  data: ${e.response?.data} \nstatus code ${e.response?.statusCode}');
+        log('Status code: ${e.response?.statusCode}');
+        // throw 'Server error: ${e.response?.data}';
         log('Server error: ${e.response?.data}');
         log('Status code: ${e.response?.statusCode}');
         throw 'Server error: ${e.response?.data}';
@@ -235,50 +237,50 @@ class _ApiServices implements ApiServices {
   }
 
   @override
-Future<UserDataResponseModel> getUserData(String token) async {
-  final queryParameters = <String, dynamic>{};
-  final _headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token',
-  };    
-  final _options = _setStreamType<UserDataResponseModel>(
-    Options(
-      method: 'GET',
-      headers: _headers,
-    )
-        .compose(
-          _dio.options,
-          'api/Auth/GetDataUser',
-          queryParameters: queryParameters,
-        )
-        .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-  );
-  
-  final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-  late UserDataResponseModel _value;
-  
-  try {
-    log("User data response raw: ${_result.data}");
-    
-    // Detailed logging to pinpoint the error
-    // var statusCode = _result.data!['statusCode'];
-    // var isSuccess = _result.data!['isSuccess'];
-    // var errors = _result.data!['errors'];
-    // var result = _result.data!['result'];
-    
-    // log("Processing fields - statusCode: $statusCode, isSuccess: $isSuccess, errors: $errors, result: $result");
-    
-    _value = UserDataResponseModel.fromJson(_result.data!);
-    log("Parsing completed successfully");
-   
-  } catch (e, s) {
-    log("Error parsing response: $e");
-    // log("Stack trace: $s");
-    errorLogger?.logError(e, s, _options);
-    rethrow;
+  Future<UserDataResponseModel> getUserData(String token) async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final _options = _setStreamType<UserDataResponseModel>(
+      Options(
+        method: 'GET',
+        headers: _headers,
+      )
+          .compose(
+            _dio.options,
+            'api/Auth/GetDataUser',
+            queryParameters: queryParameters,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UserDataResponseModel _value;
+
+    try {
+      log("User data response raw: ${_result.data}");
+
+      // Detailed logging to pinpoint the error
+      // var statusCode = _result.data!['statusCode'];
+      // var isSuccess = _result.data!['isSuccess'];
+      // var errors = _result.data!['errors'];
+      // var result = _result.data!['result'];
+
+      // log("Processing fields - statusCode: $statusCode, isSuccess: $isSuccess, errors: $errors, result: $result");
+
+      _value = UserDataResponseModel.fromJson(_result.data!);
+      log("Parsing completed successfully");
+    } catch (e, s) {
+      log("Error parsing response: $e");
+      // log("Stack trace: $s");
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
-  return _value;
-}
+
   @override
   Future<LogoutResponse> logout(String token) async {
     final queryParameters = <String, dynamic>{};

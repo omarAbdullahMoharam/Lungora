@@ -53,7 +53,7 @@ class _AuthFormState extends State<AuthForm> {
           listener: (context, state) {
             if (state is LoginSuccess) {
               SnackBarHandler.showSuccess('Login successful');
-              Future.delayed(const Duration(seconds: 1), () {
+              Future.delayed(const Duration(seconds: 2), () {
                 GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
               });
             } else if (state is LoginFailure) {
@@ -72,7 +72,6 @@ class _AuthFormState extends State<AuthForm> {
                 GoRouter.of(context).push(AppRouter.kHomeView);
               });
             } else if (state is RegisterFailure) {
-              
               SnackBarHandler.showError('Error: ${state.errMessage}');
             }
           },
@@ -89,7 +88,6 @@ class _AuthFormState extends State<AuthForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                 
                   // SizedBox(height: 24.h),
                   if (!widget.isLogin) ...[
                     CustomTextFormField(
