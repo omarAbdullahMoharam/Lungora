@@ -9,17 +9,6 @@ import 'package:lungora/features/Settings/data/view_model/settings_cubit/setting
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:lungora/core/helpers/api_services.dart';
-// import 'package:lungora/core/utils/app_router.dart';
-// import 'package:lungora/core/utils/dependency_injection.dart';
-// import 'package:lungora/features/Home/presentation/widgets/build_custom_app_bar.dart';
-// import 'package:lungora/features/Scan/presentation/widgets/scan_view_body.dart';
-// import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:lungora/features/auth/services/secure_storage_service.dart';
-
 class ScanView extends StatelessWidget {
   const ScanView({super.key});
 
