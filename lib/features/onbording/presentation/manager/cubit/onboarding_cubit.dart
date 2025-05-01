@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/app_router.dart';
-import 'package:lungora/features/onbording/data/onbording_model.dart';
+import 'package:lungora/features/onbording/data/models/onbording_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'onboarding_state.dart';
