@@ -175,7 +175,6 @@ abstract class AppRouter {
           );
         },
       ),
-<<<<<<< HEAD
       //    GoRoute(
       //   path: kNormalScanResult,
       //   builder: (context, state) {
@@ -183,9 +182,6 @@ abstract class AppRouter {
       //     return NormalScanResult(imageUrl: imageUrl);
       //   },
       // ),
-=======
-
->>>>>>> Dev
       GoRoute(
         path: kUnableDetermineResult,
         builder: (context, state) {
