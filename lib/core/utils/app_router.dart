@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,15 +19,10 @@ import 'package:lungora/features/Settings/presentation/view/contact_us/presentat
 import 'package:lungora/features/Settings/presentation/view/edit_profile/presentation/views/edit_profile_view.dart';
 import 'package:lungora/features/Settings/presentation/view/privacy/presentation/view/privacy_view.dart';
 import 'package:lungora/features/Settings/presentation/view/terms_conditions/views/terms_conditions_view.dart';
-import 'package:lungora/features/about_us/presentation/views/about_us_view_.dart';
+import 'package:lungora/features/Settings/presentation/view/about_us/presentation/views/about_us_view_.dart';
 
-// import 'package:lungora/features/contact_us/presentation/views/contact_us_view.dart';
 import 'package:lungora/features/diseases/presentation/views/category_details_view.dart';
 import 'package:lungora/features/diseases/presentation/views/disease_details_view.dart';
-// import 'package:lungora/features/edit_profile/presentation/views/edit_profile_view.dart';
-// import 'package:lungora/features/terms_conditions/views/terms_conditions_view.dart';
-// import 'package:lungora/features/Settings/presentation/widgets/change_password/views/change_password_view.dart';
-// import 'package:lungora/features/auth/Presentation/view_models/auth/auth_cubit.dart';
 
 import 'package:lungora/features/auth/Presentation/views/reset_password_view.dart';
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
@@ -165,10 +162,20 @@ abstract class AppRouter {
         path: kDoctorView,
         builder: (context, state) => const DoctorView(),
       ),
+      // GoRoute(
+      //   path: kNormalScanResult,
+      //   builder: (context, state) => const NormalScanResult(),
+      // ),
       GoRoute(
-        path: kNormalScanResult,
-        builder: (context, state) => const NormalScanResult(),
+        path: AppRouter.kNormalScanResult,
+        builder: (context, state) {
+          final file = state.extra as File;
+          return NormalScanResult(
+            imageFile: file,
+          );
+        },
       ),
+<<<<<<< HEAD
       //    GoRoute(
       //   path: kNormalScanResult,
       //   builder: (context, state) {
@@ -176,13 +183,26 @@ abstract class AppRouter {
       //     return NormalScanResult(imageUrl: imageUrl);
       //   },
       // ),
+=======
+
+>>>>>>> Dev
       GoRoute(
         path: kUnableDetermineResult,
-        builder: (context, state) => const UnableDetermineResult(),
+        builder: (context, state) {
+          final file = state.extra as File;
+          return UnableDetermineResult(
+            imageFile: file,
+          );
+        },
       ),
       GoRoute(
         path: kCovid19Result,
-        builder: (context, state) => const Covid19Result(),
+        builder: (context, state) {
+          final file = state.extra as File;
+          return Covid19Result(
+            imageFile: file,
+          );
+        },
       ),
       GoRoute(
         path: kDoctorDetailsView,

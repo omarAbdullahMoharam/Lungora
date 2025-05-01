@@ -37,7 +37,7 @@ class DoctorStatsCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CircleAvatar(
-            backgroundColor: Colors.blue.withOpacity(0.3),
+            backgroundColor: Colors.blue.withValues(alpha: 0.3),
             radius: 28.h,
             child: SvgPicture.asset(
               'assets/icon/people.svg',

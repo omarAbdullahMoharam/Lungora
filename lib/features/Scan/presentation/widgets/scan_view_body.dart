@@ -20,24 +20,28 @@ class ScanViewBody extends StatefulWidget {
 }
 
 class _ScanViewBodyState extends State<ScanViewBody> {
-  File? _selectedImage;
+  File? selectedImage;
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
-        _selectedImage = File(pickedFile.path);
+        selectedImage = File(pickedFile.path);
       });
     }
   }
 
   void _recognizeImage() {
-    if (_selectedImage != null) {
+    if (selectedImage != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Processing image...")),
       );
-      context.go(AppRouter.kNormalScanResult);
+
+      context.push(
+        AppRouter.kNormalScanResult,
+        extra: selectedImage,
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please select an image first.")),
@@ -54,11 +58,11 @@ class _ScanViewBodyState extends State<ScanViewBody> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
-            child: _selectedImage != null
+            child: selectedImage != null
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.file(
-                      _selectedImage!,
+                      selectedImage!,
                       height: 290.h,
                       width: 240.w,
                       fit: BoxFit.fill,
@@ -100,19 +104,19 @@ class _ScanViewBodyState extends State<ScanViewBody> {
               style: Styles.textStyleInter16.copyWith(color: kSecondaryColor),
             ),
           ),
-          if (_selectedImage != null)
+          if (selectedImage != null)
             ListTile(
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.file(
-                  _selectedImage!,
+                  selectedImage!,
                   height: 25.h,
                   width: 25.w,
                   fit: BoxFit.fill,
                 ),
               ),
               title: Text(
-                _selectedImage!.path.split('/').last,
+                selectedImage!.path.split('/').last,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -124,7 +128,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _selectedImage = null;
+                    selectedImage = null;
                   });
                 },
               ),
