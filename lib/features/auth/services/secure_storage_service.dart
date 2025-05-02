@@ -74,7 +74,7 @@ class SecureStorageService {
     return _secureStorage.read(key: _userNameKey);
   }
 
-  static Future<void> saveUserImage(String imageUrl) async {
+  static Future<void> saveUserImage(String? imageUrl) async {
     await _secureStorage.write(key: _userImageKey, value: imageUrl);
   }
 

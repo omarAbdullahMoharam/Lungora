@@ -339,6 +339,49 @@ class _ApiServices implements ApiServices {
     }
   }
 
+  @override
+  Future<AiModelResponse> getAIModel(FormData formData) async {
+    // final headers = {
+    //   'Authorization': 'Bearer $token',
+    // };
+
+    final options = _setStreamType<AiModelResponse>(
+      Options(
+        method: 'POST',
+        // headers: headers,
+      )
+          .compose(
+            _dio.options,
+            'api/ModelAI/AI_Model',
+            data: formData,
+          )
+          .copyWith(
+            baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+          ),
+    );
+
+    // log("Sending AI model request with options: ${options.toString()}");
+    // log("Sending AI model request with formData: ${formData.toString()}");
+    // log("Sending AI model request with headers: ${options.headers.toString()}");
+    // log("Sending AI model request with data: ${options.data.toString()}");
+    try {
+      final response = await _dio.fetch<Map<String, dynamic>>(options);
+      final data = response.data;
+
+      if (data == null) {
+        throw Exception('Empty response from server');
+      }
+      // log("AI model response data: ${data.toString()}");
+      // log("AI model response status code: ${response.statusCode}");
+      log("\n\n\n AI model response: ${data.toString()} \n\n\n");
+      return AiModelResponse.fromJson(data);
+    } catch (e, s) {
+      log("Error parsing AI model response: $e");
+      errorLogger?.logError(e, s, options);
+      rethrow;
+    }
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

@@ -13,12 +13,25 @@ class UnableDetermineResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(children: [
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 35.sp,
+          ),
+          onPressed: () {
+            context.go(AppRouter.kScanView);
+          },
+        ),
+        title: Text(""),
+        backgroundColor: Colors.white,
+      ),
+      body: Stack(
+        children: [
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,7 +81,7 @@ class UnableDetermineResult extends StatelessWidget {
             right: 32.w,
             child: FlotingActionButton(),
           ),
-        ]),
+        ],
       ),
     );
   }

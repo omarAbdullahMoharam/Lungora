@@ -7,14 +7,17 @@ class FlotingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {},
-      backgroundColor: kBackgroundColor,
-      shape: CircleBorder(),
-      child: SvgPicture.asset(
-        'assets/icon/message.svg',
-        width: 24,
-        height: 24,
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: kBackgroundColor,
+        shape: CircleBorder(),
+        child: SvgPicture.asset(
+          'assets/icon/message.svg',
+          width: 24,
+          height: 24,
+        ),
       ),
     );
   }
