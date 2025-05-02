@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
+import 'package:lungora/features/Scan/data/models/ai_model_response.dart';
 import 'package:lungora/features/Settings/data/models/edit_info_response_model.dart';
 import 'package:lungora/features/Settings/data/models/logout_response_model.dart';
 import 'package:lungora/features/Settings/data/models/user_data_response_model.dart';
@@ -36,4 +37,6 @@ abstract class ApiServices {
       @Header("Authorization") String token);
   @POST("api/Auth/LogOutSingle")
   Future<LogoutResponse> logout(@Header("Authorization") String token);
+  @POST("api/ModelAI/AI_Model")
+  Future<AiModelResponse> getAIModel(@Part() FormData formData);
 }

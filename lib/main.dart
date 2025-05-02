@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
+import 'package:lungora/features/auth/services/secure_storage_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,17 @@ void main() async {
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool onBoarding = sharedPreferences.getBool('onboarding') ?? false;
+  final isValid = await SecureStorageService.isTokenValid();
+
+  late final String initialRoute;
+  if (!onBoarding) {
+    initialRoute = AppRouter.kOnbordingView;
+  } else if (isValid) {
+    initialRoute = AppRouter.kHomeView;
+  } else {
+    initialRoute = AppRouter.kAuthView;
+  }
+  AppRouter.router.go(initialRoute);
 
   // AuthRepo authRepo = AuthRepo(ApiServices(Dio()));
   // getIt<AuthRepo>().login("email@gmail.com", "Password_12");
@@ -30,6 +42,13 @@ void main() async {
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");
   // authRepo.changeUserPassword("Adel@1234", "Adel@1234");
+  // get token from secure storage
+  // String? token = await SecureStorageService.getToken();
+  // ScanRepo scanRepo = ScanRepo(getIt<ApiServices>());
+  // scanRepo.getAIModel(
+  //   image: File(""),
+  //   token: token!,
+  // );
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider()..loadTheme(),

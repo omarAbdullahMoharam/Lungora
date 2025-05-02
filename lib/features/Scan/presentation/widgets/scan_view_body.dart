@@ -5,10 +5,14 @@ import 'package:go_router/go_router.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/utils/app_router.dart';
+import 'package:lungora/core/utils/dependency_injection.dart';
 
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/core/utils/custom_elevated_button.dart';
+import 'package:lungora/features/Scan/data/models/ai_model_response.dart';
+import 'package:lungora/features/Scan/data/repos/scan_repo.dart';
 import 'dart:io';
 import 'package:lungora/features/Scan/presentation/widgets/text_with_dividers.dart';
 
@@ -32,12 +36,46 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     }
   }
 
-  void _recognizeImage() {
+  void _recognizeImage() async {
     if (_selectedImage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Processing image...")),
-      );
-      context.go(AppRouter.kNormalScanResult);
+      // String? token = await SecureStorageService.getToken();
+
+      AiModelResponse response = await ScanRepo(getIt<ApiServices>())
+          .getAIModel(image: _selectedImage!);
+      // log("Image path: ${_selectedImage!.path}");
+      // // log("Token: $token");
+      // log("Image name: ${_selectedImage!.path.split('/').last}");
+      // log("Image size: ${_selectedImage!.lengthSync()} bytes");
+      // log('Image recognized successfully!');
+      // log("\n\n\nResponse from scan view body : ${response.result} \n\n\n");
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text("Processing image...")),
+      // );
+      if (response.statusCode == 200) {
+        if (response.result!.predicted == 'Covid') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Covid-19 detected☣️🦠")),
+          );
+          context.go(AppRouter.kCovid19Result);
+        } else if (response.result!.predicted == 'Pneumonia') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Pneumonia detected!😰")),
+          );
+          context.go(AppRouter.kCovid19Result);
+        } else if (response.result!.predicted == 'Normal') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Normal scan!🫁🛡️")),
+          );
+          context.go(AppRouter.kNormalScanResult);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Undetected result!")),
+          );
+          context.go(AppRouter.kUnableDetermineResult);
+        }
+      }
+      // context.go(AppRouter.kNormalScanResult);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please select an image first.")),
