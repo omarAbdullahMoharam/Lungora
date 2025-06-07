@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:dio/dio.dart';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/features/Scan/data/models/ai_model_response.dart';
+import 'package:mime/mime.dart';
 
 class ScanRepo {
   final ApiServices _apiServices;
@@ -18,12 +20,17 @@ class ScanRepo {
     final formData = FormData();
 
     final fileName = image.path.split('/').last;
+    final mimeType = lookupMimeType(image.path); // e.g., "image/jpeg"
+
     formData.files.add(
       MapEntry(
         'image',
         await MultipartFile.fromFile(
           image.path,
           filename: fileName,
+          contentType: mimeType != null
+              ? MediaType.parse(mimeType)
+              : null, // Adjust content type if needed
         ),
       ),
     );

@@ -22,6 +22,12 @@ class ScanCubit extends Cubit<ScanState> {
   // }
 
   void processImage(File selectedImage) async {
+    log("Image path: ${selectedImage.path}");
+    // log("Token: $token");
+    log("Image name: ${selectedImage.path.split('/').last}");
+    log("Image size: ${selectedImage.lengthSync()} bytes");
+    log('Image recognized successfully!');
+    // log("\n\n\nResponse from scan view body : ${response.result} \n\n\n");
     emit(ScanProccessing());
     try {
       AiModelResponse response =
