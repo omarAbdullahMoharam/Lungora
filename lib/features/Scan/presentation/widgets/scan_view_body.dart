@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/utils/app_router.dart';
@@ -13,6 +15,7 @@ import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/core/utils/custom_elevated_button.dart';
 import 'package:lungora/features/Scan/data/models/ai_model_response.dart';
 import 'package:lungora/features/Scan/data/repos/scan_repo.dart';
+import 'package:lungora/features/Scan/presentation/view_model/cubit/scan_cubit.dart';
 import 'dart:io';
 import 'package:lungora/features/Scan/presentation/widgets/text_with_dividers.dart';
 
@@ -40,8 +43,14 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     if (_selectedImage != null) {
       // String? token = await SecureStorageService.getToken();
 
-      AiModelResponse response = await ScanRepo(getIt<ApiServices>())
-          .getAIModel(image: _selectedImage!);
+      // AiModelResponse response = await ScanRepo(getIt<ApiServices>())
+      //     .getAIModel(image: _selectedImage!);
+
+      BlocProvider.of<ScanCubit>(context).processImage(_selectedImage!);
+      AiModelResponse response =
+          await ScanRepo(getIt<ApiServices>()).getAIModel(
+        image: _selectedImage!,
+      ); // Cast to ScanSuccess to access modelResponse
       // log("Image path: ${_selectedImage!.path}");
       // // log("Token: $token");
       // log("Image name: ${_selectedImage!.path.split('/').last}");
@@ -90,32 +99,67 @@ class _ScanViewBodyState extends State<ScanViewBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
-            child: _selectedImage != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      _selectedImage!,
-                      height: 290.h,
-                      width: 240.w,
-                      fit: BoxFit.fill,
-                    ),
-                  )
-                : Container(
-                    height: 290.h,
-                    width: 230.w,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Image.asset(
-                      'assets/images/lung_scan.png',
-                      height: 290.h,
-                      width: 230.w,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+          BlocBuilder<ScanCubit, ScanState>(
+            builder: (context, state) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
+                child: (_selectedImage != null && state is! ScanProccessing)
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.file(
+                          _selectedImage!,
+                          height: 290.h,
+                          width: 250.w,
+                          fit: BoxFit.fill,
+                        ),
+                      )
+                    : (state is ScanProccessing && _selectedImage != null)
+                        ? Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.file(
+                                  _selectedImage!,
+                                  height: 290.h,
+                                  width: 250.w,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kSecondaryColor.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  // color: kSecondaryColor.withOpacity(0.5),
+                                  child: Center(
+                                    child: LottieBuilder.asset(
+                                      'assets/animation/Animation-Proccessing.json',
+                                      height: 500.h,
+                                      width: 500.w,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(
+                            height: 290.h,
+                            width: 250.w,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Image.asset(
+                              'assets/images/lung_scan.png',
+                              height: 290.h,
+                              width: 230.w,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+              );
+            },
           ),
           CustomElevatedButton(
             text: "Take Picture",
@@ -170,10 +214,15 @@ class _ScanViewBodyState extends State<ScanViewBody> {
           const TextWithDividers(
             text: 'if you finished click recognize button',
           ),
-          CustomElevatedButton(
-            text: "Recognize",
-            onPressed: () => _recognizeImage(),
-            backgroundColor: kPrimaryColor,
+          BlocBuilder<ScanCubit, ScanState>(
+            builder: (context, state) {
+              return CustomElevatedButton(
+                isLoading: state is ScanProccessing,
+                text: "Recognize",
+                onPressed: () => _recognizeImage(),
+                backgroundColor: kPrimaryColor,
+              );
+            },
           ),
         ],
       ),

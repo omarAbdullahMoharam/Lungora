@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Chat/data/models/message_model.dart';
 
@@ -45,14 +45,32 @@ class ChatMessageBubble extends StatelessWidget {
                     bottomRight: Radius.circular(16.r),
                   ),
           ),
-          child: Text(
-            message.content,
-            style: isUser
-                ? Styles.textStyle12
-                    .copyWith(color: Colors.white, fontSize: 16.sp)
-                : Styles.textStyle12.copyWith(
-                    color: Theme.of(context).textTheme.bodyLarge!.color,
-                    fontSize: 16.sp),
+          child: RichText(
+            overflow: TextOverflow.visible,
+            maxLines: 900,
+            textHeightBehavior: const TextHeightBehavior(
+              applyHeightToFirstAscent: true,
+            ),
+            textAlign: _getTextAlignment(message.content),
+            textDirection: _getTextDirection(message.content),
+            text: TextSpan(
+              style: isUser
+                  ? Styles.textStyle12
+                      .copyWith(color: Colors.white, fontSize: 16.sp)
+                  : Styles.textStyle12.copyWith(
+                      color: Theme.of(context).textTheme.bodyLarge!.color,
+                      fontSize: 16.sp),
+              children: _parseTextWithBold(
+                message.content,
+                isUser
+                    ? Styles.textStyle12
+                        .copyWith(color: Colors.white, fontSize: 16.sp)
+                    : Styles.textStyle12.copyWith(
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                        fontSize: 16.sp,
+                      ),
+              ),
+            ),
           ),
         ),
         Padding(
@@ -72,5 +90,56 @@ class ChatMessageBubble extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  List<TextSpan> _parseTextWithBold(String text, TextStyle baseStyle) {
+    List<TextSpan> spans = [];
+    RegExp regex = RegExp(r'\*\*(.*?)\*\*');
+    int lastIndex = 0;
+
+    for (Match match in regex.allMatches(text)) {
+      // Add text before the match
+      if (match.start > lastIndex) {
+        spans.add(TextSpan(
+          text: text.substring(lastIndex, match.start),
+          style: baseStyle,
+        ));
+      }
+
+      // Add bold text (content between **) with new line after
+      spans.add(TextSpan(
+        text: '${match.group(1)!}\n',
+        style: baseStyle.copyWith(fontWeight: FontWeight.w800),
+      ));
+
+      lastIndex = match.end;
+    }
+
+    // Add remaining text after the last match
+    if (lastIndex < text.length) {
+      spans.add(TextSpan(
+        text: text.substring(lastIndex),
+        style: baseStyle,
+      ));
+    }
+
+    return spans;
+  }
+
+  // Detect if text contains Arabic characters
+  bool _isArabicText(String text) {
+    final arabicRegex = RegExp(
+        r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]');
+    return arabicRegex.hasMatch(text);
+  }
+
+  // Get text direction based on content
+  TextDirection _getTextDirection(String text) {
+    return _isArabicText(text) ? TextDirection.rtl : TextDirection.ltr;
+  }
+
+  // Get text alignment based on content
+  TextAlign _getTextAlignment(String text) {
+    return _isArabicText(text) ? TextAlign.right : TextAlign.left;
   }
 }

@@ -86,6 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
             chatContent = Scrollbar(
               trackVisibility: false,
               child: ListView.builder(
+                shrinkWrap: true,
                 controller: _screenController,
                 itemCount: state.messages.length + (state.isTyping ? 1 : 0),
                 itemBuilder: (context, index) {
