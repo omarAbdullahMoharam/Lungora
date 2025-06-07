@@ -88,6 +88,10 @@ class _ChatScreenState extends State<ChatScreen> {
               child: ListView.builder(
                 shrinkWrap: true,
                 controller: _screenController,
+                // إضافة physics للتمرير السلس
+                physics: const BouncingScrollPhysics(),
+                // إضافة padding صغير للقائمة
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                 itemCount: state.messages.length + (state.isTyping ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index < state.messages.length) {
