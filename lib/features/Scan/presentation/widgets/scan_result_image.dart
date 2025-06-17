@@ -27,17 +27,17 @@ class ScanResultImage extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(
-        top: 24.h,
-        left: 12.w,
-        child: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            size: 35.sp,
-          ),
-          onPressed: onPressed,
-        ),
-      ),
+      // Positioned(
+      //   top: 24.h,
+      //   left: 12.w,
+      //   child: IconButton(
+      //     icon: Icon(
+      //       Icons.arrow_back_ios_new,
+      //       size: 35.sp,
+      //     ),
+      //     onPressed: onPressed,
+      //   ),
+      // ),
     ]);
   }
 }
