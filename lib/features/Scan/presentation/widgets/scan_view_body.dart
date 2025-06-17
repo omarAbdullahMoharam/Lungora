@@ -1,7 +1,9 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -96,135 +98,175 @@ class _ScanViewBodyState extends State<ScanViewBody> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BlocBuilder<ScanCubit, ScanState>(
-            builder: (context, state) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
-                child: (_selectedImage != null && state is! ScanProccessing)
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.file(
-                          _selectedImage!,
-                          height: 290.h,
-                          width: 250.w,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    : (state is ScanProccessing && _selectedImage != null)
-                        ? Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.file(
-                                  _selectedImage!,
-                                  height: 290.h,
-                                  width: 250.w,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: kSecondaryColor.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(12),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocBuilder<ScanCubit, ScanState>(
+              builder: (context, state) {
+                return Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
+                  child: (_selectedImage != null && state is! ScanProccessing)
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            _selectedImage!,
+                            height: 290.h,
+                            width: 250.w,
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                      : (state is ScanProccessing && _selectedImage != null)
+                          ? Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.file(
+                                    _selectedImage!,
+                                    height: 290.h,
+                                    width: 250.w,
+                                    fit: BoxFit.fill,
                                   ),
-                                  // color: kSecondaryColor.withOpacity(0.5),
-                                  child: Center(
-                                    child: LottieBuilder.asset(
-                                      'assets/animation/Animation-Proccessing.json',
-                                      height: 500.h,
-                                      width: 500.w,
-                                      fit: BoxFit.fill,
+                                ),
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: kSecondaryColor.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    // color: kSecondaryColor.withOpacity(0.5),
+                                    child: Center(
+                                      child: LottieBuilder.asset(
+                                        'assets/animation/Animation-Proccessing.json',
+                                        height: 500.h,
+                                        width: 500.w,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        : Container(
-                            height: 290.h,
-                            width: 250.w,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Image.asset(
-                              'assets/images/lung_scan.png',
+                              ],
+                            )
+                          : Container(
                               height: 290.h,
-                              width: 230.w,
-                              fit: BoxFit.fill,
+                              width: 250.w,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Image.asset(
+                                'assets/images/lung_scan.png',
+                                height: 290.h,
+                                width: 230.w,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                );
+              },
+            ),
+            // SizedBox(height: 8.h),
+            _selectedImage == null
+                ? Container(
+                    height: 70.h,
+                    decoration: BoxDecoration(
+                      color: kSecondaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16.w),
+                    ),
+                    child: DottedBorder(
+                      options: RoundedRectDottedBorderOptions(
+                        strokeWidth: 2.w,
+                        dashPattern: [8, 4],
+                        color: Colors.amber.shade400,
+                        radius: Radius.circular(16.w),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: FaIcon(
+                            FontAwesomeIcons.triangleExclamation,
+                            color: Colors.amber.shade600,
+                            size: 30.w,
+                          ),
+                          title: Text(
+                            "Upload a clear and readable X-ray image without blur or strong light.",
+                            style: Styles.textStyleInter16.copyWith(
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-              );
-            },
-          ),
-          CustomElevatedButton(
-            text: "Take Picture",
-            onPressed: () => _pickImage(ImageSource.camera),
-            backgroundColor: kSecondaryColor,
-          ),
-          SizedBox(height: 8.h),
-          OutlinedButton.icon(
-            onPressed: () => _pickImage(ImageSource.gallery),
-            style: OutlinedButton.styleFrom(
-              minimumSize: Size(1.sw, 50.h),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.w),
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            SizedBox(height: 8.h),
+            CustomElevatedButton(
+              text: "Take Picture",
+              onPressed: () => _pickImage(ImageSource.camera),
+              backgroundColor: kSecondaryColor,
+            ),
+            SizedBox(height: 8.h),
+            OutlinedButton.icon(
+              onPressed: () => _pickImage(ImageSource.gallery),
+              style: OutlinedButton.styleFrom(
+                minimumSize: Size(1.sw, 50.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.w),
+                ),
+                side: BorderSide(color: kSecondaryColor),
               ),
-              side: BorderSide(color: kSecondaryColor),
+              // icon: Icon(Icons.upload_file, color: kSecondaryColor),
+              label: Text(
+                "Upload from device",
+                style: Styles.textStyleInter16.copyWith(color: kSecondaryColor),
+              ),
             ),
-            // icon: Icon(Icons.upload_file, color: kSecondaryColor),
-            label: Text(
-              "Upload from device",
-              style: Styles.textStyleInter16.copyWith(color: kSecondaryColor),
-            ),
-          ),
-          if (_selectedImage != null)
-            ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.file(
-                  _selectedImage!,
-                  height: 25.h,
-                  width: 25.w,
-                  fit: BoxFit.fill,
+            if (_selectedImage != null)
+              ListTile(
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    _selectedImage!,
+                    height: 25.h,
+                    width: 25.w,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                title: Text(
+                  _selectedImage!.path.split('/').last,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/icon/trash.svg',
+                    // ignore: deprecated_member_use
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _selectedImage = null;
+                    });
+                  },
                 ),
               ),
-              title: Text(
-                _selectedImage!.path.split('/').last,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: IconButton(
-                icon: SvgPicture.asset(
-                  'assets/icon/trash.svg',
-                  // ignore: deprecated_member_use
-                  color: Colors.red,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _selectedImage = null;
-                  });
-                },
-              ),
+            const TextWithDividers(
+              text: 'if you finished click recognize button',
             ),
-          const TextWithDividers(
-            text: 'if you finished click recognize button',
-          ),
-          BlocBuilder<ScanCubit, ScanState>(
-            builder: (context, state) {
-              return CustomElevatedButton(
-                isLoading: state is ScanProccessing,
-                text: "Recognize",
-                onPressed: () => _recognizeImage(),
-                backgroundColor: kPrimaryColor,
-              );
-            },
-          ),
-        ],
+            BlocBuilder<ScanCubit, ScanState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  isLoading: state is ScanProccessing,
+                  text: "Recognize",
+                  onPressed: () => _recognizeImage(),
+                  backgroundColor: kPrimaryColor,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
