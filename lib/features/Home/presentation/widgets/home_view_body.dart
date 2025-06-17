@@ -100,13 +100,30 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     ),
                   ),
                   SizedBox(height: 16.h),
-                  Text(
-                    'Our Categories',
-                    style: Styles.textStyle16.copyWith(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.start,
+                  Row(
+                    children: [
+                      Text(
+                        'Our Categories',
+                        style: Styles.textStyle16.copyWith(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          // Navigate to categories page
+                        },
+                        child: Text(
+                          'See All',
+                          style: Styles.textStyle14.copyWith(
+                            fontFamily: 'Montserrat',
+                            color: Color(0xFF1A62FF),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 8.h),
                   CategoriesSection(),

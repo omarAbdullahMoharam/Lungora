@@ -126,7 +126,8 @@ class SettingsCubit extends Cubit<SettingsState> {
 
         final user = response.userModel!;
         // ✅ Save image to secure storage
-        if (user.imageUser != null && user.imageUser!.isNotEmpty) {
+        // ignore: unnecessary_null_comparison
+        if (user.imageUser != null && user.imageUser.isNotEmpty) {
           await SecureStorageService.saveUserImage(user.imageUser);
           log('User image cached successfully.');
         }
