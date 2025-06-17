@@ -7,10 +7,8 @@ class PrivacyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: const PrivacyViewBody(),
-      ),
+    return Scaffold(
+      body: const PrivacyViewBody(),
     );
   }
 }
