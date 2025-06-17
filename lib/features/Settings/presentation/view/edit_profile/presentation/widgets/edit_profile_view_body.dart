@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +24,9 @@ class EditProfileViewBody extends StatefulWidget {
 
 class _EditProfileViewBodyState extends State<EditProfileViewBody> {
   TextEditingController userNameController = TextEditingController();
+  String? _cachedName;
+  String? _cachedImagePath;
+
   File? _selectedImage;
 
   @override
@@ -44,22 +46,20 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
     String? cachedName = await SecureStorageService.getUserName();
     String? cachedImage = await SecureStorageService.getUserImage();
 
-    if (cachedName != null || (cachedImage != null && cachedImage.isNotEmpty)) {
-      setState(() {
-        userNameController.text = cachedName ?? "";
-        _selectedImage =
-            (cachedImage != null && !cachedImage.startsWith("https"))
-                ? File(cachedImage)
-                : null;
-      });
-    }
-
-    // تحميل البيانات من الـ API لو الكاش غير متاح
-    SecureStorageService.getToken().then((token) {
-      if (token != null) {
-        BlocProvider.of<SettingsCubit>(context).getUserData(token: token);
-      }
+    setState(() {
+      _cachedName = cachedName;
+      _cachedImagePath = cachedImage;
+      userNameController.text = cachedName ?? "";
+      _selectedImage = (cachedImage != null && !cachedImage.startsWith("https"))
+          ? File(cachedImage)
+          : null;
     });
+
+    // استدعاء الـ API
+    final token = await SecureStorageService.getToken();
+    if (token != null) {
+      BlocProvider.of<SettingsCubit>(context).getUserData(token: token);
+    }
   }
 
   void _updateSelectedImage(File? image) {
@@ -77,8 +77,11 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
         } else if (state is SettingsFailure) {
           SnackBarHandler.showError(state.errMessage);
         } else if (state is SettingsGetUserDataSuccess) {
+          _cachedName = state.userModel.fullName;
+          _cachedImagePath = state.userModel.imageUser;
           await SecureStorageService.saveUserName(state.userModel.fullName);
           await SecureStorageService.saveUserImage(state.userModel.imageUser);
+          setState(() {}); // علشان تحدث القيم في الـ UI
         }
       },
       builder: (context, state) {
@@ -98,7 +101,7 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
                   onImageSelected: _updateSelectedImage,
                   imageUrl: state is SettingsGetUserDataSuccess
                       ? state.userModel.imageUser
-                      : null,
+                      : _cachedImagePath,
                 ),
                 CustomTextFormField(
                   labelText: 'Username',
@@ -109,36 +112,44 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
                   autoSuggest: false,
                   initialValue: state is SettingsGetUserDataSuccess
                       ? state.userModel.fullName
-                      : '',
+                      : _cachedName ?? '',
                 ),
                 SizedBox(height: 24.h),
                 CustomElevatedButton(
                   text: 'Confirm',
                   isLoading: state is SettingsLoading,
                   onPressed: () async {
-                    if (userNameController.text.isEmpty &&
-                        _selectedImage == null) {
+                    final token = await SecureStorageService.getToken();
+                    final cachedName = await SecureStorageService.getUserName();
+                    final cachedImage =
+                        await SecureStorageService.getUserImage();
+
+                    final isNameChanged = userNameController.text.trim() !=
+                        (cachedName ?? "").trim();
+                    final isImageChanged =
+                        (_selectedImage?.path ?? "") != (cachedImage ?? "");
+
+                    if (!isNameChanged && !isImageChanged) {
+                      SnackBarHandler.showError(
+                          "Please modify your name or image before saving.");
                       return;
                     }
 
-                    try {
-                      final token = await SecureStorageService.getToken();
-                      if (token != null &&
-                          userNameController.text.isNotEmpty &&
-                          _selectedImage != null) {
+                    if (token != null) {
+                      if (isNameChanged) {
                         await SecureStorageService.saveUserName(
-                            userNameController.text);
+                            userNameController.text.trim());
+                      }
+                      if (isImageChanged) {
                         await SecureStorageService.saveUserImage(
                             _selectedImage?.path ?? "");
-                        setState(() {});
-                        BlocProvider.of<SettingsCubit>(context).editInfo(
-                          token: token,
-                          username: userNameController.text,
-                          image: _selectedImage,
-                        );
                       }
-                    } catch (e) {
-                      log('Error updating user info: $e');
+
+                      BlocProvider.of<SettingsCubit>(context).editInfo(
+                        token: token,
+                        username: userNameController.text.trim(),
+                        image: _selectedImage,
+                      );
                     }
                   },
                   backgroundColor: kPrimaryColor,

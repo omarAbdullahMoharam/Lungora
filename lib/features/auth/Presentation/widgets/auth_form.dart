@@ -251,6 +251,7 @@ class _AuthFormState extends State<AuthForm> {
                               confirmPassword,
                             );
                           }
+                          // cache the user image if available to the secure storage
                         } catch (e) {
                           log(e.toString());
                           ScaffoldMessenger.of(context).showSnackBar(

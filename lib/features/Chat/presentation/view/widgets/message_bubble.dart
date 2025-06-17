@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/core/utils/text_formatter.dart';
 import 'package:lungora/features/Chat/data/models/message_model.dart';
 
 class ChatMessageBubble extends StatelessWidget {
@@ -45,14 +46,29 @@ class ChatMessageBubble extends StatelessWidget {
                     bottomRight: Radius.circular(16.r),
                   ),
           ),
-          child: Text(
-            message.content,
-            style: isUser
-                ? Styles.textStyle12
-                    .copyWith(color: Colors.white, fontSize: 16.sp)
-                : Styles.textStyle12.copyWith(
-                    color: Theme.of(context).textTheme.bodyLarge!.color,
-                    fontSize: 16.sp),
+          child: RichText(
+            overflow: TextOverflow.visible,
+            maxLines: 900,
+            textAlign: TextFormatter.getTextAlignment(message.content),
+            textDirection: TextFormatter.getTextDirection(message.content),
+            text: TextSpan(
+              style: isUser
+                  ? Styles.textStyle12
+                      .copyWith(color: Colors.white, fontSize: 16.sp)
+                  : Styles.textStyle12.copyWith(
+                      color: Theme.of(context).textTheme.bodyLarge!.color,
+                      fontSize: 16.sp),
+              children: TextFormatter.parseTextWithBold(
+                message.content,
+                isUser
+                    ? Styles.textStyle12
+                        .copyWith(color: Colors.white, fontSize: 16.sp)
+                    : Styles.textStyle12.copyWith(
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
+                        fontSize: 16.sp,
+                      ),
+              ),
+            ),
           ),
         ),
         Padding(

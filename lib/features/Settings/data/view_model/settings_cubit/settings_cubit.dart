@@ -115,7 +115,6 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<void> getUserData({required String token}) async {
     log('Get User Data called from settings cubit');
     if (isClosed) return;
-    // emit(SettingsLoading());
 
     try {
       final response = await SettingsRepo(_apiServices).getUserData(token);
@@ -124,12 +123,22 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       if (response.isSuccess) {
         log('Get User Data successful');
-        emit(SettingsGetUserDataSuccess(response.userModel!));
+
+        final user = response.userModel!;
+        // ✅ Save image to secure storage
+        // ignore: unnecessary_null_comparison
+        if (user.imageUser != null && user.imageUser.isNotEmpty) {
+          await SecureStorageService.saveUserImage(user.imageUser);
+          log('User image cached successfully.');
+        }
+
+        emit(SettingsGetUserDataSuccess(user));
       } else {
         emit(SettingsFailure(
-            response.errors != null && response.errors!.isNotEmpty
-                ? response.errors![0]
-                : 'Failed to get user data'));
+          response.errors != null && response.errors!.isNotEmpty
+              ? response.errors![0]
+              : 'Failed to get user data',
+        ));
       }
     } catch (e) {
       if (isClosed) return;
