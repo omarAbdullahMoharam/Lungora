@@ -17,6 +17,7 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     this.needHelper = false,
     required this.autoSuggest,
+    this.initialValue,
     this.onChanged,
   });
 
@@ -30,7 +31,9 @@ class CustomTextFormField extends StatefulWidget {
   final IconData prefixIcon;
   final IconData? suffixIcon;
   final String? Function(String?)? validator;
+  final String?  initialValue;
   final void Function(String value)? onChanged;
+  
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -47,6 +50,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   void initState() {
     super.initState();
+           WidgetsBinding.instance.addPostFrameCallback((_) {
+    setState(() {
+      widget.controller.text = widget.initialValue ?? "";
+    });
+  });
+
     lessThan9 = ValueNotifier(widget.controller.text.length < 9);
     hasNumber =
         ValueNotifier(widget.controller.text.contains(RegExp(r'[0-9]')));
@@ -57,6 +66,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
     widget.controller.addListener(_validatePassword);
     widget.showHelper = false;
+
   }
 
   @override
@@ -88,10 +98,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       onSaved: (newValue) => widget.controller.text = newValue!,
       cursorHeight: 25.h,
+      
       cursorWidth: 2.w,
       cursorRadius: Radius.circular(10.w),
+      
+      // initialValue: widget.initialValue ,
       onFieldSubmitted: (value) {
         setState(() {
           widget.showHelper = false;
@@ -107,7 +121,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       autocorrect: false,
       cursorColor: kPrimaryColor,
       validator: widget.validator,
-      controller: widget.controller,
+      // controller: widget.controller,
       obscureText: widget.isPassword ? obscureText : false,
       decoration: InputDecoration(
         errorStyle: Styles.textStyle12,

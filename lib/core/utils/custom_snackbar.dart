@@ -36,6 +36,7 @@ class SnackBarHandler {
 
   // Helper methods for success/error messages:
   static void showSuccess(String message) {
+    
     showSnackBar(message: message, isError: false);
   }
 

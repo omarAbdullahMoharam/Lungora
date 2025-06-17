@@ -6,6 +6,7 @@ AppBar buildCustomAppBar({
   required BuildContext context,
   required String imagePath,
   required VoidCallback onPressed,
+  // required bool isProfileLoaded,
 }) {
   return AppBar(
     automaticallyImplyLeading: false,
@@ -29,14 +30,9 @@ AppBar buildCustomAppBar({
         icon: AspectRatio(
           aspectRatio: 1.spMin,
           child: ClipRRect(
-            clipBehavior: Clip.antiAlias,
-            borderRadius: BorderRadius.circular(25.r),
-            child: Image.asset(
-              imagePath,
-              width: 32.w,
-              height: 32.h,
-            ),
-          ),
+              clipBehavior: Clip.antiAlias,
+              borderRadius: BorderRadius.circular(25.r),
+              child: Image.network(imagePath)),
         ),
       ),
       SizedBox(width: 16.w),
