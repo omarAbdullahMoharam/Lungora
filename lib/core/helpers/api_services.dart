@@ -5,6 +5,8 @@ import 'package:lungora/features/Auth/data/models/auth_response_model.dart';
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
+import 'package:lungora/features/doctor/data/doctor_info_model.dart';
+import 'package:lungora/features/doctor/data/doctor_model.dart';
 import 'package:retrofit/retrofit.dart';
 part 'api_services.g.dart';
 
@@ -25,5 +27,22 @@ abstract class ApiServices {
   Future<ChangePasswordResponse> changePassword(
       @Body() Map<String, dynamic> body, @Header("Authorization") String token);
 
-  // add more endpoints here @amera612
+  @POST("api/Auth/EditInfo")
+  Future<EditInfoResponse> editInfo(
+      @Part() FormData formData, @Header("Authorization") String token);
+  @GET("api/Auth/GetDataUser")
+  Future<UserDataResponseModel> getUserData(
+      @Header("Authorization") String token);
+  @POST("api/Auth/LogOutSingle")
+  Future<LogoutResponse> logout(@Header("Authorization") String token);
+  @POST("api/ModelAI/AI_Model")
+  Future<AiModelResponse> getAIModel(@Part() FormData formData);
+  @GET("api/Doctor/GetAllDoctorsWithMobile")
+  Future<List<DoctorInfoModel>> getAllDoctorsWithMobile();
+
+  @GET("api/Doctor/GetAllDoctorsWithMobile")
+  Future<List<DoctorModel>> getAllDoctors();
+  // @GET("api/Doctor/GetDoctorDetails/{id}")
+  // Future<DoctorDetailsModel> getDoctorDetails(
+  //     @Path("id") int id);
 }

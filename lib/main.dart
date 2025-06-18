@@ -24,6 +24,30 @@ void main() async {
   // getIt<AuthRepo>()
   //     .register("Adel", "adel@gmail.com", "Adel@1234", "Adel@1234");
   // authRepo.changeUserPassword("Adel@1234", "Adel@1234");
+  // get token from secure storage
+  // String? token = await SecureStorageService.getToken();
+  // ScanRepo scanRepo = ScanRepo(getIt<ApiServices>());
+  // scanRepo.getAIModel(
+  //   image: File(""),
+  //   token: token!,
+  // );
+
+  // List<DoctorInfoModel> doctors =
+  //     await getIt<ApiServices>().getAllDoctorsWithMobile();
+  // log("Doctors: ${doctors.length}\n\n\n");
+  // for (var doctor in doctors) {
+  //   log("Doctor: ${doctor.name}, Category: ${doctor.categoryName} , Image: ${doctor.imageDoctor}, Phone: ${doctor.phone}, Email: ${doctor.emailDoctor}, Location: ${doctor.location}, Location Link: ${doctor.locationLink}, WhatsApp Link: ${doctor.whatsAppLink}, Latitude: ${doctor.latitude}, Longitude: ${doctor.longitude}, Experience Years: ${doctor.experianceYears}, Num of Patients: ${doctor.numOfPatients},  About: ${doctor.about}, Teliphone: ${doctor.teliphone},");
+  // }
+  // DoctorsRepo doctorsRepo = DoctorsRepo(
+  //   apiServices: getIt<ApiServices>(),
+  // );
+  // List<DoctorModel> doctors = await doctorsRepo.getDoctors();
+  // log("Doctors: ${doctors.length}\n\n\n");
+  // for (var doctor in doctors) {
+  //   log("Doctor: ${doctor.name}, Category: ${doctor.categoryName} , Image: ${doctor.imageDoctor}, what's app link: ${doctor.whatsAppLink}, available time: ${doctor.timeAvailable}");
+  //   print('\n\n');
+  // }
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider()..loadTheme(),

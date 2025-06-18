@@ -196,6 +196,256 @@ class _ApiServices implements ApiServices {
     return _value;
   }
 
+  @override
+  Future<EditInfoResponse> editInfo(FormData formData, String token) async {
+    // Prepare headers with authorization
+    final _headers = <String, dynamic>{
+      'Authorization': 'Bearer $token',
+    };
+
+    try {
+      final response = await _dio.post(
+        'https://lungora.runasp.net/api/Auth/EditInfo',
+        data: formData,
+        options: Options(headers: _headers),
+      );
+
+      log("Edit info response: ${response.data}");
+
+      // Parse the response
+      final result = EditInfoResponse.fromJson(response.data);
+      log("Edit info result: ${result.result}");
+
+      return result;
+    } on DioException catch (e) {
+      log('Dio error: ${e.message}');
+      if (e.response != null) {
+        log('Server error: ${e.response?.headers}  data: ${e.response?.data} \nstatus code ${e.response?.statusCode}');
+        log('Status code: ${e.response?.statusCode}');
+        // throw 'Server error: ${e.response?.data}';
+        log('Server error: ${e.response?.data}');
+        log('Status code: ${e.response?.statusCode}');
+        throw 'Server error: ${e.response?.data}';
+      } else {
+        log('Network error: ${e.message}');
+        rethrow;
+      }
+    } catch (e) {
+      log('Unexpected error: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UserDataResponseModel> getUserData(String token) async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    final _options = _setStreamType<UserDataResponseModel>(
+      Options(
+        method: 'GET',
+        headers: _headers,
+      )
+          .compose(
+            _dio.options,
+            'api/Auth/GetDataUser',
+            queryParameters: queryParameters,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UserDataResponseModel _value;
+
+    try {
+      log("User data response raw: ${_result.data}");
+
+      // Detailed logging to pinpoint the error
+      // var statusCode = _result.data!['statusCode'];
+      // var isSuccess = _result.data!['isSuccess'];
+      // var errors = _result.data!['errors'];
+      // var result = _result.data!['result'];
+
+      // log("Processing fields - statusCode: $statusCode, isSuccess: $isSuccess, errors: $errors, result: $result");
+
+      _value = UserDataResponseModel.fromJson(_result.data!);
+      log("Parsing completed successfully");
+    } catch (e, s) {
+      log("Error parsing response: $e");
+      // log("Stack trace: $s");
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<LogoutResponse> logout(String token) async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    // Add an empty request body
+    final _data = {};
+
+    try {
+      final _options = _setStreamType<LogoutResponse>(
+        Options(
+          method: 'POST',
+          headers: _headers,
+        )
+            .compose(
+              _dio.options,
+              'api/Auth/LogOutSingle',
+              queryParameters: queryParameters,
+              data: _data, // Adding the empty request body
+            )
+            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+      );
+
+      log("Sending logout request with headers: $_headers");
+      final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+
+      log("Logout response status: ${_result.statusCode}");
+      log("Logout response data: ${_result.data}");
+
+      late LogoutResponse _value;
+      try {
+        // AuthResponse.fromJson(_result.data!{});
+        _value = LogoutResponse.fromJson(_result.data!);
+      } catch (e, s) {
+        log("Error parsing response: $e");
+        errorLogger?.logError(e, s, _options);
+        rethrow;
+      }
+
+      log("\n\n $_value from api_services\n\n");
+      return _value;
+    } catch (e) {
+      if (e is DioException) {
+        log("DioException during logout: ${e.toString()}");
+        log("Response status: ${e.response?.statusCode}");
+        log("Response data: ${e.response?.data}");
+        log("Request path: ${e.requestOptions.path}");
+        log("Request headers: ${e.requestOptions.headers}");
+      } else {
+        log("Unexpected error during logout: $e");
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AiModelResponse> getAIModel(FormData formData) async {
+    // final headers = {
+    //   'Authorization': 'Bearer $token',
+    // };
+
+    final options = _setStreamType<AiModelResponse>(
+      Options(
+        method: 'POST',
+        // headers: headers,
+      )
+          .compose(
+            _dio.options,
+            'api/ModelAI/AI_Model',
+            data: formData,
+          )
+          .copyWith(
+            baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+          ),
+    );
+
+    // log("Sending AI model request with options: ${options.toString()}");
+    // log("Sending AI model request with formData: ${formData.toString()}");
+    // log("Sending AI model request with headers: ${options.headers.toString()}");
+    // log("Sending AI model request with data: ${options.data.toString()}");
+    try {
+      final response = await _dio.fetch<Map<String, dynamic>>(options);
+      final data = response.data;
+
+      if (data == null) {
+        throw Exception('Empty response from server');
+      }
+      // log("AI model response data: ${data.toString()}");
+      // log("AI model response status code: ${response.statusCode}");
+      log("\n\n\n AI model response: ${data.toString()} \n\n\n");
+      return AiModelResponse.fromJson(data);
+    } catch (e, s) {
+      log("Error parsing AI model response: $e");
+      errorLogger?.logError(e, s, options);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<DoctorInfoModel>> getAllDoctorsWithMobile() async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+
+    final _options = _setStreamType<Map<String, dynamic>>(
+      Options(method: 'GET', headers: _headers)
+          .compose(
+            _dio.options,
+            'api/Doctor/GetAllDoctorsWithMobile',
+            queryParameters: queryParameters,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+
+    late List<DoctorInfoModel> _value;
+    try {
+      final data = _result.data?['result']['doctor'] as List<dynamic>? ?? [];
+      _value = data
+          .map((item) => DoctorInfoModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+
+    log("\n\n Doctors list: ${_value.toString()} from api_services\n\n");
+    return _value;
+  }
+
+  @override
+  Future<List<DoctorModel>> getAllDoctors() async {
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+
+    final _options = _setStreamType<Map<String, dynamic>>(
+      Options(method: 'GET', headers: _headers)
+          .compose(
+            _dio.options,
+            'api/Doctor/GetAllDoctorsWithMobile',
+            queryParameters: queryParameters,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late List<DoctorModel> _value;
+
+    try {
+      final data = _result.data?['result']?['doctor'] as List<dynamic>? ?? [];
+      _value = data
+          .map((item) => DoctorModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+
+    log("Doctors count: ${_value.length}");
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
