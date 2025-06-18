@@ -19,7 +19,6 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton(() => RegisterCubit(getIt<AuthRepo>()));
   getIt.registerLazySingleton(() => SettingsCubit(getIt<ApiServices>()));
   getIt.registerLazySingleton(() => SecureStorageService());
-
   // getIt.registerLazySingleton(() => AppRouter());
   // getIt.registerLazySingleton(() => AuthBloc(getIt<AuthRepo>()));
 }

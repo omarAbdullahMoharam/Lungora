@@ -53,7 +53,7 @@ class _AuthFormState extends State<AuthForm> {
           listener: (context, state) {
             if (state is LoginSuccess) {
               SnackBarHandler.showSuccess('Login successful');
-              Future.delayed(const Duration(seconds: 1), () {
+              Future.delayed(const Duration(seconds: 2), () {
                 GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
               });
             } else if (state is LoginFailure) {
@@ -88,6 +88,7 @@ class _AuthFormState extends State<AuthForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  // SizedBox(height: 24.h),
                   if (!widget.isLogin) ...[
                     CustomTextFormField(
                       autoSuggest: true,
@@ -105,7 +106,8 @@ class _AuthFormState extends State<AuthForm> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 24.h),
+                    // SizedBox(height: 24.h),
+                    SizedBox(height: 16.h),
                   ],
                   CustomTextFormField(
                     labelText: 'Email',
@@ -128,7 +130,7 @@ class _AuthFormState extends State<AuthForm> {
                     autoSuggest: true,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  SizedBox(height: 24.h),
+                  // SizedBox(height: 24.h),
                   CustomTextFormField(
                     autoSuggest: widget.isLogin ? true : false,
                     labelText: 'Password',
@@ -175,7 +177,7 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                     SizedBox(height: 24.h),
                   ],
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   if (widget.isLogin) ...[
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -249,6 +251,7 @@ class _AuthFormState extends State<AuthForm> {
                               confirmPassword,
                             );
                           }
+                          // cache the user image if available to the secure storage
                         } catch (e) {
                           log(e.toString());
                           ScaffoldMessenger.of(context).showSnackBar(

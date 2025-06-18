@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_loading_indicator.dart';
@@ -18,12 +19,14 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0xFFF1F1F1),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : Color(0xFFF1F1F1),
       margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.h)),
       elevation: 0,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.w),
         child: Row(
           children: [
             ClipRRect(
@@ -44,7 +47,7 @@ class DoctorCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 16.w),
+            SizedBox(width: 8.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +70,12 @@ class DoctorCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(
+                            AppRouter.kDoctorDetailsView,
+                            extra: doctorModel,
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           minimumSize: Size(60.w, 30.h),
                           side:

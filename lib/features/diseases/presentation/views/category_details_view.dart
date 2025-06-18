@@ -13,19 +13,17 @@ class CategoryDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () {
-              context.go(AppRouter.kHomeView);
-            },
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            context.go(AppRouter.kHomeView);
+          },
         ),
-        body: CategoryDetailsViewBody(
-          categoryName: categoryName,
-        ),
+      ),
+      body: CategoryDetailsViewBody(
+        categoryName: categoryName,
       ),
     );
   }
