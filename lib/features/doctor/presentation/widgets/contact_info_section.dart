@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/features/doctor/data/doctor_info_model.dart';
+import 'package:lungora/features/doctor/presentation/widgets/custom_infi_row.dart';
 
 class ContactInfoSection extends StatelessWidget {
   final DoctorInfoModel doctorInfoModel;

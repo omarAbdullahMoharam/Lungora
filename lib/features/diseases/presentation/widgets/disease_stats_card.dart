@@ -18,7 +18,9 @@ class DiseaseStatsCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: BoxDecoration(
-        color: kBackgroundColor,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.black12
+            : kBackgroundColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
