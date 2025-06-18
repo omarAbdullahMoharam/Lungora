@@ -28,6 +28,10 @@ import 'package:lungora/features/auth/Presentation/views/reset_password_view.dar
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
+import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/presentation/view/doctor_details_view.dart';
+import 'package:lungora/features/doctor/presentation/view/doctor_view.dart';
+import 'package:lungora/features/onbording/presentation/view/onbording_view.dart';
 
 abstract class AppRouter {
   static const kAuthView = '/';
@@ -113,11 +117,10 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kChangePasswordView,
-        builder:
-            (context, state) => BlocProvider(
-              create: (context) => SettingsCubit(getIt<ApiServices>()),
-              child: const ChangePasswordView(),
-            ),
+        builder: (context, state) => BlocProvider(
+          create: (context) => SettingsCubit(getIt<ApiServices>()),
+          child: const ChangePasswordView(),
+        ),
       ),
       GoRoute(
         path: kTermsConditionsView,
@@ -152,22 +155,42 @@ abstract class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   path: kDoctorView,
-      //   builder: (context, state) => const DoctorView(),
-      // ),
-      // GoRoute(
+      GoRoute(
+        path: kDoctorView,
+        builder: (context, state) => const DoctorView(
+            // List<DoctorModel>
+            ),
+      ),
+      GoRoute(
+        path: kNormalScanResult,
+        builder: (context, state) => const NormalScanResult(),
+      ),
+      //    GoRoute(
       //   path: kNormalScanResult,
-      //   builder: (context, state) => const NormalScanResult(),
+      //   builder: (context, state) {
+      //     final imageUrl = state.extra as String;
+      //     return NormalScanResult(imageUrl: imageUrl);
+      //   },
       // ),
-      // GoRoute(
-      //   path: kUnableDetermineResult,
-      //   builder: (context, state) => const UnableDetermineResult(),
-      // ),
-      // GoRoute(
-      //   path: kCovid19Result,
-      //   builder: (context, state) => const Covid19Result(),
-      // ),
+      GoRoute(
+        path: kUnableDetermineResult,
+        builder: (context, state) => const UnableDetermineResult(),
+      ),
+      GoRoute(
+        path: kCovid19Result,
+        builder: (context, state) => const Covid19Result(),
+      ),
+      GoRoute(
+        path: kDoctorDetailsView,
+        builder: (context, state) {
+          final doctorModel = state.extra as DoctorDetailsModel;
+          return DoctorDetailsView(doctorModel: doctorModel);
+        },
+      ),
+      GoRoute(
+        path: kOnbordingView,
+        builder: (context, state) => const OnbordingView(),
+      ),
     ],
   );
 }

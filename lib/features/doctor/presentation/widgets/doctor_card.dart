@@ -1,18 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/utils/app_router.dart';
+import 'package:lungora/core/utils/custom_loading_indicator.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/features/doctor/data/doctor_model.dart';
 
 class DoctorCard extends StatelessWidget {
-  final String name;
-  final String imageUrl;
-  final String availability;
+  final DoctorModel doctorModel;
 
   const DoctorCard({
     super.key,
-    required this.name,
-    required this.imageUrl,
-    required this.availability,
+    required this.doctorModel,
   });
 
   @override
@@ -28,8 +28,17 @@ class DoctorCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.w),
-              child: Image.asset(
-                imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: doctorModel.imageDoctor,
+                placeholder: (context, url) => const Center(
+                  child: CustomLoadingIndicator(),
+                ),
+                errorWidget: (context, url, error) => Center(
+                  child: const Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
+                ),
                 width: 85.w,
                 height: 85.h,
                 fit: BoxFit.cover,
@@ -41,13 +50,14 @@ class DoctorCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    doctorModel.name,
                     style: Styles.textStyleInter16.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   Text(
-                    availability,
+                    "${doctorModel.categoryName} Specialist",
+                    // doctorModel.available ? "Available" : "Not Available",
                     style: Styles.textStyle12.copyWith(
                       color: kSecondaryColor,
                       fontFamily: 'Inter',
@@ -67,13 +77,15 @@ class DoctorCard extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          " More details",
+                          "More details",
                           style: Styles.textStyle12,
                         ),
                       ),
                       SizedBox(width: 8.w),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // TODO: Implement WhatsApp chat functionality
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kPrimaryColor,
                           minimumSize: Size(80.w, 30.h),
