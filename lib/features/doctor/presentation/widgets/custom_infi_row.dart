@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/core/utils/url_luncher_url.dart';
 
-class CustomInfiRow extends StatelessWidget {
+class CustomInfoRow extends StatelessWidget {
   final String iconPath;
+  final bool? isEmail;
   final String text;
 
-  const CustomInfiRow({
+  const CustomInfoRow({
     super.key,
+    this.isEmail = false,
     required this.iconPath,
     required this.text,
   });
@@ -25,9 +29,24 @@ class CustomInfiRow extends StatelessWidget {
           height: 20.h,
         ),
         SizedBox(width: 8.w),
-        Text(
-          text,
-          style: Styles.textStyle14,
+        GestureDetector(
+          onTap: () {
+            if (isEmail == false) {
+              UrlLauncher.launchPhoneDialer(text);
+            } else if (isEmail == true) {
+              UrlLauncher.launchEmail(text);
+            } else if (isEmail == false) {
+              UrlLauncher.launchPhoneDialer(text);
+            }
+          },
+          child: Text(
+            text,
+            style: Styles.textStyle14.copyWith(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? kSecondaryColor
+                  : kPrimaryColor,
+            ),
+          ),
         ),
       ],
     );

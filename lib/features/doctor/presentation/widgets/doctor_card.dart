@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_loading_indicator.dart';
+import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
+import 'package:lungora/features/doctor/repo/doctors_repo.dart';
 
 class DoctorCard extends StatelessWidget {
   final DoctorModel doctorModel;
@@ -70,10 +72,16 @@ class DoctorCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       OutlinedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final doctorsRepo = getIt<DoctorsRepo>();
+                          final doctorDetails =
+                              await doctorsRepo.getDoctorDetails(
+                            id: doctorModel.id,
+                          );
+                          if (!context.mounted) return;
                           context.push(
                             AppRouter.kDoctorDetailsView,
-                            extra: doctorModel,
+                            extra: doctorDetails,
                           );
                         },
                         style: OutlinedButton.styleFrom(

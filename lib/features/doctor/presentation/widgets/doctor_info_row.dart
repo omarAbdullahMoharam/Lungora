@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/core/utils/url_luncher_url.dart';
 import 'package:lungora/features/doctor/data/doctor_details_model.dart';
 
 class DoctorInfoRow extends StatelessWidget {
@@ -42,7 +44,9 @@ class DoctorInfoRow extends StatelessWidget {
               child: Material(
                 color: Colors.white,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    UrlLauncher.launchPhoneDialer(doctorModel.doctor.phone);
+                  },
                   child: Padding(
                     padding: EdgeInsets.all(16.h),
                     child: Icon(
@@ -60,13 +64,20 @@ class DoctorInfoRow extends StatelessWidget {
               child: Material(
                 color: kBackgroundColor,
                 child: InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: EdgeInsets.all(16.h),
-                    child: Icon(
-                      Icons.email_outlined,
-                      color: kPrimaryColor,
-                      size: 20,
+                  onTap: () {
+                    UrlLauncher.launchWhatsApp(doctorModel.doctor.phone);
+                  },
+                  child: Material(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16.w),
+                    child: Padding(
+                      padding: EdgeInsets.all(16.h),
+                      child: SvgPicture.asset(
+                        'assets/icon/whatsapp.svg',
+                        color: kPrimaryColor,
+                        width: 20.w,
+                        height: 20.h,
+                      ),
                     ),
                   ),
                 ),

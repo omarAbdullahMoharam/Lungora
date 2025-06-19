@@ -19,18 +19,19 @@ class ContactInfoSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomInfiRow(
+            CustomInfoRow(
               iconPath: 'assets/icon/call.svg',
               text: doctorInfoModel.phone,
             ),
-            CustomInfiRow(
+            CustomInfoRow(
+              isEmail: true,
               iconPath: 'assets/icon/empty_email.svg',
               text: doctorInfoModel.emailDoctor,
             ),
           ],
         ),
         SizedBox(height: 8.h),
-        CustomInfiRow(
+        CustomInfoRow(
           iconPath: 'assets/icon/telephone.svg',
           text: doctorInfoModel.teliphone,
         ),

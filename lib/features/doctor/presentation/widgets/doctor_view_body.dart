@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
-import 'package:lungora/features/doctor/presentation/view_model/cubit/get_doctors_cubit.dart';
+import 'package:lungora/features/doctor/presentation/view_model/cubit/doctors_cubit.dart';
 
 import 'doctor_card.dart';
 

@@ -66,6 +66,10 @@ void main() async {
   //   print('\n\n');
   // }
 
+  // DoctorDetailsModel doctorDetails =
+  //     await getIt<ApiServices>().getDoctorDetails(11);
+  // log(doctorDetails.toJson().toString());
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider()..loadTheme(),

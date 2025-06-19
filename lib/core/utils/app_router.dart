@@ -214,8 +214,8 @@ abstract class AppRouter {
       GoRoute(
         path: kDoctorDetailsView,
         builder: (context, state) {
-          final doctorModel = state.extra as DoctorDetailsModel;
-          return DoctorDetailsView(doctorModel: doctorModel);
+          final doctorDetailsModel = state.extra as DoctorDetailsModel;
+          return DoctorDetailsView(doctorDetailsModel: doctorDetailsModel);
         },
       ),
       GoRoute(

@@ -1,4 +1,5 @@
 import 'package:lungora/core/helpers/api_services.dart';
+import 'package:lungora/features/doctor/data/doctor_details_model.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
 
 class DoctorsRepo {
@@ -11,5 +12,13 @@ class DoctorsRepo {
     // Mock data for demonstration purposes
 
     return apiServices.getAllDoctors();
+  }
+
+  Future<DoctorDetailsModel> getDoctorDetails({required int id}) async {
+    // Simulate a network call or data fetching
+    // In a real application, you would use Dio or another HTTP client to fetch data from an API
+
+    // Mock data for demonstration purposes
+    return apiServices.getDoctorDetails(id);
   }
 }

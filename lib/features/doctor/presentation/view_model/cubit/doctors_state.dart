@@ -1,4 +1,4 @@
-part of 'get_doctors_cubit.dart';
+part of 'doctors_cubit.dart';
 
 sealed class GetDoctorsState extends Equatable {
   const GetDoctorsState();
@@ -31,4 +31,24 @@ final class GetDoctorsFailure extends GetDoctorsState {
 
 final class GetDoctorsEmpty extends GetDoctorsState {
   const GetDoctorsEmpty();
+}
+
+final class GetDoctorDetailsLoading extends GetDoctorsState {}
+
+final class GetDoctorDetailsSuccess extends GetDoctorsState {
+  final DoctorDetailsModel doctorDetails;
+
+  const GetDoctorDetailsSuccess({required this.doctorDetails});
+
+  @override
+  List<Object> get props => [doctorDetails];
+}
+
+final class GetDoctorDetailsFailure extends GetDoctorsState {
+  final String errMessage;
+
+  const GetDoctorDetailsFailure({required this.errMessage});
+
+  @override
+  List<Object> get props => [errMessage];
 }

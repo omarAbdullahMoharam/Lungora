@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lungora/features/doctor/presentation/view_model/cubit/get_doctors_cubit.dart';
+import 'package:lungora/features/doctor/presentation/view_model/cubit/doctors_cubit.dart';
 import 'package:lungora/features/doctor/presentation/widgets/doctor_view_body.dart';
 
 class DoctorView extends StatelessWidget {

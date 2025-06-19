@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -27,8 +28,8 @@ class DoctorDetailsViewBody extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.h),
-              child: Image.asset(
-                doctorModel.doctor.imageDoctor,
+              child: CachedNetworkImage(
+                imageUrl: doctorModel.doctor.imageDoctor,
                 height: MediaQuery.of(context).size.height * 0.38,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -58,8 +59,8 @@ class DoctorDetailsViewBody extends StatelessWidget {
               left: 0,
               right: 0,
               child: DoctorStatsCard(
-                patients: '1000+',
-                experiences: '5 Years',
+                patients: doctorModel.doctor.numOfPatients.toString(),
+                experiences: doctorModel.doctor.experianceYears.toString(),
               ),
             ),
             Padding(
@@ -106,7 +107,7 @@ class DoctorDetailsViewBody extends StatelessWidget {
                     ),
                     SizedBox(height: 24.h),
                     LocationSection(
-                      doctorlocation: doctorModel.doctor.location,
+                      doctorlocationInfo: doctorModel.doctor,
                     ),
                   ],
                 ),
