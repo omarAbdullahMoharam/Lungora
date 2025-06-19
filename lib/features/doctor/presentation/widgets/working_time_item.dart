@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/helpers/working_hour_formatter.dart';
 import 'package:lungora/core/utils/styles.dart';
 
 class WorkingTimeItem extends StatelessWidget {
@@ -82,13 +83,13 @@ class WorkingTimeItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        from,
+                        formatTimeTo12Hour(timeString: from),
                         style: Styles.textStyle12.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
-                        to,
+                        formatTimeTo12Hour(timeString: to),
                         style: Styles.textStyle12.copyWith(
                           fontWeight: FontWeight.w500,
                         ),
