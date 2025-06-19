@@ -2,7 +2,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:lungora/core/utils/custom_snackbar.dart';
 
 class UrlLauncher {
-  // الاتصال
+  // calling
   static void launchPhoneDialer(String phoneNumber) async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(phoneUri)) {
