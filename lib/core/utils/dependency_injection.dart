@@ -7,6 +7,7 @@ import 'package:lungora/features/Settings/data/view_model/settings_cubit/setting
 import 'package:lungora/features/auth/Presentation/view_models/login_cubit/login_cubit.dart';
 import 'package:lungora/features/auth/Presentation/view_models/register_cubit/register_cubit.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
+import 'package:lungora/features/doctor/repo/doctors_repo.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -17,6 +18,8 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton(() => AuthCubit(getIt<AuthRepo>()));
   getIt.registerLazySingleton(() => LoginCubit(getIt<AuthRepo>()));
   getIt.registerLazySingleton(() => RegisterCubit(getIt<AuthRepo>()));
+  getIt.registerLazySingleton(
+      () => DoctorsRepo(apiServices: getIt<ApiServices>()));
   getIt.registerLazySingleton(() => SettingsCubit(getIt<ApiServices>()));
   getIt.registerLazySingleton(() => SecureStorageService());
   // getIt.registerLazySingleton(() => AppRouter());

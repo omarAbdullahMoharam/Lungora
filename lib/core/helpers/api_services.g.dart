@@ -446,6 +446,35 @@ class _ApiServices implements ApiServices {
     return _value;
   }
 
+  @override
+  Future<DoctorDetailsModel> getDoctorDetails(int id) async {
+    final _headers = <String, dynamic>{};
+
+    final _options = _setStreamType<Map<String, dynamic>>(
+      Options(method: 'GET', headers: _headers)
+          .compose(
+            _dio.options,
+            'api/Doctor/GetDoctorById/$id',
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    log(_result.data.toString());
+    late DoctorDetailsModel _value;
+
+    try {
+      _value = DoctorDetailsModel.fromJson(_result.data!['result']);
+      log("Doctor details: ${_value.toJson()}");
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+
+    log("\n\n Doctor details: ${_value.toJson().toString()} from api_services\n\n");
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
