@@ -102,9 +102,21 @@ class DoctorDetailsViewBody extends StatelessWidget {
                       'Working time',
                       style: Styles.textStyle20,
                     ),
-                    WorkingTimeList(
-                      workingTime: doctorModel.workingHours,
-                    ),
+                    if (doctorModel.workingHours.isEmpty) ...[
+                      Padding(
+                        padding: EdgeInsets.only(left: 8.w),
+                        child: Text(
+                          'No working hours available!',
+                          style: Styles.textStyle14.copyWith(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ] else
+                      WorkingTimeList(
+                        workingTime: doctorModel.workingHours,
+                      ),
                     SizedBox(height: 24.h),
                     LocationSection(
                       doctorlocationInfo: doctorModel.doctor,

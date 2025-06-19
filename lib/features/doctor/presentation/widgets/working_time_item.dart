@@ -26,7 +26,7 @@ class WorkingTimeItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? Colors.black
-              : Colors.white,
+              : const Color.fromARGB(255, 249, 243, 243),
           borderRadius: BorderRadius.circular(12.w),
           // border: Border.all(
           //   color: Colors.grey.withOpacity(0.2),
@@ -37,13 +37,13 @@ class WorkingTimeItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 120.w,
+              width: 130.w,
               padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
               decoration: BoxDecoration(
                 color: kBackgroundColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.w),
-                  topRight: Radius.circular(16.w),
+                  topLeft: Radius.circular(12.w),
+                  topRight: Radius.circular(12.w),
                 ),
               ),
               child: Center(
