@@ -44,6 +44,20 @@ class UrlLauncher {
     }
   }
 
+  static void launchWhatsAppByLink(String link) async {
+    try {
+      final Uri uri = Uri.parse(link);
+
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        SnackBarHandler.showError('Could not launch WhatsApp link.');
+      }
+    } catch (e) {
+      SnackBarHandler.showError('Invalid WhatsApp link format.');
+    }
+  }
+
   static void launchGoogleMaps(double latitude, double longitude) async {
     final Uri mapsUri = Uri.parse(
       "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude",
