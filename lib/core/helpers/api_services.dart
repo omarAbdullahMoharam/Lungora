@@ -10,7 +10,7 @@ import 'package:lungora/features/auth/data/models/change_passowrd_response_model
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
 import 'package:lungora/features/doctor/data/doctor_details_model.dart';
-import 'package:lungora/features/doctor/data/doctor_info_model.dart';
+// import 'package:lungora/features/doctor/data/doctor_info_model.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
 import 'package:retrofit/retrofit.dart';
 part 'api_services.g.dart';
@@ -42,11 +42,20 @@ abstract class ApiServices {
   Future<LogoutResponse> logout(@Header("Authorization") String token);
   @POST("api/ModelAI/AI_Model")
   Future<AiModelResponse> getAIModel(@Part() FormData formData);
-  @GET("api/Doctor/GetAllDoctorsWithMobile")
-  Future<List<DoctorInfoModel>> getAllDoctorsWithMobile();
+  // @GET("api/Doctor/GetAllDoctorsWithMobile")
+  // Future<List<DoctorInfoModel>> getAllDoctorsWithMobile();
 
   @GET("api/Doctor/GetAllDoctorsWithMobile")
-  Future<List<DoctorModel>> getAllDoctors();
+  Future<List<DoctorModel>> getAllDoctors({
+    @Query("latitude") double? latitude,
+    @Query("longitude") double? longitude,
+    @Query("distance") int? distance,
+  });
   @GET("api/Doctor/GetDoctorById/{id}")
   Future<DoctorDetailsModel> getDoctorDetails(@Path("id") int id);
+  // @GET("api/Doctor/GetAllDoctorsByNearestLocation")
+  // Future<List<DoctorModel>> getAllDoctorsByNearestLocation({
+  //   @Query("latitude") required double latitude,
+  //   @Query("longitude") required double longitude,
+  // });
 }

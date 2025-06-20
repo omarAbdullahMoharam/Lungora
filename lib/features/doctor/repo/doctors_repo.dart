@@ -4,21 +4,32 @@ import 'package:lungora/features/doctor/data/doctor_model.dart';
 
 class DoctorsRepo {
   ApiServices apiServices;
+
   DoctorsRepo({required this.apiServices});
-  Future<List<DoctorModel>> getDoctors() async {
-    // Simulate a network call or data fetching
-    // In a real application, you would use Dio or another HTTP client to fetch data from an API
 
-    // Mock data for demonstration purposes
-
-    return apiServices.getAllDoctors();
+  Future<List<DoctorModel>> getDoctors({
+    double? latitude,
+    double? longitude,
+    int? distance,
+  }) async {
+    return apiServices.getAllDoctors(
+      latitude: latitude,
+      longitude: longitude,
+      distance: distance,
+    );
   }
 
   Future<DoctorDetailsModel> getDoctorDetails({required int id}) async {
-    // Simulate a network call or data fetching
-    // In a real application, you would use Dio or another HTTP client to fetch data from an API
-
-    // Mock data for demonstration purposes
     return apiServices.getDoctorDetails(id);
   }
+
+  // Future<List<DoctorModel>> getAllDoctorsByNearestLocation({
+  //   required double latitude,
+  //   required double longitude,
+  // }) async {
+  //   return apiServices.getAllDoctorsByNearestLocation(
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //   );
+  // }
 }

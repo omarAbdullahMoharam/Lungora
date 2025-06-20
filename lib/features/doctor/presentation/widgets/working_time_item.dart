@@ -28,9 +28,6 @@ class WorkingTimeItem extends StatelessWidget {
               ? Colors.black
               : const Color.fromARGB(255, 249, 243, 243),
           borderRadius: BorderRadius.circular(12.w),
-          // border: Border.all(
-          //   color: Colors.grey.withOpacity(0.2),
-          // ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

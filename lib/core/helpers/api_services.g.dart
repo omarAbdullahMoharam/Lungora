@@ -383,40 +383,22 @@ class _ApiServices implements ApiServices {
   }
 
   @override
-  Future<List<DoctorInfoModel>> getAllDoctorsWithMobile() async {
+  Future<List<DoctorModel>> getAllDoctors({
+    double? latitude,
+    double? longitude,
+    int? distance,
+  }) async {
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
 
-    final _options = _setStreamType<Map<String, dynamic>>(
-      Options(method: 'GET', headers: _headers)
-          .compose(
-            _dio.options,
-            'api/Doctor/GetAllDoctorsWithMobile',
-            queryParameters: queryParameters,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-
-    late List<DoctorInfoModel> _value;
-    try {
-      final data = _result.data?['result']['doctor'] as List<dynamic>? ?? [];
-      _value = data
-          .map((item) => DoctorInfoModel.fromJson(item as Map<String, dynamic>))
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
+    log("\n\nFetching all doctors with parameters: \nlatitude=$latitude,\nlongitude=$longitude,\ndistance=$distance\n\n");
+    if (latitude != null && longitude != null) {
+      queryParameters['latitude'] = latitude;
+      queryParameters['longitude'] = longitude;
+      if (distance != null) {
+        queryParameters['distance'] = distance;
+      }
     }
 
-    log("\n\n Doctors list: ${_value.toString()} from api_services\n\n");
-    return _value;
-  }
-
-  @override
-  Future<List<DoctorModel>> getAllDoctors() async {
-    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
 
     final _options = _setStreamType<Map<String, dynamic>>(
@@ -445,6 +427,78 @@ class _ApiServices implements ApiServices {
     log("Doctors count: ${_value.length}");
     return _value;
   }
+
+  // @override
+  // Future<List<DoctorModel>> getAllDoctors() async {
+  //   final queryParameters = <String, dynamic>{};
+  //   final _headers = <String, dynamic>{};
+
+  //   final _options = _setStreamType<Map<String, dynamic>>(
+  //     Options(method: 'GET', headers: _headers)
+  //         .compose(
+  //           _dio.options,
+  //           'api/Doctor/GetAllDoctorsWithMobile',
+  //           queryParameters: queryParameters,
+  //         )
+  //         .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+  //   );
+
+  //   final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+  //   late List<DoctorModel> _value;
+
+  //   try {
+  //     final data = _result.data?['result']?['doctor'] as List<dynamic>? ?? [];
+  //     _value = data
+  //         .map((item) => DoctorModel.fromJson(item as Map<String, dynamic>))
+  //         .toList();
+  //   } on Object catch (e, s) {
+  //     errorLogger?.logError(e, s, _options);
+  //     rethrow;
+  //   }
+
+  //   log("Doctors count: ${_value.length}");
+  //   return _value;
+  // }
+
+// get all doctors with Nearby Location
+  // @override
+  // Future<List<DoctorModel>> getAllDoctorsByNearestLocation({
+  //   required double latitude,
+  //   required double longitude,
+  // }) async {
+  //   final queryParameters = {
+  //     'latitude': latitude,
+  //     'longitude': longitude,
+  //   };
+
+  //   final _headers = <String, dynamic>{};
+
+  //   final _options = _setStreamType<Map<String, dynamic>>(
+  //     Options(method: 'GET', headers: _headers)
+  //         .compose(
+  //           _dio.options,
+  //           'api/Doctor/GetAllDoctorsByNearestLocation',
+  //           queryParameters: queryParameters,
+  //         )
+  //         .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+  //   );
+
+  //   final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+  //   late List<DoctorModel> _value;
+
+  //   try {
+  //     final data = _result.data?['result']?['doctor'] as List<dynamic>? ?? [];
+  //     _value = data
+  //         .map((item) => DoctorModel.fromJson(item as Map<String, dynamic>))
+  //         .toList();
+  //   } on Object catch (e, s) {
+  //     errorLogger?.logError(e, s, _options);
+  //     rethrow;
+  //   }
+
+  //   log("Nearest Doctors count: ${_value.length}");
+  //   return _value;
+  // }
 
   @override
   Future<DoctorDetailsModel> getDoctorDetails(int id) async {

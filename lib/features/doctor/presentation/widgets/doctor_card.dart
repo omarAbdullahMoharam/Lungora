@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_loading_indicator.dart';
+import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/core/utils/url_luncher_url.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
 import 'package:lungora/features/doctor/repo/doctors_repo.dart';
 
@@ -100,7 +102,16 @@ class DoctorCard extends StatelessWidget {
                       SizedBox(width: 8.w),
                       ElevatedButton(
                         onPressed: () {
-                          // TODO: Implement WhatsApp chat functionality
+                          if (doctorModel.whatsAppLink.isEmpty) {
+                            SnackBarHandler.showSnackBar(
+                              message:
+                                  "WhatsApp is not available for this doctor.",
+                            );
+                            return;
+                          }
+                          UrlLauncher.launchWhatsAppByLink(
+                            doctorModel.whatsAppLink,
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kPrimaryColor,

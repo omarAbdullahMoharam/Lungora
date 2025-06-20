@@ -1,25 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/doctor/data/doctor_model.dart';
 import 'package:lungora/features/doctor/presentation/view_model/cubit/doctors_cubit.dart';
-
 import 'doctor_card.dart';
 
-class DoctorViewBody extends StatelessWidget {
-  // final List<DoctorModel> doctorsList;
+class DoctorViewBody extends StatefulWidget {
   const DoctorViewBody({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<GetDoctorsCubit>(context).getDoctors();
+  State<DoctorViewBody> createState() => _DoctorViewBodyState();
+}
 
+class _DoctorViewBodyState extends State<DoctorViewBody> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Fetch doctors when the widget is initialized
+    context.read<GetDoctorsCubit>().getDoctors();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<GetDoctorsCubit, GetDoctorsState>(
       builder: (context, state) {
         if (state is GetDoctorsLoading) {
           return Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Lottie.asset(
@@ -27,7 +38,7 @@ class DoctorViewBody extends StatelessWidget {
                   width: 300,
                   height: 200,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   "Finding nearest doctor for you...",
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -36,49 +47,100 @@ class DoctorViewBody extends StatelessWidget {
               ],
             ),
           );
-        } else if (state is GetDoctorsFailure) {
+        }
+
+        if (state is GetDoctorsFailure) {
           return Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Lottie.asset(
-                "assets/animation/no_available_doctors.json",
-                width: 300,
-                height: 200,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Sorry, we couldn't find any doctors at the moment.",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ));
-        } else if (state is GetDoctorsEmpty) {
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  "assets/animation/no_available_doctors.json",
+                  width: 300,
+                  height: 200,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  "Sorry, we couldn't fetch the doctors right now.",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.read<GetDoctorsCubit>().getDoctors();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.w),
+                    ),
+                    minimumSize: Size(80, 40.h),
+                    backgroundColor: kPrimaryColor,
+                  ),
+                  child: Text(
+                    "Refresh",
+                    style: Styles.textStyle16.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state is GetDoctorsEmpty) {
           return Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Lottie.asset(
-                "assets/animation/no_available_doctors.json",
-                width: 300,
-                height: 200,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "No doctors available at the moment.",
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ));
-        } else if (state is GetDoctorsSuccess) {
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  "assets/animation/no_available_doctors.json",
+                  width: 300,
+                  height: 200,
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  "No doctors available nearby.",
+                  style: Styles.textStyle14.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 18),
+                ElevatedButton(
+                  onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.read<GetDoctorsCubit>().getDoctors();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.w),
+                    ),
+                    minimumSize: Size(80.w, 40.h),
+                    backgroundColor: kPrimaryColor,
+                  ),
+                  child: Text(
+                    "Refresh",
+                    style: Styles.textStyle16.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state is GetDoctorsSuccess) {
           return _buildDoctorsList(state.doctorsList);
         }
 
-        return const Center(child: Text("Unknown Error Happened"));
+        return const SizedBox.shrink();
       },
     );
   }
