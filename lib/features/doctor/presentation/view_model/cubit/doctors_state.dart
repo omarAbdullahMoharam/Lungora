@@ -1,54 +1,77 @@
 part of 'doctors_cubit.dart';
 
-sealed class GetDoctorsState extends Equatable {
+abstract class GetDoctorsState extends Equatable {
   const GetDoctorsState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class GetDoctorsInitial extends GetDoctorsState {}
+class GetDoctorsInitial extends GetDoctorsState {}
 
-final class GetDoctorsLoading extends GetDoctorsState {}
+class GetDoctorsLoading extends GetDoctorsState {}
 
-final class GetDoctorsSuccess extends GetDoctorsState {
+class GetDoctorsSuccess extends GetDoctorsState {
   final List<DoctorModel> doctorsList;
+  final bool isLocationBased;
 
-  const GetDoctorsSuccess({required this.doctorsList});
+  const GetDoctorsSuccess({
+    required this.doctorsList,
+    this.isLocationBased = false,
+  });
 
   @override
-  List<Object> get props => [doctorsList];
+  List<Object?> get props => [doctorsList, isLocationBased];
 }
 
-final class GetDoctorsFailure extends GetDoctorsState {
+class GetDoctorsLocationSuccess extends GetDoctorsState {
+  final List<DoctorModel> doctorsList;
+  final ({double latitude, double longitude}) userLocation;
+  final bool isLocationBased;
+
+  const GetDoctorsLocationSuccess({
+    required this.doctorsList,
+    required this.userLocation,
+    this.isLocationBased = true,
+  });
+
+  @override
+  List<Object?> get props => [doctorsList, userLocation, isLocationBased];
+}
+
+class GetDoctorsEmpty extends GetDoctorsState {}
+
+class GetDoctorsFailure extends GetDoctorsState {
   final String errMessage;
 
   const GetDoctorsFailure({required this.errMessage});
 
   @override
-  List<Object> get props => [errMessage];
+  List<Object?> get props => [errMessage];
 }
 
-final class GetDoctorsEmpty extends GetDoctorsState {
-  const GetDoctorsEmpty();
-}
-
-final class GetDoctorDetailsLoading extends GetDoctorsState {}
-
-final class GetDoctorDetailsSuccess extends GetDoctorsState {
+class GetDoctorDetailsSuccess extends GetDoctorsState {
   final DoctorDetailsModel doctorDetails;
 
   const GetDoctorDetailsSuccess({required this.doctorDetails});
 
   @override
-  List<Object> get props => [doctorDetails];
+  List<Object?> get props => [doctorDetails];
 }
 
-final class GetDoctorDetailsFailure extends GetDoctorsState {
+class GetDoctorDetailsFailure extends GetDoctorsState {
   final String errMessage;
 
   const GetDoctorDetailsFailure({required this.errMessage});
 
   @override
-  List<Object> get props => [errMessage];
+  List<Object?> get props => [errMessage];
 }
+// class GetDoctorsNoInternet extends GetDoctorsState {
+//   final String errMessage;
+
+//   const GetDoctorsNoInternet({required this.errMessage});
+
+//   @override
+//   List<Object?> get props => [errMessage];
+// }
