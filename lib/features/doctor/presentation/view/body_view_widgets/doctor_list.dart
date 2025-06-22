@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/features/doctor/data/doctor_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_model.dart';
 import 'package:lungora/features/doctor/presentation/widgets/doctor_card.dart';
 
 class DoctorList extends StatelessWidget {

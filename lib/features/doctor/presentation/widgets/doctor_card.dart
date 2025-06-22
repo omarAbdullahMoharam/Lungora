@@ -9,8 +9,8 @@ import 'package:lungora/core/utils/custom_snackbar.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/core/utils/url_luncher_url.dart';
-import 'package:lungora/features/doctor/data/doctor_model.dart';
-import 'package:lungora/features/doctor/repo/doctors_repo.dart';
+import 'package:lungora/features/doctor/data/model/doctor_model.dart';
+import 'package:lungora/features/doctor/data/repo/doctors_repo.dart';
 
 class DoctorCard extends StatelessWidget {
   final DoctorModel doctorModel;

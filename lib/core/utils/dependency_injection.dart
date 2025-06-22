@@ -7,7 +7,7 @@ import 'package:lungora/features/Settings/data/view_model/settings_cubit/setting
 import 'package:lungora/features/auth/Presentation/view_models/login_cubit/login_cubit.dart';
 import 'package:lungora/features/auth/Presentation/view_models/register_cubit/register_cubit.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
-import 'package:lungora/features/doctor/repo/doctors_repo.dart';
+import 'package:lungora/features/doctor/data/repo/doctors_repo.dart';
 
 GetIt getIt = GetIt.instance;
 

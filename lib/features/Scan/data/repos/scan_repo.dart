@@ -20,7 +20,7 @@ class ScanRepo {
     final formData = FormData();
 
     final fileName = image.path.split('/').last;
-    final mimeType = lookupMimeType(image.path); // e.g., "image/jpeg"
+    final mimeType = lookupMimeType(image.path);
 
     formData.files.add(
       MapEntry(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 import 'contact_info_section.dart';
 import 'doctor_info_row.dart';
 import 'doctor_stats_card.dart';

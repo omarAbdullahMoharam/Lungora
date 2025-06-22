@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/core/utils/url_luncher_url.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 
 class DoctorInfoRow extends StatelessWidget {
   final DoctorDetailsModel doctorModel;

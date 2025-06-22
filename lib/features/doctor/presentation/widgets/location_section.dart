@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/core/utils/url_luncher_url.dart';
-import 'package:lungora/features/doctor/data/doctor_info_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_info_model.dart';
 
 class LocationSection extends StatelessWidget {
   final DoctorInfoModel doctorlocationInfo;

@@ -9,9 +9,9 @@ import 'package:lungora/features/Settings/data/models/user_data_response_model.d
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 // import 'package:lungora/features/doctor/data/doctor_info_model.dart';
-import 'package:lungora/features/doctor/data/doctor_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_model.dart';
 import 'package:retrofit/retrofit.dart';
 part 'api_services.g.dart';
 

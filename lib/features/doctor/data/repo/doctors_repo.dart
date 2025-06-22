@@ -1,6 +1,6 @@
 import 'package:lungora/core/helpers/api_services.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
-import 'package:lungora/features/doctor/data/doctor_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_model.dart';
 
 class DoctorsRepo {
   ApiServices apiServices;
