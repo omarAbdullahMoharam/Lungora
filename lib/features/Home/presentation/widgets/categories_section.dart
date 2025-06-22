@@ -17,7 +17,7 @@ class CategoriesSection extends StatelessWidget {
             Expanded(
               child: CustomCategoryCardItem(
                 divider: 2 / 3,
-                categoryDetails: CategoryModel(
+                categoryDetails: CategoryCardModel(
                   vectorImagePath: 'assets/icon/Lungs_Outline_Icon.svg',
                   categoryName: 'Chest & Lungs',
                 ),
@@ -32,7 +32,7 @@ class CategoriesSection extends StatelessWidget {
             SizedBox(width: 8.w),
             CustomCategoryCardItem(
               divider: 1.04 / 3,
-              categoryDetails: CategoryModel(
+              categoryDetails: CategoryCardModel(
                 vectorImagePath: 'assets/icon/Heart.svg',
                 categoryName: 'Cardiovascular Diseases',
               ),
@@ -50,7 +50,7 @@ class CategoriesSection extends StatelessWidget {
           children: [
             CustomCategoryCardItem(
               divider: 1 / 3,
-              categoryDetails: CategoryModel(
+              categoryDetails: CategoryCardModel(
                 vectorImagePath: 'assets/icon/X_Ray.svg',
                 categoryName: 'Bones & \nMuscles',
               ),
@@ -65,7 +65,7 @@ class CategoriesSection extends StatelessWidget {
             Expanded(
               child: CustomCategoryCardItem(
                 divider: 2 / 3,
-                categoryDetails: CategoryModel(
+                categoryDetails: CategoryCardModel(
                   vectorImagePath: 'assets/icon/Virous.svg',
                   categoryName: 'Gastrointestinal Diseases',
                 ),

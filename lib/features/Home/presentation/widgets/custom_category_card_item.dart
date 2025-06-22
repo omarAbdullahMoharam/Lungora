@@ -13,7 +13,7 @@ class CustomCategoryCardItem extends StatelessWidget {
     required this.onPressed,
   });
 
-  final CategoryModel categoryDetails;
+  final CategoryCardModel categoryDetails;
   final double divider;
   final VoidCallback onPressed;
 

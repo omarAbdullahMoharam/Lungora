@@ -1,7 +1,7 @@
-class CategoryModel {
+class CategoryCardModel {
   final String categoryName;
   final String vectorImagePath;
-  CategoryModel({
+  CategoryCardModel({
     required this.categoryName,
     required this.vectorImagePath,
   });
