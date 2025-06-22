@@ -27,7 +27,7 @@ import 'package:lungora/features/auth/Presentation/views/reset_password_view.dar
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_details_view.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_view.dart';
 import 'package:lungora/features/onbording/presentation/view/onbording_view.dart';

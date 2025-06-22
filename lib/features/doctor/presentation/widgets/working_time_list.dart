@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../data/working_time.dart';
+import '../../data/model/working_time_model.dart';
 import 'working_time_item.dart';
 
 class WorkingTimeList extends StatelessWidget {

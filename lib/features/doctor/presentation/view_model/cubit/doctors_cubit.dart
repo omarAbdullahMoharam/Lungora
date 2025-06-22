@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/helpers/location_service.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
-import 'package:lungora/features/doctor/data/doctor_model.dart';
-import 'package:lungora/features/doctor/repo/doctors_repo.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_model.dart';
+import 'package:lungora/features/doctor/data/repo/doctors_repo.dart';
 
 part 'doctors_state.dart';
 
