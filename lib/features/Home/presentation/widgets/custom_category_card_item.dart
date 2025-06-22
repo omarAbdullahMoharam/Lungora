@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/features/Home/data/models/category_model.dart';
+import 'package:lungora/features/Home/data/models/category_card_model.dart';
 
 class CustomCategoryCardItem extends StatelessWidget {
   const CustomCategoryCardItem({
