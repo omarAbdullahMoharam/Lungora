@@ -19,6 +19,7 @@ import 'package:lungora/features/Settings/presentation/view/privacy/presentation
 import 'package:lungora/features/Settings/presentation/view/terms_conditions/views/terms_conditions_view.dart';
 import 'package:lungora/features/Settings/presentation/view/about_us/presentation/views/about_us_view_.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
+import 'package:lungora/features/diseases/presentation/views/all_categories_view.dart';
 
 import 'package:lungora/features/diseases/presentation/views/category_details_view.dart';
 import 'package:lungora/features/diseases/presentation/views/disease_details_view.dart';
@@ -55,6 +56,7 @@ abstract class AppRouter {
   static const kDoctorDetailsView = '/DoctorDetailsView';
   static const kOnbordingView = '/onbordingView';
   static const kProfileView = '/profileView';
+  static const kCategoriesView = '/categoriesView';
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -221,6 +223,11 @@ abstract class AppRouter {
       GoRoute(
         path: kOnbordingView,
         builder: (context, state) => const OnbordingView(),
+      ),
+
+      GoRoute(
+        path: kCategoriesView,
+        builder: (context, state) => const AllCategoriesView(),
       ),
     ],
   );

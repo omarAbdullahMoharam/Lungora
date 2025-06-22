@@ -9,6 +9,7 @@ import 'package:lungora/features/Settings/data/models/user_data_response_model.d
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
+import 'package:lungora/features/diseases/data/model/articles_model.dart';
 import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 // import 'package:lungora/features/doctor/data/doctor_info_model.dart';
 import 'package:lungora/features/doctor/data/model/doctor_model.dart';
@@ -53,9 +54,7 @@ abstract class ApiServices {
   });
   @GET("api/Doctor/GetDoctorById/{id}")
   Future<DoctorDetailsModel> getDoctorDetails(@Path("id") int id);
-  // @GET("api/Doctor/GetAllDoctorsByNearestLocation")
-  // Future<List<DoctorModel>> getAllDoctorsByNearestLocation({
-  //   @Query("latitude") required double latitude,
-  //   @Query("longitude") required double longitude,
-  // });
+
+  @GET("api/Category/GetAllCategories")
+  Future<ArticlesModel> getAllCategoriesRaw();
 }
