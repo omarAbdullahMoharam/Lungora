@@ -340,15 +340,15 @@ class _ApiServices implements ApiServices {
   }
 
   @override
-  Future<AiModelResponse> getAIModel(FormData formData) async {
-    // final headers = {
-    //   'Authorization': 'Bearer $token',
-    // };
+  Future<AiModelResponse> getAIModel(FormData formData, String token) async {
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
 
     final options = _setStreamType<AiModelResponse>(
       Options(
         method: 'POST',
-        // headers: headers,
+        headers: headers,
       )
           .compose(
             _dio.options,
