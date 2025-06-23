@@ -47,7 +47,7 @@ class CategoriesSection extends StatelessWidget {
               ),
               onPressed: () {
                 context.push(
-                  AppRouter.kDiseaseDetailsView,
+                  AppRouter.kCategoriesView,
                   extra: 'Cardiovascular Diseases',
                   // extra: {
                   // 'diseaseName': 'Cardiovascular Diseases',
@@ -73,7 +73,7 @@ class CategoriesSection extends StatelessWidget {
               ),
               onPressed: () {
                 context.push(
-                  AppRouter.kDiseaseDetailsView,
+                  AppRouter.kCategoriesView,
                   extra: 'Bones & Muscles',
                   // extra: {
                   // 'diseaseName': 'Bones & Muscles',
