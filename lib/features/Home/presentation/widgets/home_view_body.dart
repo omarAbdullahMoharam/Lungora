@@ -128,7 +128,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                 create: (context) =>
                                     CategoriesCubit(diseaseRepo)
                                       ..getAllCategories(),
-                                //                       🔼🔼 لازم دي
                                 child: const AllCategoriesViewBody(),
                               ),
                             ),

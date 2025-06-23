@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -6,15 +7,18 @@ import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'disease_stats_section.dart';
 
+// ignore: must_be_immutable
 class DiseaseDetailsViewBody extends StatelessWidget {
   final String diseaseName;
   final String diseaseDescription;
   final String treatmentMethods;
-  const DiseaseDetailsViewBody({
+  String? diseaseImageUrl;
+  DiseaseDetailsViewBody({
     super.key,
     required this.diseaseName,
     required this.treatmentMethods,
     required this.diseaseDescription,
+    this.diseaseImageUrl,
   });
 
   @override
@@ -29,12 +33,30 @@ class DiseaseDetailsViewBody extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.w),
-              child: Image.asset(
-                'assets/images/lung_desease.png',
-                height: 160.h,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child: diseaseImageUrl != null
+                  ? CachedNetworkImage(
+                      placeholder: (context, url) => Container(
+                        height: 160.h,
+                        width: double.infinity,
+                        color: Colors.grey.shade200,
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        height: 160.h,
+                        width: double.infinity,
+                        color: Colors.grey.shade200,
+                        child: const Icon(Icons.error),
+                      ),
+                      imageUrl: diseaseImageUrl!,
+                      height: 160.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/images/lung_desease.png',
+                      height: 160.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
             ),
             SizedBox(height: 16.h),
             Center(
@@ -52,14 +74,16 @@ class DiseaseDetailsViewBody extends StatelessWidget {
               'Description',
               textAlign: TextAlign.start,
               style: Styles.textStyleInter16.copyWith(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w900,
+                color: kPrimaryColor,
               ),
             ),
             SizedBox(height: 8.h),
             Text(
               diseaseDescription,
-              style: Styles.textStyle12.copyWith(
+              style: Styles.textStyleInter16.copyWith(
                 fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
               ),
             ),
             SizedBox(height: 24.h),
@@ -67,7 +91,8 @@ class DiseaseDetailsViewBody extends StatelessWidget {
             Text(
               'Treatment methods',
               style: Styles.textStyleInter16.copyWith(
-                fontWeight: FontWeight.w700,
+                color: kPrimaryColor,
+                fontWeight: FontWeight.w900,
               ),
             ),
             Text.rich(
@@ -75,8 +100,8 @@ class DiseaseDetailsViewBody extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: treatmentMethods.replaceAll(r'\n', '\n'),
-                    style: Styles.textStyle12.copyWith(
-                      fontFamily: 'Inter',
+                    style: Styles.textStyleInter16.copyWith(
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],

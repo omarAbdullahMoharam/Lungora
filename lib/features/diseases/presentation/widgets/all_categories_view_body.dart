@@ -62,7 +62,9 @@ class AllCategoriesViewBody extends StatelessWidget {
                     ...category.articles.map(
                       (article) => Padding(
                         padding: const EdgeInsets.only(bottom: 12),
-                        child: DiseaseCard(article: article),
+                        child: DiseaseCard(
+                          article: article,
+                        ),
                       ),
                     ),
                     SizedBox(height: 8.h),
