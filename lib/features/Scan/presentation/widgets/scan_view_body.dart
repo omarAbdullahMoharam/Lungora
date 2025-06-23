@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +32,7 @@ class ScanViewBody extends StatefulWidget {
 class _ScanViewBodyState extends State<ScanViewBody> {
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
+  // ignore: unused_field
   late final ScanRepo _scanRepo;
 
   @override
