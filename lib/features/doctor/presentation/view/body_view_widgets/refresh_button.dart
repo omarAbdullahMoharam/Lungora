@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/helpers/location_service.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/doctor/presentation/view_model/cubit/doctors_cubit.dart';
 
