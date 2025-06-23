@@ -43,7 +43,8 @@ abstract class ApiServices {
   @POST("api/Auth/LogOutSingle")
   Future<LogoutResponse> logout(@Header("Authorization") String token);
   @POST("api/ModelAI/AI_Model")
-  Future<AiModelResponse> getAIModel(@Part() FormData formData);
+  Future<AiModelResponse> getAIModel(
+      @Part() FormData formData, @Header("Authorization") String token);
   // @GET("api/Doctor/GetAllDoctorsWithMobile")
   // Future<List<DoctorInfoModel>> getAllDoctorsWithMobile();
 
