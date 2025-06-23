@@ -10,6 +10,7 @@ import 'package:lungora/features/auth/data/models/change_passowrd_response_model
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
 import 'package:lungora/features/diseases/data/model/articles_model.dart';
+import 'package:lungora/features/diseases/data/model/disease_article_details_model.dart';
 import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 // import 'package:lungora/features/doctor/data/doctor_info_model.dart';
 import 'package:lungora/features/doctor/data/model/doctor_model.dart';
@@ -57,4 +58,8 @@ abstract class ApiServices {
 
   @GET("api/Category/GetAllCategories")
   Future<ArticlesModel> getAllCategoriesRaw();
+// https://lungora.runasp.net/api/Article/GetArticleByIdWithMobile/6
+  @GET("api/Article/GetArticleByIdWithMobile/{id}")
+  Future<DiseaseArticleDetailsModel> getDiseaseArticleDetails(
+      @Path("id") int id);
 }

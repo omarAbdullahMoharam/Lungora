@@ -39,12 +39,14 @@ class DiseaseCardItem extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          subtitle: Text(diseaseDescription,
-              maxLines: 4,
-              style: Styles.textStyle14.copyWith(
-                fontFamily: 'poppins',
-                fontWeight: FontWeight.w400,
-              )),
+          subtitle: Text(
+            diseaseDescription,
+            maxLines: 4,
+            style: Styles.textStyle14.copyWith(
+              fontFamily: 'poppins',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
           onTap: () {
             context.push(
               AppRouter.kDiseaseDetailsView,

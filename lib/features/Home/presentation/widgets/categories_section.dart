@@ -22,9 +22,18 @@ class CategoriesSection extends StatelessWidget {
                   categoryName: 'Chest & Lungs',
                 ),
                 onPressed: () {
-                  context.go(
-                    AppRouter.kCategoryDetailsView,
+                  context.push(
+                    AppRouter.kCategoriesView,
                     extra: 'Chest & Lungs',
+                    // extra: {
+                    // 'diseaseName': 'Chest & Lungs',
+                    // 'diseaseDescription':
+                    //     'Information about respiratory conditions including pneumonia, asthma, and COPD',
+                    // 'treatmentDescription':
+                    //     'Treatments include inhalers, antibiotics, oxygen therapy, and pulmonary rehabilitation',
+
+                    //   'categoryName': 'Chest & Lungs',
+                    // },
                   );
                 },
               ),
@@ -37,9 +46,17 @@ class CategoriesSection extends StatelessWidget {
                 categoryName: 'Cardiovascular Diseases',
               ),
               onPressed: () {
-                context.go(
-                  AppRouter.kCategoryDetailsView,
+                context.push(
+                  AppRouter.kDiseaseDetailsView,
                   extra: 'Cardiovascular Diseases',
+                  // extra: {
+                  // 'diseaseName': 'Cardiovascular Diseases',
+                  // 'diseaseDescription':
+                  //     'Information about heart and blood vessel conditions including hypertension and coronary artery disease',
+                  // 'treatmentDescription':
+                  //     'Treatments include lifestyle changes, medications, and surgical procedures when necessary',
+                  //   'categoryName': 'Cardiovascular Diseases'
+                  // },
                 );
               },
             ),
@@ -55,9 +72,17 @@ class CategoriesSection extends StatelessWidget {
                 categoryName: 'Bones & \nMuscles',
               ),
               onPressed: () {
-                context.go(
-                  AppRouter.kCategoryDetailsView,
+                context.push(
+                  AppRouter.kDiseaseDetailsView,
                   extra: 'Bones & Muscles',
+                  // extra: {
+                  // 'diseaseName': 'Bones & Muscles',
+                  // 'diseaseDescription':
+                  //     'Information about bone and muscle conditions including fractures, arthritis, and muscle disorders',
+                  // 'treatmentDescription':
+                  //     'Treatments include physical therapy, medications, surgery, and rehabilitation exercises',
+                  //   'categoryName': 'Bones & Muscles',
+                  // },
                 );
               },
             ),
@@ -70,9 +95,17 @@ class CategoriesSection extends StatelessWidget {
                   categoryName: 'Gastrointestinal Diseases',
                 ),
                 onPressed: () {
-                  context.go(
-                    AppRouter.kCategoryDetailsView,
+                  context.push(
+                    AppRouter.kCategoriesView,
                     extra: 'Gastrointestinal Diseases',
+                    // extra: {
+                    // 'diseaseName': 'Gastrointestinal Diseases',
+                    // 'diseaseDescription':
+                    //     'Information about digestive system disorders including GERD, IBS, and other gastrointestinal conditions',
+                    // 'treatmentDescription':
+                    //     'Treatments include dietary changes, medications, lifestyle modifications, and in some cases surgery',
+                    //   'categoryName': 'Gastrointestinal Diseases',
+                    // },
                   );
                 },
               ),

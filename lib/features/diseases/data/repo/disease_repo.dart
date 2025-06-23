@@ -1,5 +1,6 @@
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/features/diseases/data/model/articles_model.dart';
+import 'package:lungora/features/diseases/data/model/disease_article_details_model.dart';
 
 class DiseaseRepo {
   final ApiServices apiServices;
@@ -10,8 +11,10 @@ class DiseaseRepo {
     final categories = await apiServices.getAllCategoriesRaw();
     return categories;
   }
-  // Future<CategoryModel> getCategoryById(int id) async {
-  //   final category = await apiServices.getCategoryById(id);
-  //   return category;
-  // }
+
+  Future<DiseaseArticleDetailsModel> getDiseaseArticleDetails(int id) async {
+    final diseaseArticleDetails =
+        await apiServices.getDiseaseArticleDetails(id);
+    return diseaseArticleDetails;
+  }
 }
