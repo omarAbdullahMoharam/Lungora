@@ -17,7 +17,6 @@ part 'scan_state.dart';
 
 class ScanCubit extends Cubit<ScanState> {
   late ScanRepo _scanRepo;
-  // ignore: unused_field
   late SecureStorageService _secureStorageService;
 
   ScanCubit() : super(ScanInitial()) {
