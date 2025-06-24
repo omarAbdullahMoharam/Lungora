@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/features/Scan/data/models/ai_model_response.dart';
@@ -14,18 +16,22 @@ import 'package:lungora/features/auth/services/secure_storage_service.dart';
 part 'scan_state.dart';
 
 class ScanCubit extends Cubit<ScanState> {
+  late ScanRepo _scanRepo;
+  // ignore: unused_field
+  late SecureStorageService _secureStorageService;
+
   ScanCubit() : super(ScanInitial()) {
-    // Initialize dependencies in constructor
     _initializeDependencies();
   }
-
-  late final ScanRepo _scanRepo;
-  late final SecureStorageService _secureStorageService;
 
   // Initialize dependencies once
   void _initializeDependencies() {
     _scanRepo = ScanRepo(getIt<ApiServices>());
     _secureStorageService = getIt<SecureStorageService>();
+  }
+
+  Future<bool> validateImageExternally(File image) async {
+    return await _validateImage(image);
   }
 
   Future<void> processImage(File selectedImage) async {
@@ -66,32 +72,62 @@ class ScanCubit extends Cubit<ScanState> {
     try {
       // Check if file exists
       if (!await imageFile.exists()) {
-        log("Image file does not exist");
+        Fluttertoast.showToast(
+          msg: "Image file does not exist.",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
         return false;
       }
 
       // Check file size (max 10MB)
       final fileSize = await imageFile.length();
+      log("Image file size: ${fileSize / (1024 * 1024)} MB");
+
       if (fileSize > 10 * 1024 * 1024) {
-        log("Image file too large: $fileSize bytes");
+        // print image file size in MB
+        log("\n\nImage size exceeds 10MB: ${fileSize / (1024 * 1024)} MB\n\n");
+        Fluttertoast.showToast(
+          msg: "Image is too large. image sized Must be less than 10MB.",
+          toastLength: Toast.LENGTH_LONG,
+          fontAsset: 'assets/fonts/Inter-Regular.ttf',
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
         return false;
       }
 
-      // Check if it's a valid image extension
+      // Check file extension
       final extension = imageFile.path.toLowerCase().split('.').last;
-      if (![
-        'jpg',
-        'jpeg',
-        'png',
-        'heic',
-      ].contains(extension)) {
-        log("Invalid image extension: $extension");
+      if (!['jpg', 'jpeg', 'png', 'heic', 'bmp'].contains(extension)) {
+        Fluttertoast.showToast(
+          msg:
+              "Unsupported image format. Please upload a jpg, png, or jpeg image.",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
         return false;
       }
 
       return true;
     } catch (e) {
       log("Error validating image: $e");
+      Fluttertoast.showToast(
+        msg: "Error validating image. Please try again.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       return false;
     }
   }
@@ -99,10 +135,14 @@ class ScanCubit extends Cubit<ScanState> {
   void _logImageDetails(File selectedImage) {
     log("=== Image Processing Details ===");
     log("Image path: ${selectedImage.path}");
+    // log("Token: $token");
     log("Image name: ${selectedImage.path.split('/').last}");
     log("Image size: ${selectedImage.lengthSync()} bytes");
+
+    log("Image extension: ${selectedImage.path.split('.').last}");
     log("================================");
   }
+  // print the extension of the image file
 
   Future<String?> _getAuthToken() async {
     try {
@@ -195,10 +235,9 @@ class ScanCubit extends Cubit<ScanState> {
     }
   }
 
-  // Additional utility methods
-  void scanError(String errorMessage) {
-    emit(ScanFailure(errMessage: errorMessage));
-  }
+  // void processImageFailure(String error) {
+  //   emit(ScanFailure(errMessage: error));
+  // }
 
   void scanSuccess(AiModelResponse? response) {
     emit(ScanSuccess(modelResponse: response));
