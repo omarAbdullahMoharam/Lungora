@@ -14,7 +14,7 @@ class ScanRepo {
 
   Future<AiModelResponse> getAIModel({
     required File image,
-    // required String token,
+    required String token,
   }) async {
     // Create FormData for the multipart request
     final formData = FormData();
