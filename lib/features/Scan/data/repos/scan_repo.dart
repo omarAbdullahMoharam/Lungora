@@ -14,13 +14,13 @@ class ScanRepo {
 
   Future<AiModelResponse> getAIModel({
     required File image,
-    // required String token,
+    required String token,
   }) async {
     // Create FormData for the multipart request
     final formData = FormData();
 
     final fileName = image.path.split('/').last;
-    final mimeType = lookupMimeType(image.path); // e.g., "image/jpeg"
+    final mimeType = lookupMimeType(image.path);
 
     formData.files.add(
       MapEntry(
@@ -36,6 +36,9 @@ class ScanRepo {
     );
     log("formData: ${formData.toString()}from scan_repo");
 
-    return _apiServices.getAIModel(formData);
+    return _apiServices.getAIModel(
+      formData,
+      token,
+    ); // Pass the token in the header
   }
 }

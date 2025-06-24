@@ -3,12 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lungora/core/helpers/api_services.dart';
+import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Home/presentation/widgets/build_custom_app_bar.dart';
 import 'package:lungora/features/Home/presentation/widgets/categories_section.dart';
 import 'package:lungora/features/Home/presentation/widgets/services_section.dart';
 import 'package:lungora/features/Settings/data/view_model/settings_cubit/settings_cubit.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
+import 'package:lungora/features/diseases/data/repo/disease_repo.dart';
+import 'package:lungora/features/diseases/presentation/view_model/categories/categories_cubit.dart';
+import 'package:lungora/features/diseases/presentation/widgets/all_categories_view_body.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
@@ -113,7 +118,20 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                       Spacer(),
                       TextButton(
                         onPressed: () {
-                          // Navigate to categories page
+                          DiseaseRepo diseaseRepo =
+                              DiseaseRepo(getIt<ApiServices>());
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) =>
+                                    CategoriesCubit(diseaseRepo)
+                                      ..getAllCategories(),
+                                child: const AllCategoriesViewBody(),
+                              ),
+                            ),
+                          );
                         },
                         child: Text(
                           'See All',

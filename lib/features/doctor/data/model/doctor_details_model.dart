@@ -1,5 +1,5 @@
-import 'package:lungora/features/doctor/data/doctor_info_model.dart';
-import 'package:lungora/features/doctor/data/working_time.dart';
+import 'package:lungora/features/doctor/data/model/doctor_info_model.dart';
+import 'package:lungora/features/doctor/data/model/working_time_model.dart';
 
 class DoctorDetailsModel {
   final DoctorInfoModel doctor;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 
 import '../widgets/doctor_details_view_body.dart';
 

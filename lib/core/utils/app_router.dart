@@ -19,6 +19,7 @@ import 'package:lungora/features/Settings/presentation/view/privacy/presentation
 import 'package:lungora/features/Settings/presentation/view/terms_conditions/views/terms_conditions_view.dart';
 import 'package:lungora/features/Settings/presentation/view/about_us/presentation/views/about_us_view_.dart';
 import 'package:lungora/features/auth/services/secure_storage_service.dart';
+import 'package:lungora/features/diseases/data/repo/disease_repo.dart';
 
 import 'package:lungora/features/diseases/presentation/views/category_details_view.dart';
 import 'package:lungora/features/diseases/presentation/views/disease_details_view.dart';
@@ -27,7 +28,7 @@ import 'package:lungora/features/auth/Presentation/views/reset_password_view.dar
 import 'package:lungora/features/Home/presentation/views/main_view.dart';
 import 'package:lungora/features/Scan/presentation/view/scan_view.dart';
 import 'package:lungora/features/Settings/presentation/view/settings_view.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_details_view.dart';
 import 'package:lungora/features/doctor/presentation/view/doctor_view.dart';
 import 'package:lungora/features/onbording/presentation/view/onbording_view.dart';
@@ -47,6 +48,7 @@ abstract class AppRouter {
   static const kChangePasswordView = '/changePasswordView';
   static const kChatView = '/chatView';
   static const kDiseaseDetailsView = '/diseaseDetailsView';
+  static const kLocalCategoryDetailsView = '/localCategoryDetailsView';
   static const kCategoryDetailsView = '/categoryDetailsView';
   static const kDoctorView = '/doctorView';
   static const kNormalScanResult = '/NormalScanResult';
@@ -55,6 +57,9 @@ abstract class AppRouter {
   static const kDoctorDetailsView = '/DoctorDetailsView';
   static const kOnbordingView = '/onbordingView';
   static const kProfileView = '/profileView';
+  static const kCategoriesView = '/categoriesView';
+  static const kDiseaseDetailsViewLocal = '/diseaseDetailsLocal';
+  static const kDiseaseDetailsViewApi = '/diseaseDetailsApi';
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -166,14 +171,6 @@ abstract class AppRouter {
         builder: (context, state) => const EditProfileView(),
       ),
       GoRoute(
-        path: kCategoryDetailsView,
-        builder: (context, state) {
-          final categoryName = state.extra as String;
-          return CategoryDetailsView(categoryName: categoryName);
-        },
-      ),
-
-      GoRoute(
         path: kDiseaseDetailsView,
         builder: (context, state) {
           final params = state.extra as Map<String, dynamic>? ?? {};
@@ -183,6 +180,42 @@ abstract class AppRouter {
                 params['diseaseDescription'] ?? 'No description available.',
             treatmentMethods:
                 params['treatmentDescription'] ?? 'No treatment available.',
+          );
+        },
+      ),
+
+      GoRoute(
+        path: kDiseaseDetailsViewApi,
+        builder: (context, state) {
+          final params = state.extra as Map<String, dynamic>;
+          final int id = params['id'];
+          final repo = DiseaseRepo(getIt<ApiServices>());
+
+          return FutureBuilder(
+            future: repo.getDiseaseArticleDetails(id),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              } else if (snapshot.hasError) {
+                return Scaffold(
+                  body: Center(child: Text('Error: ${snapshot.error}')),
+                );
+              } else if (!snapshot.hasData) {
+                return const Scaffold(
+                  body: Center(child: Text('No data found')),
+                );
+              } else {
+                final model = snapshot.data!;
+                return DiseaseDetailsView(
+                  diseaseName: model.title,
+                  diseaseDescription: model.description,
+                  treatmentMethods: model.content,
+                  diseaseArticleDetailsModel: model,
+                );
+              }
+            },
           );
         },
       ),
@@ -222,6 +255,15 @@ abstract class AppRouter {
         path: kOnbordingView,
         builder: (context, state) => const OnbordingView(),
       ),
+
+      GoRoute(
+          path: kCategoriesView,
+          builder: (context, state) {
+            final categoryName = state.extra as String;
+            return CategoryDetailsView(
+              categoryName: categoryName,
+            );
+          }),
     ],
   );
 }

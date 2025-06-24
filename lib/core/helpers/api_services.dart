@@ -9,9 +9,11 @@ import 'package:lungora/features/Settings/data/models/user_data_response_model.d
 import 'package:lungora/features/auth/data/models/change_passowrd_response_model.dart';
 import 'package:lungora/features/auth/data/models/login_response_model.dart';
 import 'package:lungora/features/auth/data/models/register_response_model.dart';
-import 'package:lungora/features/doctor/data/doctor_details_model.dart';
+import 'package:lungora/features/diseases/data/model/articles_model.dart';
+import 'package:lungora/features/diseases/data/model/disease_article_details_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 // import 'package:lungora/features/doctor/data/doctor_info_model.dart';
-import 'package:lungora/features/doctor/data/doctor_model.dart';
+import 'package:lungora/features/doctor/data/model/doctor_model.dart';
 import 'package:retrofit/retrofit.dart';
 part 'api_services.g.dart';
 
@@ -41,7 +43,8 @@ abstract class ApiServices {
   @POST("api/Auth/LogOutSingle")
   Future<LogoutResponse> logout(@Header("Authorization") String token);
   @POST("api/ModelAI/AI_Model")
-  Future<AiModelResponse> getAIModel(@Part() FormData formData);
+  Future<AiModelResponse> getAIModel(
+      @Part() FormData formData, @Header("Authorization") String token);
   // @GET("api/Doctor/GetAllDoctorsWithMobile")
   // Future<List<DoctorInfoModel>> getAllDoctorsWithMobile();
 
@@ -53,9 +56,11 @@ abstract class ApiServices {
   });
   @GET("api/Doctor/GetDoctorById/{id}")
   Future<DoctorDetailsModel> getDoctorDetails(@Path("id") int id);
-  // @GET("api/Doctor/GetAllDoctorsByNearestLocation")
-  // Future<List<DoctorModel>> getAllDoctorsByNearestLocation({
-  //   @Query("latitude") required double latitude,
-  //   @Query("longitude") required double longitude,
-  // });
+
+  @GET("api/Category/GetAllCategories")
+  Future<ArticlesModel> getAllCategoriesRaw();
+// https://lungora.runasp.net/api/Article/GetArticleByIdWithMobile/6
+  @GET("api/Article/GetArticleByIdWithMobile/{id}")
+  Future<DiseaseArticleDetailsModel> getDiseaseArticleDetails(
+      @Path("id") int id);
 }
