@@ -18,7 +18,7 @@ class BulletText extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: Styles.textStyle10.copyWith(color: Colors.white),
+            style: Styles.textStyle14.copyWith(color: Colors.white),
           ),
         ),
       ],

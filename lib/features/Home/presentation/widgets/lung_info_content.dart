@@ -24,7 +24,7 @@ class LungInfoContent extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            right: -70.w,
+            right: -80.w,
             bottom: -90.h,
             top: -80.h,
             child: Opacity(
@@ -40,8 +40,8 @@ class LungInfoContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Breathe Easy – Your AI Lung Health Assistant',
-                style: Styles.textStyle12.copyWith(
+                'YOUR HEALTH, OUR MESSION',
+                style: Styles.textStyle14.copyWith(
                   color: Colors.white,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w900,
@@ -54,15 +54,14 @@ class LungInfoContent extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 5.h,
                       children: [
                         BulletText(
                           text: 'Analyze your chest X-rays instantly using AI.',
                         ),
-                        SizedBox(height: 5.h),
                         BulletText(
                           text: 'Get personalized treatment suggestions.',
                         ),
-                        SizedBox(height: 5.h),
                         BulletText(
                           text:
                               'Connect directly with certified lung specialists.',
@@ -71,27 +70,6 @@ class LungInfoContent extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 100.w),
-
-                  // Align(
-                  //   alignment: Alignment.bottomRight,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       // Navigate
-                  //     },
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: Color(0xFF1A62FF),
-                  //       foregroundColor: Colors.white,
-                  //       // shape: RoundedRectangleBorder(
-                  //       //   borderRadius:
-                  //       //       BorderRadius.circular(16.w),
-                  //       // ),
-                  //     ),
-                  //     child: Text(
-                  //       'How It Works',
-                  //       style: TextStyle(fontSize: 12.sp),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ],

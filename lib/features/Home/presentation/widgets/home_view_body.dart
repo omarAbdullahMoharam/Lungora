@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lungora/core/helpers/api_services.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Home/presentation/widgets/build_custom_app_bar.dart';
@@ -25,21 +27,27 @@ class HomeViewBody extends StatefulWidget {
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
+  // ignore: unused_field
   String? _userImage;
 
   _loadUserData() async {
     try {
       final cachedImage = await SecureStorageService.getUserImage();
       if (cachedImage != null) {
+        if (!mounted) return;
         setState(() {
           _userImage = cachedImage;
         });
-        // ✅ Don't call API if cached image is available
         return;
       }
 
       final token = await SecureStorageService.getToken();
       if (token != null) {
+        if (!mounted) return;
+        if (context.mounted) {
+          BlocProvider.of<SettingsCubit>(context, listen: false)
+              .getUserData(token: token);
+        }
         BlocProvider.of<SettingsCubit>(context).getUserData(token: token);
       }
     } catch (e) {
@@ -57,29 +65,19 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.h),
-        child: BlocBuilder<SettingsCubit, SettingsState>(
-          builder: (context, state) {
-            return buildCustomAppBar(
-              context: context,
-              imagePath: state is SettingsGetUserDataSuccess
-                  ? state.userModel.imageUser
-                  : _userImage ??
-                      'https://res.cloudinary.com/deoayl2hl/image/upload/v1742340954/Users/f446ff10-d23b-42ed-bb90-be18f88d9f01_2025_03_19_profile_avatar_brm2oi.jpg',
-              onPressed: () async {
-                String? profileImage =
-                    await SecureStorageService.getUserImage();
-                if (profileImage != null) {
-                  // Do something with the profile image, like navigating to the profile page
-                  print("Profile Image: $profileImage");
-                } else {
-                  print("No cached profile image found.");
-                }
-              },
-            );
-          },
-        ),
-      ),
+          preferredSize: Size.fromHeight(60.h),
+          child: BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+              return buildCustomAppBar(
+                context: context,
+                profileIconWidget: ProfileIconButton(
+                  onPressed: () {
+                    context.go(AppRouter.kSettingsView);
+                  },
+                ),
+              );
+            },
+          )),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 24.w,
@@ -156,4 +154,62 @@ class _HomeViewBodyState extends State<HomeViewBody> {
       ),
     );
   }
+}
+
+class UserImageCacheManager {
+  static const String _defaultImage =
+      'https://res.cloudinary.com/deoayl2hl/image/upload/v1742340954/Users/f446ff10-d23b-42ed-bb90-be18f88d9f01_2025_03_19_profile_avatar_brm2oi.jpg';
+
+  static Future<String?> getCachedImage() async {
+    try {
+      String? image = await SecureStorageService.getUserImage();
+      if (image != null && image.isNotEmpty) {
+        log('✅ Loaded profile image from cache: $image');
+        return image;
+      }
+    } catch (e) {
+      log('❌ Error reading cached user image: $e');
+    }
+    return null;
+  }
+
+  /// ✅ Save image to cache
+  static Future<void> saveImage(String imageUrl) async {
+    try {
+      await SecureStorageService.saveUserImage(imageUrl);
+      log('✅ Profile image saved to cache: $imageUrl');
+    } catch (e) {
+      log('❌ Error saving user image: $e');
+    }
+  }
+
+  /// ✅ Check if there is a cached image
+  static Future<bool> hasImage() async {
+    try {
+      String? image = await SecureStorageService.getUserImage();
+      return image != null && image.isNotEmpty;
+    } catch (e) {
+      log('❌ Error checking user image cache: $e');
+      return false;
+    }
+  }
+
+  /// ✅ Clear cached image (optional if needed in settings or logout)
+  static Future<void> clearCache() async {
+    try {
+      await SecureStorageService.deleteUserImage();
+      log('✅ Cleared cached profile image');
+    } catch (e) {
+      log('❌ Error clearing user image cache: $e');
+    }
+  }
+
+  /// ✅ Get image for UI (fallback to default)
+  static Future<String> getImageOrDefault() async {
+    String? cachedImage = await getCachedImage();
+    return cachedImage ?? _defaultImage;
+  }
+
+  /// ✅ Get default image directly
+  static String get defaultImage => _defaultImage;
 }
