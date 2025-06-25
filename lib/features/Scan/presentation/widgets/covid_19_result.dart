@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/constants.dart';
@@ -6,11 +8,12 @@ import 'package:lungora/core/utils/styles.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:lungora/features/diseases/presentation/widgets/disease_stats_section.dart';
-import 'floting_action_button.dart';
+
 import 'scan_result_image.dart';
 
 class Covid19Result extends StatelessWidget {
-  const Covid19Result({super.key});
+  final File? imageFile;
+  const Covid19Result({super.key, required this.imageFile});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class Covid19Result extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ScanResultImage(
-                  imageUrl: 'assets/images/scan_result.png',
+                  imageFile: imageFile,
                   onPressed: () {
                     context.go(AppRouter.kScanView);
                   },
@@ -126,13 +129,13 @@ class Covid19Result extends StatelessWidget {
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: FlotingActionButton(),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.bottomRight,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(18.0),
+        //     child: FlotingActionButton(),
+        //   ),
+        // ),
       ]),
     );
   }

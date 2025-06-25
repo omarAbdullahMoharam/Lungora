@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/utils/styles.dart';
 
-import '../manager/cubit/onboarding_cubit.dart';
+import '../view_model/cubit/onboarding_cubit.dart';
 
 class OnbordingContent extends StatelessWidget {
   final int index;

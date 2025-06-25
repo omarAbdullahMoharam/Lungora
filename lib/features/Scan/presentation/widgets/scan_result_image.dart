@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScanResultImage extends StatelessWidget {
-  final String imageUrl;
+  final File? imageFile;
+
   final void Function() onPressed;
+
   const ScanResultImage({
     super.key,
-    required this.imageUrl,
     required this.onPressed,
+    required this.imageFile,
   });
 
   @override
@@ -20,12 +24,12 @@ class ScanResultImage extends StatelessWidget {
           boxShadow: [],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(16.h),
-          child: Image.asset(
-            imageUrl,
-            fit: BoxFit.cover,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(16.h),
+            child: Image.file(
+              imageFile!,
+              fit: BoxFit.cover,
+              width: double.infinity,
+            )),
       ),
       // Positioned(
       //   top: 24.h,

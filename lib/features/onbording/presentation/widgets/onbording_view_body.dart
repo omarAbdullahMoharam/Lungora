@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../manager/cubit/onboarding_cubit.dart';
+import '../view_model/cubit/onboarding_cubit.dart';
 import 'onbording_content.dart';
 
 class OnbordingViewBody extends StatelessWidget {
