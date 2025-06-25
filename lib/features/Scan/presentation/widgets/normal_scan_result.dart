@@ -1,16 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/utils/app_router.dart';
-
 import 'package:lungora/core/utils/styles.dart';
 import 'package:go_router/go_router.dart';
-
-import 'floting_action_button.dart';
 import 'scan_result_image.dart';
 
 class NormalScanResult extends StatelessWidget {
-  const NormalScanResult({super.key});
-
+  final File? imageFile;
+  const NormalScanResult({super.key, required this.imageFile});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +33,9 @@ class NormalScanResult extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ScanResultImage(
-                  imageUrl: 'assets/images/scan_result.png',
+                  imageFile: imageFile,
                   onPressed: () {
-                    context.go(AppRouter.kUnableDetermineResult);
+                    context.go(AppRouter.kScanView);
                   },
                 ),
                 SizedBox(height: 16.h),
@@ -80,11 +78,11 @@ class NormalScanResult extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          bottom: 10.h,
-          right: 32.w,
-          child: FlotingActionButton(),
-        ),
+        // Positioned(
+        //   bottom: 10.h,
+        //   right: 32.w,
+        //   child: FlotingActionButton(),
+        // ),
       ]),
     );
   }

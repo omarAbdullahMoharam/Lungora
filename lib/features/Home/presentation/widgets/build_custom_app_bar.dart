@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lungora/core/utils/styles.dart';
@@ -30,9 +32,17 @@ AppBar buildCustomAppBar({
         icon: AspectRatio(
           aspectRatio: 1.spMin,
           child: ClipRRect(
-              clipBehavior: Clip.antiAlias,
-              borderRadius: BorderRadius.circular(25.r),
-              child: Image.network(imagePath)),
+            clipBehavior: Clip.antiAlias,
+            borderRadius: BorderRadius.circular(25.r),
+            child:
+                //  Image.network(imagePath)
+                Image(
+              image: imagePath.startsWith('http')
+                  ? NetworkImage(imagePath)
+                  : FileImage(File(imagePath)) as ImageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
       SizedBox(width: 16.w),

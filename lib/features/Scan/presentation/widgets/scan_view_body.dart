@@ -28,10 +28,11 @@ class ScanViewBody extends StatefulWidget {
 }
 
 class _ScanViewBodyState extends State<ScanViewBody> {
-  File? _selectedImage;
+  // File? selectedImage;
+
   final ImagePicker _picker = ImagePicker();
 
-  bool get isDisabled => _selectedImage == null;
+  bool get isDisabled => context.read<ScanCubit>().imageFile == null;
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -63,19 +64,18 @@ class _ScanViewBodyState extends State<ScanViewBody> {
         return;
       }
 
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
+      context.read<ScanCubit>().setImageFile(File(pickedFile.path));
+      setState(() {}); // عشان تعملي rebuild للشاشة
     } catch (e) {
       _showErrorSnackBar("Error picking image: ${e.toString()}");
     }
   }
 
   Future<void> _navigateToEditImage() async {
-    if (_selectedImage == null) return;
+    if (context.read<ScanCubit>().imageFile == null) return;
 
     final croppedFile = await ImageCropper().cropImage(
-      sourcePath: _selectedImage!.path,
+      sourcePath: context.read<ScanCubit>().imageFile!.path,
       uiSettings: [
         AndroidUiSettings(
           showCropGrid: true,
@@ -93,22 +93,30 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     );
 
     if (croppedFile != null) {
-      setState(() {
-        _selectedImage = File(croppedFile.path);
-      });
+      context.read<ScanCubit>().setImageFile(File(croppedFile.path));
+      setState(() {});
     }
   }
 
   Future<void> _handleScanResponse(AiModelResponse response) async {
+    log("🚀 Entered _handleScanResponse with prediction: ${response.result?.predicted}");
+
     if (response.statusCode != 200) {
       _showErrorSnackBar("Scan failed. Please try again.");
+      return;
+    }
+    if (context.read<ScanCubit>().imageFile == null) {
+      _showErrorSnackBar("Image missing. Please scan again.");
       return;
     }
 
     if (response.result?.predicted == null) {
       _showErrorSnackBar(
           "Unable to determine result. Please try with a clearer image.");
-      context.go(AppRouter.kUnableDetermineResult);
+      context.goNamed(
+        AppRouter.kUnableDetermineResult,
+        extra: context.read<ScanCubit>().imageFile!,
+      );
       return;
     }
 
@@ -117,20 +125,51 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     switch (prediction) {
       case 'covid':
         _showSuccessSnackBar("COVID-19 detected ☣️🦠");
-        context.go(AppRouter.kCovid19Result);
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kCovid19Result,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
         break;
+
       case 'pneumonia':
         _showSuccessSnackBar("Pneumonia detected! 😰");
-        context.go(AppRouter.kCovid19Result);
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kPneumoniaResult,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
         break;
+
       case 'normal':
         _showSuccessSnackBar("Normal scan! 🫁🛡️");
-        context.go(AppRouter.kNormalScanResult);
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kNormalScanResult,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
         break;
+
       default:
         _showWarningSnackBar(
             "Undetected result. Please consult a medical professional.");
-        context.go(AppRouter.kUnableDetermineResult);
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kUnableDetermineResult,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
     }
   }
 
@@ -138,6 +177,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
       _showSnackBar(message, Colors.red, Icons.error);
   void _showSuccessSnackBar(String message) =>
       _showSnackBar(message, Colors.green, Icons.check_circle);
+
   void _showWarningSnackBar(String message) =>
       _showSnackBar(message, Colors.orange, Icons.warning);
 
@@ -162,16 +202,28 @@ class _ScanViewBodyState extends State<ScanViewBody> {
 
   void _removeSelectedImage() {
     setState(() {
-      _selectedImage = null;
+      context.read<ScanCubit>().setImageFile(null);
+      setState(() {});
     });
   }
 
   Future<void> _validateAndProcessImage() async {
-    final isValid = await context
-        .read<ScanCubit>()
-        .validateImageExternally(_selectedImage!);
+    final image = context.read<ScanCubit>().imageFile;
+    if (image == null) {
+      _showErrorSnackBar("No image selected.");
+      return;
+    }
+    final isValid =
+        await context.read<ScanCubit>().validateImageExternally(image);
     if (isValid && mounted) {
-      context.read<ScanCubit>().processImage(_selectedImage!);
+      // context.read<ScanCubit>().processImage(image);
+      try {
+        await context.read<ScanCubit>().processImage(image);
+      } catch (e, s) {
+        log("🔥 Unexpected crash: $e");
+        log("🧵 Stack: $s");
+        _showErrorSnackBar("Unexpected error occurred.");
+      }
     }
   }
 
@@ -186,12 +238,12 @@ class _ScanViewBodyState extends State<ScanViewBody> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
               child: buildImagePreview(
-                selectedImage: _selectedImage,
+                selectedImage: context.read<ScanCubit>().imageFile,
                 navigateToEditImage: _navigateToEditImage,
               ),
             ),
             buildWarningBanner(
-              selectedImage: _selectedImage,
+              selectedImage: context.read<ScanCubit>().imageFile,
               context: context,
             ),
             SizedBox(height: 16.h),
@@ -216,7 +268,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
               ),
             ),
             buildSelectedImageTile(
-              selectedImage: _selectedImage,
+              selectedImage: context.read<ScanCubit>().imageFile,
               removeSelectedImage: _removeSelectedImage,
             ),
             const TextWithDividers(
@@ -228,12 +280,15 @@ class _ScanViewBodyState extends State<ScanViewBody> {
                   _showErrorSnackBar(state.errMessage);
                 } else if (state is ScanSuccess &&
                     state.modelResponse != null) {
-                  _handleScanResponse(state.modelResponse!);
+                  if (mounted) {
+                    _handleScanResponse(state.modelResponse!);
+                  }
                 }
               },
               builder: (context, state) {
                 final bool isDisabled =
-                    _selectedImage == null || state is ScanProccessing;
+                    context.read<ScanCubit>().imageFile == null ||
+                        state is ScanProccessing;
                 return CustomElevatedButton(
                   isLoading: state is ScanProccessing,
                   text: "Recognize",

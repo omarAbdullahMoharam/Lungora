@@ -15,6 +15,8 @@ import 'package:lungora/features/diseases/data/repo/disease_repo.dart';
 import 'package:lungora/features/diseases/presentation/view_model/categories/categories_cubit.dart';
 import 'package:lungora/features/diseases/presentation/widgets/all_categories_view_body.dart';
 
+import 'lung_info_content.dart';
+
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 
@@ -89,19 +91,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               child: ListView(
                 children: [
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.213,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF1A62FF),
-                            Color(0xFF0F3B99),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(25.w),
-                      ),
+                      child: const LungInfoContent(),
                     ),
                   ),
                   SizedBox(height: 16.h),
