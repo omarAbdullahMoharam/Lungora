@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
+import 'package:lungora/core/helpers/user_name_service.dart';
+import 'package:lungora/core/helpers/user_profile_service.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/custom_appbar.dart';
 import 'package:lungora/core/utils/custom_elevated_button.dart';
@@ -24,10 +26,11 @@ class EditProfileViewBody extends StatefulWidget {
 
 class _EditProfileViewBodyState extends State<EditProfileViewBody> {
   TextEditingController userNameController = TextEditingController();
-  String? _cachedName;
-  String? _cachedImagePath;
 
+  String _currentDisplayedName = '';
+  String _currentDisplayedImageUrl = '';
   File? _selectedImage;
+  bool _isInitializing = true;
 
   @override
   void dispose() {
@@ -38,27 +41,58 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
   @override
   void initState() {
     super.initState();
-    _loadCachedUserData();
+    _initializeProfileData();
   }
 
-  /// تحميل البيانات المخزنة في الكاش
-  void _loadCachedUserData() async {
-    String? cachedName = await SecureStorageService.getUserName();
-    String? cachedImage = await SecureStorageService.getUserImage();
-
+  void _initializeProfileData() async {
     setState(() {
-      _cachedName = cachedName;
-      _cachedImagePath = cachedImage;
-      userNameController.text = cachedName ?? "";
-      _selectedImage = (cachedImage != null && !cachedImage.startsWith("https"))
-          ? File(cachedImage)
-          : null;
+      _isInitializing = true;
     });
 
-    // استدعاء الـ API
-    final token = await SecureStorageService.getToken();
-    if (token != null) {
-      BlocProvider.of<SettingsCubit>(context).getUserData(token: token);
+    try {
+      await Future.wait([
+        _loadProfileName(),
+        _loadProfileImage(),
+      ]);
+    } catch (e) {
+      _currentDisplayedName = ProfileNameService.defaultName;
+      _currentDisplayedImageUrl = ProfileImageService.defaultImage;
+      userNameController.text = _currentDisplayedName;
+    } finally {
+      setState(() {
+        _isInitializing = false;
+      });
+    }
+  }
+
+  Future<void> _loadProfileName() async {
+    try {
+      String name = await ProfileNameService.getProfileName(context);
+      setState(() {
+        _currentDisplayedName = name;
+        userNameController.text = name;
+      });
+    } catch (e) {
+      setState(() {
+        _currentDisplayedName = ProfileNameService.defaultName;
+        userNameController.text = _currentDisplayedName;
+      });
+    }
+  }
+
+  Future<void> _loadProfileImage() async {
+    try {
+      String imageUrl = await ProfileImageService.getProfileImage(context);
+      setState(() {
+        _currentDisplayedImageUrl = imageUrl;
+        if (imageUrl.isNotEmpty && !imageUrl.startsWith('http')) {
+          _selectedImage = File(imageUrl);
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _currentDisplayedImageUrl = ProfileImageService.defaultImage;
+      });
     }
   }
 
@@ -68,20 +102,72 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
     });
   }
 
+  bool _hasChanges() {
+    final isNameChanged =
+        userNameController.text.trim() != _currentDisplayedName.trim();
+    final isImageChanged = _selectedImage != null &&
+        _selectedImage!.path != _currentDisplayedImageUrl;
+    return isNameChanged || isImageChanged;
+  }
+
+  Future<void> _saveChanges() async {
+    if (!_hasChanges()) {
+      SnackBarHandler.showError(
+          "Please modify your name or image before saving.");
+      return;
+    }
+
+    final token = await SecureStorageService.getToken();
+    if (token == null) {
+      SnackBarHandler.showError("Authentication required. Please login again.");
+      return;
+    }
+
+    final newName = userNameController.text.trim();
+    if (newName != _currentDisplayedName.trim()) {
+      ProfileNameService.updateProfileName(newName);
+      setState(() {
+        _currentDisplayedName = newName;
+      });
+    }
+
+    if (_selectedImage != null) {
+      ProfileImageService.updateProfileImage(_selectedImage!.path);
+      setState(() {
+        _currentDisplayedImageUrl = _selectedImage!.path;
+      });
+    }
+
+    BlocProvider.of<SettingsCubit>(context).editInfo(
+      token: token,
+      username: newName,
+      image: _selectedImage,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SettingsCubit, SettingsState>(
       listener: (context, state) async {
         if (state is SettingsSuccess) {
           SnackBarHandler.showSuccess(state.message);
+          _initializeProfileData();
         } else if (state is SettingsFailure) {
           SnackBarHandler.showError(state.errMessage);
         } else if (state is SettingsGetUserDataSuccess) {
-          _cachedName = state.userModel.fullName;
-          _cachedImagePath = state.userModel.imageUser;
-          await SecureStorageService.saveUserName(state.userModel.fullName);
-          await SecureStorageService.saveUserImage(state.userModel.imageUser);
-          setState(() {}); // علشان تحدث القيم في الـ UI
+          ProfileNameService.updateProfileName(state.userModel.fullName);
+          ProfileImageService.updateProfileImage(state.userModel.imageUser);
+
+          setState(() {
+            _currentDisplayedName = state.userModel.fullName;
+            _currentDisplayedImageUrl = state.userModel.imageUser;
+            userNameController.text = state.userModel.fullName;
+
+            if (state.userModel.imageUser.isNotEmpty &&
+                !state.userModel.imageUser.startsWith('http')) {
+              _selectedImage = File(state.userModel.imageUser);
+            }
+          });
         }
       },
       builder: (context, state) {
@@ -97,61 +183,14 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
                     GoRouter.of(context).go(AppRouter.kSettingsView);
                   },
                 ),
-                EditProfileImage(
-                  onImageSelected: _updateSelectedImage,
-                  imageUrl: state is SettingsGetUserDataSuccess
-                      ? state.userModel.imageUser
-                      : _cachedImagePath,
-                ),
-                CustomTextFormField(
-                  labelText: 'Username',
-                  isPassword: false,
-                  controller: userNameController,
-                  prefixIcon: Icons.person,
-                  hintText: 'Username',
-                  autoSuggest: false,
-                  initialValue: state is SettingsGetUserDataSuccess
-                      ? state.userModel.fullName
-                      : _cachedName ?? '',
-                ),
+                _buildImageSection(),
+                SizedBox(height: 20.h),
+                _buildNameSection(),
                 SizedBox(height: 24.h),
                 CustomElevatedButton(
                   text: 'Confirm',
                   isLoading: state is SettingsLoading,
-                  onPressed: () async {
-                    final token = await SecureStorageService.getToken();
-                    final cachedName = await SecureStorageService.getUserName();
-                    final cachedImage =
-                        await SecureStorageService.getUserImage();
-
-                    final isNameChanged = userNameController.text.trim() !=
-                        (cachedName ?? "").trim();
-                    final isImageChanged =
-                        (_selectedImage?.path ?? "") != (cachedImage ?? "");
-
-                    if (!isNameChanged && !isImageChanged) {
-                      SnackBarHandler.showError(
-                          "Please modify your name or image before saving.");
-                      return;
-                    }
-
-                    if (token != null) {
-                      if (isNameChanged) {
-                        await SecureStorageService.saveUserName(
-                            userNameController.text.trim());
-                      }
-                      if (isImageChanged) {
-                        await SecureStorageService.saveUserImage(
-                            _selectedImage?.path ?? "");
-                      }
-
-                      BlocProvider.of<SettingsCubit>(context).editInfo(
-                        token: token,
-                        username: userNameController.text.trim(),
-                        image: _selectedImage,
-                      );
-                    }
-                  },
+                  onPressed: _saveChanges,
                   backgroundColor: kPrimaryColor,
                   height: 60,
                 ),
@@ -160,6 +199,81 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildImageSection() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        EditProfileImage(
+          onImageSelected: _updateSelectedImage,
+          imageUrl: _isInitializing ? '' : _currentDisplayedImageUrl,
+        ),
+        if (_isInitializing)
+          Container(
+            width: 120.w,
+            height: 120.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black.withOpacity(0.3),
+            ),
+            child: Center(
+              child: SizedBox(
+                width: 40.w,
+                height: 40.w,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    kPrimaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildNameSection() {
+    return Stack(
+      children: [
+        CustomTextFormField(
+          labelText: 'Username',
+          isPassword: false,
+          controller: userNameController,
+          prefixIcon: Icons.person,
+          hintText: _isInitializing ? 'Loading...' : 'Username',
+          autoSuggest: false,
+          initialValue: _isInitializing ? '' : _currentDisplayedName,
+        ),
+        if (_isInitializing)
+          Positioned.fill(
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 2.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                  color: kPrimaryColor.withOpacity(0.5),
+                  width: 2,
+                ),
+                color: Colors.white.withOpacity(0.8),
+              ),
+              child: Center(
+                child: SizedBox(
+                  width: 20.w,
+                  height: 20.w,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

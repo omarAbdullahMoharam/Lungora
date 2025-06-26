@@ -19,6 +19,7 @@ class SettingListView extends StatelessWidget {
           screen: item.screen,
           hasSwitch: item.hasSwitch,
           path: item.path,
+          comingSoonMessage: item.commingSoonMessage,
         );
       },
     );
