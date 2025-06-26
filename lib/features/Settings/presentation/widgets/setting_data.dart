@@ -45,9 +45,10 @@ class SettingData {
     SettingOption(
       title: "Notifications",
       icon: Icons.notifications_active,
-      screen: SettingsView(),
+      screen: null,
       hasSwitch: true,
       path: AppRouter.kSettingsView,
+      commingSoonMessage: "Comming Soon",
     ),
     SettingOption(
       title: "Terms and Conditions",

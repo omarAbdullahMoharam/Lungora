@@ -76,12 +76,11 @@ class _ScanViewContentState extends State<ScanViewContent> {
 
             return buildCustomAppBar(
               context: context,
-              profileIconWidget: ProfileIconButton(
-                initialImagePath: imagePath,
-                onPressed: () {
-                  AppRouter.router.go(AppRouter.kSettingsView);
-                },
-              ),
+              title: 'Lungora',
+              showProfileImage: true,
+              onProfilePressed: () {
+                AppRouter.router.go(AppRouter.kSettingsView);
+              },
             );
           },
         ),
