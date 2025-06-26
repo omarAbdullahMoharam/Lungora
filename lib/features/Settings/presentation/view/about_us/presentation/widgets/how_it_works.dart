@@ -9,21 +9,21 @@ class HowItWorksSection extends StatelessWidget {
   final List<Map<String, String>> steps = [
     {
       "step": "1",
-      "title": "Patient search for service",
+      "title": "Upload X-ray Image",
       "subtitle":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
+          "The user captures or selects a chest X-ray image using the mobile app.",
     },
     {
       "step": "2",
-      "title": "Compare providers",
+      "title": "AI Model Analysis",
       "subtitle":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
+          "The image is securely sent to the AI model via API to analyze and detect possible lung conditions.",
     },
     {
       "step": "3",
-      "title": "Reserve an appointment",
+      "title": "Receive Diagnosis",
       "subtitle":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
+          "The result is displayed instantly, showing the predicted condition (COVID-19, Pneumonia) along with guidance or next steps.",
     },
   ];
 

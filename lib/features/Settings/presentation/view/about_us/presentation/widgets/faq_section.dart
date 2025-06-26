@@ -11,43 +11,62 @@ class FAQSection extends StatefulWidget {
 }
 
 class _FAQSectionState extends State<FAQSection> {
-  bool isPatientSelected = true; // الحالة الافتراضية (For Patient)
+  bool isPatientSelected = true;
 
-  final List<Map<String, String>> faqs = [
+  final List<Map<String, String>> faqsForPatient = [
     {
-      "question": "What do we do?",
+      "question": "What does Lungora do?",
       "answer":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+          "Lungora helps you analyze chest X-ray images using AI to detect potential lung conditions such as COVID-19 or pneumonia.",
     },
     {
-      "question": "How user can join as a provider?",
-      "answer": "Lorem ipsum dummy text..."
+      "question": "Is my data safe?",
+      "answer":
+          "Yes. Your X-ray image is only used for diagnosis and is not stored or shared with anyone.",
     },
     {
-      "question": "How user can join as a patient?",
-      "answer": "Lorem ipsum dummy text..."
+      "question": "Can I contact a doctor through the app?",
+      "answer":
+          "Yes. You can browse a list of available doctors, view their profiles, and get in touch directly.",
     },
     {
-      "question": "How user can join as a patient?",
-      "answer": "Lorem ipsum dummy text..."
+      "question": "What if I don’t understand the diagnosis?",
+      "answer":
+          "You can read related medical articles inside the app or chat with our AI assistant for help.",
+    },
+  ];
+
+  final List<Map<String, String>> faqsForProvider = [
+    {
+      "question": "How can I join as a healthcare provider?",
+      "answer":
+          "You can apply through our dashboard. Once approved by the admin, your profile will appear in the app.",
+    },
+    {
+      "question": "Can I view analytics about my consultations?",
+      "answer":
+          "Yes, the admin dashboard provides insights into user interactions, model predictions, and overall engagement with your profile.",
+    },
+    {
+      "question": "Will I receive notifications about patient queries?",
+      "answer":
+          "This feature is currently under development. In future updates, providers will receive notifications when patients attempt to contact or consult with them.",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
+    final currentFaqs = isPatientSelected ? faqsForPatient : faqsForProvider;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ======= Title =======
-          Text(
-            "FAQs",
-            style: Styles.textStyle16,
-          ),
+          Text("FAQs", style: Styles.textStyle16),
           SizedBox(height: 10.h),
 
-          // ======= Toggle Buttons =======
+          // Toggle Buttons
           Row(
             children: [
               Expanded(
@@ -64,9 +83,7 @@ class _FAQSectionState extends State<FAQSection> {
                         isPatientSelected ? Colors.white : Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),
-                      side: BorderSide(
-                        color: kSecondaryColor,
-                      ),
+                      side: BorderSide(color: kSecondaryColor),
                     ),
                   ),
                   child: Text("For Patient"),
@@ -98,11 +115,12 @@ class _FAQSectionState extends State<FAQSection> {
 
           SizedBox(height: 20.h),
 
+          // FAQs List
           ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: faqs.length,
+            itemCount: currentFaqs.length,
             itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.only(bottom: 10.h),
@@ -129,14 +147,14 @@ class _FAQSectionState extends State<FAQSection> {
                   child: ExpansionTile(
                     tilePadding: EdgeInsets.symmetric(horizontal: 16.w),
                     title: Text(
-                      faqs[index]["question"]!,
+                      currentFaqs[index]["question"]!,
                       style: Styles.textStyle14,
                     ),
                     children: [
                       Padding(
                         padding: EdgeInsets.all(12.w),
                         child: Text(
-                          faqs[index]["answer"]!,
+                          currentFaqs[index]["answer"]!,
                           style:
                               Styles.textStyle12.copyWith(color: Colors.grey),
                         ),
