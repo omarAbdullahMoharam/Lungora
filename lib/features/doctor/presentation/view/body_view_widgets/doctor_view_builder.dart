@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/doctor/presentation/view/body_view_widgets/doctor_list.dart';
 import 'package:lungora/features/doctor/presentation/view/body_view_widgets/location_status_banner.dart';
 import 'package:lungora/features/doctor/presentation/view/body_view_widgets/refresh_button.dart';
@@ -83,10 +84,13 @@ class DoctorViewBuilder extends StatelessWidget {
             height: 200,
           ),
           const SizedBox(height: 20),
-          const Text(
-            "Sorry, we couldn't fetch the doctors right now.",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Text(
+            "Sorry, we couldn't fetch the doctors right now. \nPlease check your internet connection, enable your device location and try again.",
+            style: Styles.textStyle16.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
             textAlign: TextAlign.center,
+            maxLines: 3,
           ),
           const SizedBox(height: 12),
           const RefreshButton(),

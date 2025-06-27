@@ -67,11 +67,3 @@ class GetDoctorDetailsFailure extends GetDoctorsState {
   @override
   List<Object?> get props => [errMessage];
 }
-// class GetDoctorsNoInternet extends GetDoctorsState {
-//   final String errMessage;
-
-//   const GetDoctorsNoInternet({required this.errMessage});
-
-//   @override
-//   List<Object?> get props => [errMessage];
-// }

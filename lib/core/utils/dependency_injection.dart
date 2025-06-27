@@ -22,10 +22,6 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton(
       () => DoctorsRepo(apiServices: getIt<ApiServices>()));
   getIt.registerLazySingleton(() => SettingsCubit(getIt<ApiServices>()));
-  //  implement a singleton for get articles
-  // getIt.registerLazySingleton(() => ArticlesCubit(getIt<ApiServices>()));
   getIt.registerLazySingleton(() => DiseaseRepo(getIt<ApiServices>()));
   getIt.registerLazySingleton(() => SecureStorageService());
-  // getIt.registerLazySingleton(() => AppRouter());
-  // getIt.registerLazySingleton(() => AuthBloc(getIt<AuthRepo>()));
 }

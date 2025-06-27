@@ -58,26 +58,32 @@ class LocationStatusBanner extends StatelessWidget {
                   maxLines: 2,
                 ),
               ),
-              if (!isLocationBased)
-                TextButton(
-                  onPressed: () {
+              // Toggle button based on current state
+              TextButton(
+                onPressed: () {
+                  if (isLocationBased) {
+                    // Currently showing location-based, switch to all doctors
+                    context.read<GetDoctorsCubit>().getDoctorsWithoutLocation();
+                  } else {
+                    // Currently showing all doctors, try to enable location
                     context.read<GetDoctorsCubit>().retryWithLocation(context);
-                  },
-                  style: TextButton.styleFrom(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                  ),
-                  child: Text(
-                    'Enable Location',
-                    style: Styles.textStyle12.copyWith(
-                      color: kPrimaryColor,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  }
+                },
+                style: TextButton.styleFrom(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
+                child: Text(
+                  isLocationBased ? 'Get All Doctors' : 'Enable Location',
+                  style: Styles.textStyle12.copyWith(
+                    color: kPrimaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
