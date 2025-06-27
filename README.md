@@ -562,8 +562,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 | Role | Responsibility | Skills |
 |------|---------------|--------|
-| **🎨 Frontend Lead** | Flutter/Dart Development | UI/UX, State Management |
-| **🔧 Backend Lead** | API & Database | REST APIs, Security |
+| **🎨 Mobile Lead** | Flutter/Dart Development | UI/UX, State Management |
+| **🌐 Web Frontend Engineer** | Web App Interface (Admin Dashboard) | React, HTML/CSS, JavaScript |
+| **🔧 Backend Engineer** | API & Database | REST APIs, Security |
 | **🤖 AI Engineer** | ML Model Development | TensorFlow, Medical Imaging |
 | **🎭 UI/UX Designer** | User Experience | Design Systems, Prototyping |
 | **🔒 Security Expert** | Data Protection | Encryption, Compliance |
