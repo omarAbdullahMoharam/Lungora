@@ -75,13 +75,49 @@ class SecureStorageService {
   }
 
   static Future<void> saveUserImage(String? imageUrl) async {
-    await _secureStorage.write(key: _userImageKey, value: imageUrl);
+    try {
+      if (imageUrl != null && imageUrl.isNotEmpty) {
+        await _secureStorage.write(key: _userImageKey, value: imageUrl);
+        log('User image saved: $imageUrl');
+      } else {
+        // إذا كانت null أو فارغة، احذف المفتاح
+        await _secureStorage.delete(key: _userImageKey);
+        log('User image cleared from storage');
+      }
+    } catch (e) {
+      log('Error saving user image: $e');
+    }
   }
 
   static Future<String?> getUserImage() async {
-    return await _secureStorage.read(key: _userImageKey);
+    try {
+      return await _secureStorage.read(key: _userImageKey);
+    } catch (e) {
+      log('Error getting user image: $e');
+      return null;
+    }
   }
 
+// method إضافية للتحقق من وجود صورة
+  static Future<bool> hasUserImage() async {
+    try {
+      String? image = await getUserImage();
+      return image != null && image.isNotEmpty;
+    } catch (e) {
+      log('Error checking user image: $e');
+      return false;
+    }
+  }
+
+// method لحذف صورة المستخدم فقط
+  static Future<void> deleteUserImage() async {
+    try {
+      await _secureStorage.delete(key: _userImageKey);
+      log('User image deleted');
+    } catch (e) {
+      log('Error deleting user image: $e');
+    }
+  }
   // ─────── General Data ───────
 
   static Future<void> saveData(Map<String, dynamic> data) async {

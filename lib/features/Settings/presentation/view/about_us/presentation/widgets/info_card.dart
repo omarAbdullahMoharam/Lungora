@@ -11,19 +11,19 @@ class InfoCardSection extends StatelessWidget {
       "icon": Icons.star_outline,
       "title": "Expertise",
       "description":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          "Built in collaboration with medical experts to ensure accurate AI-based diagnosis of chest conditions."
     },
     {
       "icon": Icons.forum_outlined,
       "title": "Communication",
       "description":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          "Includes an intelligent chatbot and direct access to medical articles and doctor profiles for seamless health guidance."
     },
     {
       "icon": Icons.support_agent,
       "title": "24/7 Support",
       "description":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+          "Our system and support features are accessible at any time, ensuring users can get help and information whenever they need."
     },
   ];
 
@@ -35,7 +35,7 @@ class InfoCardSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "About Fishy",
+            "Why Choose Lungora",
             style: Styles.textStyle16,
           ),
           const SizedBox(height: 10),

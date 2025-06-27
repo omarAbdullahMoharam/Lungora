@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lungora/core/utils/styles.dart';
-import 'package:lungora/main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SnackBarHandler {
   static void showSnackBar({
@@ -9,34 +7,20 @@ class SnackBarHandler {
     bool isError = false,
     Duration duration = const Duration(seconds: 3),
   }) {
-    final snackBar = SnackBar(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.w),
-      ),
-      content: Text(
-        message,
-        style: Styles.textStyle16.copyWith(color: Colors.white),
-      ),
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength:
+          duration.inSeconds > 2 ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: duration.inSeconds,
       backgroundColor: isError ? Colors.red : Colors.green,
-      behavior: SnackBarBehavior.floating,
-      duration: duration,
-      action: SnackBarAction(
-        label: 'Dismiss',
-        textColor: Colors.white,
-        onPressed: () {
-          scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
-        },
-      ),
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
-
-    scaffoldMessengerKey.currentState
-      ?..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
   }
 
   // Helper methods for success/error messages:
   static void showSuccess(String message) {
-    
     showSnackBar(message: message, isError: false);
   }
 

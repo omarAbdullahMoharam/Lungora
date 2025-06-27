@@ -12,6 +12,7 @@ class ItemSettingListView extends StatefulWidget {
   final Widget? screen;
   final bool hasSwitch;
   final String path;
+  final String? comingSoonMessage;
 
   const ItemSettingListView({
     super.key,
@@ -20,6 +21,7 @@ class ItemSettingListView extends StatefulWidget {
     this.screen,
     this.hasSwitch = false,
     required this.path,
+    this.comingSoonMessage,
   });
 
   @override
@@ -38,28 +40,34 @@ class _ItemSettingListViewState extends State<ItemSettingListView> {
       child: ListTile(
         leading: Icon(widget.icon, color: kSecondaryColor),
         title: Text(widget.title, style: Styles.textStyle16),
-        trailing: widget.hasSwitch
-            ? Transform.scale(
-                scale: 0.6,
-                child: Switch(
-                  value: isSwitched,
-                  onChanged: (value) {
-                    setState(() {
-                      isSwitched = value;
-                    });
-                  },
-                  activeColor: Colors.white,
-                  activeTrackColor: kSecondaryColor,
-                  inactiveThumbColor: Colors.white,
-                  inactiveTrackColor: Colors.grey,
-                ),
+        trailing: widget.comingSoonMessage != null
+            ? Text(
+                widget.comingSoonMessage!,
+                style: Styles.textStyle14.copyWith(
+                    color: kPrimaryColor, fontStyle: FontStyle.italic),
               )
-            : Icon(Icons.arrow_forward_ios, size: 16),
+            : widget.hasSwitch
+                ? Transform.scale(
+                    scale: 0.6,
+                    child: Switch(
+                      value: isSwitched,
+                      onChanged: (value) {
+                        setState(() {
+                          isSwitched = value;
+                        });
+                      },
+                      activeColor: Colors.white,
+                      activeTrackColor: kSecondaryColor,
+                      inactiveThumbColor: Colors.white,
+                      inactiveTrackColor: Colors.grey,
+                    ),
+                  )
+                : const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () async {
           if (widget.title == "Language") {
-            String? newLanguage = await showDialog(
+            final String? newLanguage = await showDialog(
               context: context,
-              builder: (context) => LanguageDialog(),
+              builder: (context) => const LanguageDialog(),
             );
 
             if (newLanguage != null && newLanguage != selectedLanguage) {

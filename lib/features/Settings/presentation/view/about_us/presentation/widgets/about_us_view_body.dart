@@ -43,12 +43,12 @@ class AboutUsViewBody extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "About Fishy",
+                          "About Us",
                           style: Styles.textStyle16.copyWith(color: textColor),
                         ),
                         SizedBox(height: 10.h),
                         Text(
-                          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled',
+                          'Lungora is an AI-powered mobile application designed to assist in the early detection of lung conditions such as COVID-19 and pneumonia using chest X-ray analysis. Our mission is to make medical insights more accessible and understandable through cutting-edge technology, informative content, and seamless communication with healthcare professionals.',
                           style: Styles.textStyle12.copyWith(color: textColor),
                         ),
                       ],

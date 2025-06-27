@@ -18,6 +18,14 @@ part 'scan_state.dart';
 class ScanCubit extends Cubit<ScanState> {
   late ScanRepo _scanRepo;
   late SecureStorageService _secureStorageService;
+  //try to get the image and save it to don't be null
+  File? _imageFile;
+  File? get imageFile => _imageFile;
+
+  void setImageFile(File? file) {
+    _imageFile = file;
+  }
+  //
 
   ScanCubit() : super(ScanInitial()) {
     _initializeDependencies();
@@ -36,10 +44,12 @@ class ScanCubit extends Cubit<ScanState> {
   Future<void> processImage(File selectedImage) async {
     try {
       // Validate image first
+      log("🔍 Step 1: Before validate");
       if (!await _validateImage(selectedImage)) {
         emit(ScanFailure(errMessage: "Invalid image file"));
         return;
       }
+      log("✅ Step 2: Passed validation");
 
       // Start processing
       emit(ScanProccessing());
@@ -48,13 +58,14 @@ class ScanCubit extends Cubit<ScanState> {
       _logImageDetails(selectedImage);
 
       // Get authentication token
+      log("📦 Step 3: Getting token...");
       final token = await _getAuthToken();
       if (token == null) {
         emit(ScanFailure(
             errMessage: "User not authenticated. Please login again."));
         return;
       }
-
+      log("📤 Step 4: Sending to API...");
       // Process image with API
       final response =
           await _scanRepo.getAIModel(image: selectedImage, token: token);
