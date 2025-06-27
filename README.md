@@ -6,11 +6,13 @@
   <img src="https://img.shields.io/badge/AI%20Powered-FF6B6B?style=for-the-badge&logo=brain&logoColor=white" />
   <img src="https://img.shields.io/badge/Medical-4ECDC4?style=for-the-badge&logo=health&logoColor=white" />
   <img src="https://img.shields.io/badge/Cross%20Platform-45B7D1?style=for-the-badge&logo=mobile&logoColor=white" />
+  <img src="https://img.shields.io/badge/Status-In%20Development-orange?style=for-the-badge" />
 </div>
 
 <div align="center">
   <h3>🫁 <em>Empowering Health Through AI Technology</em> 🚀</h3>
   <p>Revolutionary mobile app for intelligent lung health monitoring and medical consultation</p>
+  <p><strong>🚧 Currently in Development Phase 🚧</strong></p>
 </div>
 
 ---
@@ -36,6 +38,13 @@
 
 ### 🎯 Mission
 To make lung health monitoring accessible, accurate, and convenient for everyone through the power of AI and mobile technology.
+
+### 📊 Project Status
+- **🔨 Development Stage**: Beta Testing Phase
+- **📱 Platform Support**: Android & iOS (Flutter)
+- **🚀 Public Release**: Coming Soon
+- **👥 Team Size**: Active development team
+- **📈 Progress**: Core features implemented
 
 ---
 
@@ -75,9 +84,9 @@ To make lung health monitoring accessible, accurate, and convenient for everyone
 <td width="50%">
 
 ### 📊 Health Monitoring
-- **Scan History** - Track previous analyses
+- **Real-time Analysis** - Instant AI-powered diagnosis
 - **Detailed Reports** - Comprehensive health insights
-- **Progress Tracking** - Monitor improvements over time
+- **Image Validation** - Quality check for uploaded X-rays
 - **Export Options** - Share reports with doctors
 
 </td>
@@ -86,10 +95,15 @@ To make lung health monitoring accessible, accurate, and convenient for everyone
 
 ### ⚙️ Additional Features
 - **🎨 Theme Customization** - Light/Dark mode support
-- **🔔 Smart Notifications** - Customizable push notifications
 - **🔒 Privacy Controls** - Granular data management
-- **🌍 Multi-Language** - Localization support
+- **🌍 Multi-Language** - Localization support (planned)
 - **📱 Responsive Design** - Works perfectly on all screen sizes
+
+### 🔮 Coming Soon Features
+- **📜 Scan History** - Track and review all previous X-ray analyses
+- **🔔 Smart Notifications** - Customizable push notifications and health reminders
+- **📊 Progress Tracking** - Monitor health improvements over time
+- **📈 Analytics Dashboard** - Detailed health insights and trends
 
 ---
 
@@ -143,17 +157,29 @@ graph TD
 
 ### 🫁 X-Ray Analysis Workflow
 ```
-📷 Capture/Upload → ✂️ Crop & Validate → 🤖 AI Processing → 📊 Results → 💾 Save Report
+📷 Capture/Upload Image → ✂️ Crop & Validate Quality → 🤖 AI Processing & Analysis → 📊 Display Results & Recommendations → 💾 Generate & Save Medical Report
 ```
 
 ### 👨‍⚕️ Doctor Consultation Flow
 ```
-📍 Location Request → 🗺️ Find Doctors → 👤 View Profiles → 📞 Contact/Book
+📍 Location Request → 🗺️ Find Nearby Doctors → 👤 View Profiles & Reviews → 📞 Contact/Book Appointment
 ```
 
 ### ⚙️ Settings & Profile Flow
 ```
-👤 Profile Access → ✏️ Edit Information → 🔒 Security Settings → 💾 Save Changes
+👤 Profile Access → ✏️ Edit Personal Information → 🔒 Security Settings → 💾 Save Changes
+```
+
+### 🔮 Future Workflows (Coming Soon)
+
+#### 📜 History Management Flow
+```
+📊 Dashboard → 📜 View Scan History → 🔍 Search & Filter Results → 📈 Compare Previous Scans → 📤 Export Reports
+```
+
+#### 🔔 Notification System Flow
+```
+⚙️ Settings → 🔔 Notification Preferences → 📅 Set Health Reminders → 🔄 Sync with Calendar → 📱 Receive Smart Alerts
 ```
 
 ---
@@ -413,7 +439,7 @@ Future<AiModelResponse> analyzeXRay(File imageFile) async {
 #### 🛡️ Authentication Methods
 - **Email/Password**: Standard login with validation
 - **OTP Verification**: SMS/Email two-factor authentication
-- **Biometric Login**: Fingerprint/Face ID support
+- **Biometric Login**: Fingerprint/Face ID support (planned)
 - **Social Login**: Google/Facebook integration (planned)
 
 #### 🔒 Data Protection
@@ -536,9 +562,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 | Role | Responsibility | Skills |
 |------|---------------|--------|
-| **🎨 Mobile Lead** | Flutter/Dart Development | UI/UX, State Management |
-| **🌐 Web Frontend Engineer** | Web App Interface (Admin Dashboard) | React, HTML/CSS, JavaScript |
-| **🔧 Backend Engineer** | API & Database | REST APIs, Security |
+| **🎨 Frontend Lead** | Flutter/Dart Development | UI/UX, State Management |
+| **🔧 Backend Lead** | API & Database | REST APIs, Security |
 | **🤖 AI Engineer** | ML Model Development | TensorFlow, Medical Imaging |
 | **🎭 UI/UX Designer** | User Experience | Design Systems, Prototyping |
 | **🔒 Security Expert** | Data Protection | Encryption, Compliance |
@@ -554,29 +579,47 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 🔮 Roadmap & Future Plans
 
 ### 📅 Phase 1 - Beta Release (Current)
-- [x] **🤖 Core AI Model** - Basic disease detection
-- [x] **🔐 Authentication System** - Secure login/register
-- [x] **📱 Mobile App** - Flutter cross-platform app
-- [x] **👨‍⚕️ Doctor Discovery** - Location-based search
+- [x] **🤖 Core AI Model** - Basic disease detection functionality
+- [x] **🔐 Authentication System** - Secure login/register with OTP
+- [x] **📱 Mobile App** - Flutter cross-platform application
+- [x] **👨‍⚕️ Doctor Discovery** - Location-based doctor search
+- [x] **🖼️ Image Processing** - X-ray upload, validation, and cropping
 - [ ] **🧪 Beta Testing** - Internal testing and bug fixes
 
-### 📅 Phase 2 - Public Launch (Q2 2024)
-- [ ] **🚀 App Store Release** - Google Play & App Store
-- [ ] **🎯 Enhanced AI Accuracy** - Improved model with larger dataset
-- [ ] **📱 Progressive Web App** - Web version of the app
-- [ ] **🌍 Multi-Language Support** - 5+ language translations
+### 📅 Phase 2 - Enhanced Core Features (Q2 2024)
+- [ ] **📜 Scan History Management** - Complete history tracking system
+  - [ ] View all previous X-ray scans and results
+  - [ ] Search and filter scan history by date/type
+  - [ ] Compare multiple scans over time
+  - [ ] Export individual or batch reports
+- [ ] **🔔 Smart Notification System** - Comprehensive notification features
+  - [ ] Health reminders and follow-up notifications
+  - [ ] Scan result alerts and recommendations
+  - [ ] Appointment reminders with doctors
+  - [ ] Customizable notification preferences
+- [ ] **📊 Progress Tracking** - Health monitoring dashboard
+  - [ ] Visual charts showing health progress
+  - [ ] Trend analysis of scan results
+  - [ ] Health improvement recommendations
 
-### 📅 Phase 3 - Advanced Features (Q4 2024)
+### 📅 Phase 3 - Public Launch (Q3 2024)
+- [ ] **🚀 App Store Release** - Google Play & App Store deployment
+- [ ] **🎯 Enhanced AI Accuracy** - Improved model with larger medical dataset
+- [ ] **📱 Progressive Web App** - Web version for broader accessibility
+- [ ] **🌍 Multi-Language Support** - 5+ language translations
+- [ ] **📈 Analytics Dashboard** - Detailed health insights and metrics
+
+### 📅 Phase 4 - Advanced Features (Q1 2025)
 - [ ] **📱 Telemedicine Integration** - Video consultations with doctors
 - [ ] **⌚ Wearable Integration** - Apple Watch/WearOS support
-- [ ] **📊 Advanced Analytics** - Detailed health insights
-- [ ] **💊 Medication Tracking** - Prescription management
+- [ ] **💊 Medication Tracking** - Prescription and treatment management
+- [ ] **🤝 Social Features** - Community health discussions and support
 
-### 📅 Phase 4 - Innovation (Q2 2025)
-- [ ] **🥽 AR Visualization** - 3D X-ray analysis with AR
-- [ ] **🧬 Genetic Integration** - Personalized risk assessment
-- [ ] **🌐 Global Health Network** - International doctor network
-- [ ] **🤖 Advanced AI** - Multi-modal medical analysis
+### 📅 Phase 5 - Innovation (Q3 2025)
+- [ ] **🥽 AR Visualization** - 3D X-ray analysis with Augmented Reality
+- [ ] **🧬 Genetic Integration** - Personalized risk assessment based on genetics
+- [ ] **🌐 Global Health Network** - International doctor and hospital network
+- [ ] **🤖 Advanced AI** - Multi-modal medical analysis (X-ray + symptoms + history)
 
 ---
 
