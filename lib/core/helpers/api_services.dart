@@ -45,8 +45,6 @@ abstract class ApiServices {
   @POST("api/ModelAI/AI_Model")
   Future<AiModelResponse> getAIModel(
       @Part() FormData formData, @Header("Authorization") String token);
-  // @GET("api/Doctor/GetAllDoctorsWithMobile")
-  // Future<List<DoctorInfoModel>> getAllDoctorsWithMobile();
 
   @GET("api/Doctor/GetAllDoctorsWithMobile")
   Future<List<DoctorModel>> getAllDoctors({
@@ -59,7 +57,6 @@ abstract class ApiServices {
 
   @GET("api/Category/GetAllCategories")
   Future<ArticlesModel> getAllCategoriesRaw();
-// https://lungora.runasp.net/api/Article/GetArticleByIdWithMobile/6
   @GET("api/Article/GetArticleByIdWithMobile/{id}")
   Future<DiseaseArticleDetailsModel> getDiseaseArticleDetails(
       @Path("id") int id);

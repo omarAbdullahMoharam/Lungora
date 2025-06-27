@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:lungora/core/helpers/api_services.dart';
 import 'package:lungora/features/doctor/data/model/doctor_details_model.dart';
 import 'package:lungora/features/doctor/data/model/doctor_model.dart';
@@ -12,24 +13,20 @@ class DoctorsRepo {
     double? longitude,
     int? distance,
   }) async {
-    return apiServices.getAllDoctors(
-      latitude: latitude,
-      longitude: longitude,
-      distance: distance,
-    );
+    if (latitude != null && longitude != null) {
+      log("🎯 Fetching nearby doctors with location: $latitude, $longitude");
+      return apiServices.getAllDoctors(
+        latitude: latitude,
+        longitude: longitude,
+        distance: distance,
+      );
+    } else {
+      log("🌍 Fetching ALL doctors without location parameters");
+      return apiServices.getAllDoctors();
+    }
   }
 
   Future<DoctorDetailsModel> getDoctorDetails({required int id}) async {
     return apiServices.getDoctorDetails(id);
   }
-
-  // Future<List<DoctorModel>> getAllDoctorsByNearestLocation({
-  //   required double latitude,
-  //   required double longitude,
-  // }) async {
-  //   return apiServices.getAllDoctorsByNearestLocation(
-  //     latitude: latitude,
-  //     longitude: longitude,
-  //   );
-  // }
 }
