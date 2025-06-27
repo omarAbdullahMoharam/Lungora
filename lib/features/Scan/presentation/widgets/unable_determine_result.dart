@@ -78,11 +78,6 @@ class UnableDetermineResult extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   bottom: 10.h,
-          //   right: 32.w,
-          //   child: FlotingActionButton(),
-          // ),
         ],
       ),
     );
