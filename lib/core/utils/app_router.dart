@@ -224,9 +224,7 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kDoctorView,
-        builder: (context, state) => const DoctorView(
-            // List<DoctorModel>
-            ),
+        builder: (context, state) => const DoctorView(),
       ),
       GoRoute(
         path: kNormalScanResult,
