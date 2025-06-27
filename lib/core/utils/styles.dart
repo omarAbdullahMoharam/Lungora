@@ -43,4 +43,9 @@ abstract class Styles {
     fontWeight: FontWeight.w400,
     fontFamily: 'DMSans',
   );
+  static var textStyle10 = TextStyle(
+    fontFamily: 'Inter',
+    fontWeight: FontWeight.w400,
+    fontSize: 10.sp,
+  );
 }

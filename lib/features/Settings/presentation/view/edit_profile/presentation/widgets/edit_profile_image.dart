@@ -4,14 +4,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lungora/core/constants.dart';
+
 class EditProfileImage extends StatefulWidget {
   final Function(File?) onImageSelected;
-  final String? imageUrl; // Add this
+  final String? imageUrl;
 
-  const EditProfileImage({super.key, required this.onImageSelected, this.imageUrl});
+  const EditProfileImage(
+      {super.key, required this.onImageSelected, this.imageUrl});
 
   @override
   _EditProfileImageState createState() => _EditProfileImageState();
@@ -23,7 +25,6 @@ class _EditProfileImageState extends State<EditProfileImage> {
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
@@ -32,8 +33,23 @@ class _EditProfileImageState extends State<EditProfileImage> {
     }
   }
 
+  ImageProvider<Object>? _getImageProvider() {
+    if (imageFile != null) {
+      return FileImage(imageFile!);
+    } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
+      if (widget.imageUrl!.startsWith('http')) {
+        return NetworkImage(widget.imageUrl!);
+      } else {
+        return FileImage(File(widget.imageUrl!));
+      }
+    }
+    return null; // معناها هتعرض الـ default avatar
+  }
+
   @override
   Widget build(BuildContext context) {
+    final imageProvider = _getImageProvider();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 34.0),
       child: Stack(
@@ -41,24 +57,19 @@ class _EditProfileImageState extends State<EditProfileImage> {
           CircleAvatar(
             radius: 80.h,
             backgroundColor: Colors.grey.shade100,
-            child: imageFile != null
+            child: imageProvider != null
                 ? CircleAvatar(
                     radius: 80.r,
-                    backgroundImage: FileImage(imageFile!),
+                    backgroundImage: imageProvider,
                   )
-                : widget.imageUrl != null && widget.imageUrl!.isNotEmpty
-                    ? CircleAvatar(
-                        radius: 80.r,
-                        backgroundImage:  NetworkImage(widget.imageUrl!),
-                      )
-                    : CircleAvatar(
-                        radius: 80.r,
-                        backgroundColor: Colors.grey.shade100,
-                        child: SvgPicture.asset(
-                          'assets/images/profile_avatar.svg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                : CircleAvatar(
+                    radius: 80.r,
+                    backgroundColor: Colors.grey.shade100,
+                    child: SvgPicture.asset(
+                      'assets/images/profile_avatar.svg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
           ),
           Positioned(
             bottom: 0,

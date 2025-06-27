@@ -18,7 +18,6 @@ import 'package:lungora/features/Scan/presentation/widgets/build_image_preview.d
 import 'package:lungora/features/Scan/presentation/widgets/build_selected_image_title.dart';
 import 'package:lungora/features/Scan/presentation/widgets/build_warning_banner.dart';
 import 'package:lungora/features/Scan/presentation/widgets/text_with_dividers.dart';
-// import 'package:lungora/features/auth/services/secure_storage_service.dart';
 
 class ScanViewBody extends StatefulWidget {
   const ScanViewBody({super.key});
@@ -28,10 +27,9 @@ class ScanViewBody extends StatefulWidget {
 }
 
 class _ScanViewBodyState extends State<ScanViewBody> {
-  File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
 
-  bool get isDisabled => _selectedImage == null;
+  bool get isDisabled => context.read<ScanCubit>().imageFile == null;
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -41,12 +39,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
       );
 
       if (pickedFile == null) {
-        Fluttertoast.showToast(
-          msg: "No image selected.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-        );
+        _showErrorToast("No image selected.");
         return;
       }
 
@@ -54,28 +47,24 @@ class _ScanViewBodyState extends State<ScanViewBody> {
       log("Picked file size: ${fileSizeInMB.toStringAsFixed(2)} MB");
 
       if (fileSizeInMB > 10) {
-        Fluttertoast.showToast(
-          msg: "Image is too large. Image size must be less than 10MB.",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
+        _showErrorToast(
+          "Image size exceeds 10MB. Please select a smaller image.",
         );
         return;
       }
 
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
+      context.read<ScanCubit>().setImageFile(File(pickedFile.path));
+      setState(() {});
     } catch (e) {
-      _showErrorSnackBar("Error picking image: ${e.toString()}");
+      _showErrorToast("Error picking image: ${e.toString()}");
     }
   }
 
   Future<void> _navigateToEditImage() async {
-    if (_selectedImage == null) return;
+    if (context.read<ScanCubit>().imageFile == null) return;
 
     final croppedFile = await ImageCropper().cropImage(
-      sourcePath: _selectedImage!.path,
+      sourcePath: context.read<ScanCubit>().imageFile!.path,
       uiSettings: [
         AndroidUiSettings(
           showCropGrid: true,
@@ -93,22 +82,30 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     );
 
     if (croppedFile != null) {
-      setState(() {
-        _selectedImage = File(croppedFile.path);
-      });
+      context.read<ScanCubit>().setImageFile(File(croppedFile.path));
+      setState(() {});
     }
   }
 
   Future<void> _handleScanResponse(AiModelResponse response) async {
+    log("🚀 Entered _handleScanResponse with prediction: ${response.result?.predicted}");
+
     if (response.statusCode != 200) {
-      _showErrorSnackBar("Scan failed. Please try again.");
+      _showErrorToast("Scan failed. Please try again.");
+      return;
+    }
+    if (context.read<ScanCubit>().imageFile == null) {
+      _showErrorToast("Image missing. Please scan again.");
       return;
     }
 
     if (response.result?.predicted == null) {
-      _showErrorSnackBar(
+      _showErrorToast(
           "Unable to determine result. Please try with a clearer image.");
-      context.go(AppRouter.kUnableDetermineResult);
+      context.goNamed(
+        AppRouter.kUnableDetermineResult,
+        extra: context.read<ScanCubit>().imageFile!,
+      );
       return;
     }
 
@@ -116,62 +113,115 @@ class _ScanViewBodyState extends State<ScanViewBody> {
 
     switch (prediction) {
       case 'covid':
-        _showSuccessSnackBar("COVID-19 detected ☣️🦠");
-        context.go(AppRouter.kCovid19Result);
+        _showSuccessToast("COVID-19 detected ☣️🦠");
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kCovid19Result,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
         break;
+
       case 'pneumonia':
-        _showSuccessSnackBar("Pneumonia detected! 😰");
-        context.go(AppRouter.kCovid19Result);
+        _showSuccessToast("Pneumonia detected! 😰");
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kPneumoniaResult,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
         break;
+
       case 'normal':
-        _showSuccessSnackBar("Normal scan! 🫁🛡️");
-        context.go(AppRouter.kNormalScanResult);
+        _showSuccessToast("Normal scan! 🫁🛡️");
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kNormalScanResult,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
         break;
+
       default:
-        _showWarningSnackBar(
+        _showWarningToast(
             "Undetected result. Please consult a medical professional.");
-        context.go(AppRouter.kUnableDetermineResult);
+        Future.delayed(Duration.zero, () {
+          if (mounted) {
+            context.go(
+              AppRouter.kUnableDetermineResult,
+              extra: context.read<ScanCubit>().imageFile!,
+            );
+          }
+        });
     }
   }
 
-  void _showErrorSnackBar(String message) =>
-      _showSnackBar(message, Colors.red, Icons.error);
-  void _showSuccessSnackBar(String message) =>
-      _showSnackBar(message, Colors.green, Icons.check_circle);
-  void _showWarningSnackBar(String message) =>
-      _showSnackBar(message, Colors.orange, Icons.warning);
+  void _showErrorToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 
-  void _showSnackBar(String message, Color color, IconData icon) {
-    if (!mounted) return;
+  void _showSuccessToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(icon, color: Colors.white),
-            SizedBox(width: 8.w),
-            Expanded(child: Text(message)),
-          ],
-        ),
-        backgroundColor: color,
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-      ),
+  void _showWarningToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      backgroundColor: Colors.orange,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 
   void _removeSelectedImage() {
     setState(() {
-      _selectedImage = null;
+      context.read<ScanCubit>().setImageFile(null);
+      setState(() {});
     });
   }
 
   Future<void> _validateAndProcessImage() async {
-    final isValid = await context
-        .read<ScanCubit>()
-        .validateImageExternally(_selectedImage!);
+    final image = context.read<ScanCubit>().imageFile;
+    if (image == null) {
+      _showErrorToast("No image selected.");
+      return;
+    }
+    final isValid =
+        await context.read<ScanCubit>().validateImageExternally(image);
     if (isValid && mounted) {
-      context.read<ScanCubit>().processImage(_selectedImage!);
+      // context.read<ScanCubit>().processImage(image);
+      try {
+        await context.read<ScanCubit>().processImage(image);
+      } catch (e, s) {
+        log("🔥 Unexpected crash: $e");
+        log("🧵 Stack: $s");
+        _showErrorToast("Unexpected error occurred.");
+      }
     }
   }
 
@@ -186,12 +236,12 @@ class _ScanViewBodyState extends State<ScanViewBody> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
               child: buildImagePreview(
-                selectedImage: _selectedImage,
+                selectedImage: context.read<ScanCubit>().imageFile,
                 navigateToEditImage: _navigateToEditImage,
               ),
             ),
             buildWarningBanner(
-              selectedImage: _selectedImage,
+              selectedImage: context.read<ScanCubit>().imageFile,
               context: context,
             ),
             SizedBox(height: 16.h),
@@ -216,7 +266,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
               ),
             ),
             buildSelectedImageTile(
-              selectedImage: _selectedImage,
+              selectedImage: context.read<ScanCubit>().imageFile,
               removeSelectedImage: _removeSelectedImage,
             ),
             const TextWithDividers(
@@ -225,15 +275,18 @@ class _ScanViewBodyState extends State<ScanViewBody> {
             BlocConsumer<ScanCubit, ScanState>(
               listener: (context, state) {
                 if (state is ScanFailure) {
-                  _showErrorSnackBar(state.errMessage);
+                  _showErrorToast(state.errMessage);
                 } else if (state is ScanSuccess &&
                     state.modelResponse != null) {
-                  _handleScanResponse(state.modelResponse!);
+                  if (mounted) {
+                    _handleScanResponse(state.modelResponse!);
+                  }
                 }
               },
               builder: (context, state) {
                 final bool isDisabled =
-                    _selectedImage == null || state is ScanProccessing;
+                    context.read<ScanCubit>().imageFile == null ||
+                        state is ScanProccessing;
                 return CustomElevatedButton(
                   isLoading: state is ScanProccessing,
                   text: "Recognize",
@@ -241,7 +294,7 @@ class _ScanViewBodyState extends State<ScanViewBody> {
                     if (!isDisabled) {
                       _validateAndProcessImage();
                     } else {
-                      _showErrorSnackBar("Please select an image first.");
+                      _showErrorToast("Please select an image first.");
                     }
                   },
                   backgroundColor: kPrimaryColor,

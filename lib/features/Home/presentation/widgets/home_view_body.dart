@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lungora/core/helpers/api_services.dart';
+import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/dependency_injection.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:lungora/features/Home/presentation/widgets/build_custom_app_bar.dart';
@@ -15,6 +17,8 @@ import 'package:lungora/features/diseases/data/repo/disease_repo.dart';
 import 'package:lungora/features/diseases/presentation/view_model/categories/categories_cubit.dart';
 import 'package:lungora/features/diseases/presentation/widgets/all_categories_view_body.dart';
 
+import 'lung_info_content.dart';
+
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 
@@ -23,21 +27,27 @@ class HomeViewBody extends StatefulWidget {
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
+  // ignore: unused_field
   String? _userImage;
 
   _loadUserData() async {
     try {
       final cachedImage = await SecureStorageService.getUserImage();
       if (cachedImage != null) {
+        if (!mounted) return;
         setState(() {
           _userImage = cachedImage;
         });
-        // ✅ Don't call API if cached image is available
         return;
       }
 
       final token = await SecureStorageService.getToken();
       if (token != null) {
+        if (!mounted) return;
+        if (context.mounted) {
+          BlocProvider.of<SettingsCubit>(context, listen: false)
+              .getUserData(token: token);
+        }
         BlocProvider.of<SettingsCubit>(context).getUserData(token: token);
       }
     } catch (e) {
@@ -55,29 +65,19 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.h),
-        child: BlocBuilder<SettingsCubit, SettingsState>(
-          builder: (context, state) {
-            return buildCustomAppBar(
-              context: context,
-              imagePath: state is SettingsGetUserDataSuccess
-                  ? state.userModel.imageUser
-                  : _userImage ??
-                      'https://res.cloudinary.com/deoayl2hl/image/upload/v1742340954/Users/f446ff10-d23b-42ed-bb90-be18f88d9f01_2025_03_19_profile_avatar_brm2oi.jpg',
-              onPressed: () async {
-                String? profileImage =
-                    await SecureStorageService.getUserImage();
-                if (profileImage != null) {
-                  // Do something with the profile image, like navigating to the profile page
-                  print("Profile Image: $profileImage");
-                } else {
-                  print("No cached profile image found.");
-                }
-              },
-            );
-          },
-        ),
-      ),
+          preferredSize: Size.fromHeight(60.h),
+          child: BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+              return buildCustomAppBar(
+                context: context,
+                title: 'Lungora',
+                showProfileImage: true,
+                onProfilePressed: () {
+                  context.go(AppRouter.kSettingsView);
+                },
+              );
+            },
+          )),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 24.w,
@@ -89,19 +89,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               child: ListView(
                 children: [
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.213,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xFF1A62FF),
-                            Color(0xFF0F3B99),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(25.w),
-                      ),
+                      child: const LungInfoContent(),
                     ),
                   ),
                   SizedBox(height: 16.h),
