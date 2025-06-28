@@ -34,22 +34,22 @@ class TermsConditionsBody extends StatelessWidget {
                 ),
               ),
               Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                "At Lungora, we prioritize your privacy and data protection. This policy outlines how we collect, use, and safeguard your personal information when you interact with our mobile application.",
                 style: Styles.textStyle12.copyWith(fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 16.h),
               Text(
-                "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+                "We only process your chest X-ray images for medical analysis purposes. These images are transmitted securely to our AI model through encrypted API calls and are not stored or shared with third parties.",
                 style: Styles.textStyle12.copyWith(fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 16.h),
               Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                "Your interactions with the chatbot, viewed articles, and any personal preferences remain strictly confidential and are only used to improve your experience. No personal health data is collected without your explicit consent.",
                 style: Styles.textStyle12.copyWith(fontWeight: FontWeight.w700),
               ),
               SizedBox(height: 16.h),
               Text(
-                'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content accident',
+                "By using Lungora, you agree to our terms of use and privacy practices. We reserve the right to update this policy as the platform evolves. For any concerns or inquiries, please contact our support team through the app.",
                 style: Styles.textStyle12.copyWith(fontWeight: FontWeight.w700),
               ),
             ],
