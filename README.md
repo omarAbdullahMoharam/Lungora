@@ -12,7 +12,7 @@
 <div align="center">
   <h3>🫁 <em>Empowering Health Through AI Technology</em> 🚀</h3>
   <p>Revolutionary mobile app for intelligent lung health monitoring and medical consultation</p>
-  <p><strong>🚧 Currently in Development Phase 🚧</strong></p>
+  <p><strong>🚧 Currently in Beta Version 🚧</strong></p>
 </div>
 
 ---
@@ -30,7 +30,7 @@
 - [📈 Performance](#-performance)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
-- [🔮 Roadmap](#-roadmap)
+- [🔮 Roadmap](#-Roadmap-&-Future-Plans)
 
 ## 📱 Overview
 
