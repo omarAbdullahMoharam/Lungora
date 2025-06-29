@@ -104,8 +104,7 @@ class DoctorCard extends StatelessWidget {
                         onPressed: () {
                           if (doctorModel.whatsAppLink.isEmpty) {
                             SnackBarHandler.showSnackBar(
-                              message:
-                                  "WhatsApp is not available for this doctor.",
+                              message: "WhatsApp link is not available.",
                             );
                             return;
                           }

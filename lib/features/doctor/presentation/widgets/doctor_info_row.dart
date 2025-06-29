@@ -65,7 +65,9 @@ class DoctorInfoRow extends StatelessWidget {
                 color: kBackgroundColor,
                 child: InkWell(
                   onTap: () {
-                    UrlLauncher.launchWhatsApp(doctorModel.doctor.phone);
+                    UrlLauncher.launchWhatsAppByLink(
+                      doctorModel.doctor.whatsAppLink,
+                    );
                   },
                   child: Material(
                     color: Colors.white,

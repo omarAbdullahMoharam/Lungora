@@ -33,7 +33,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
       if (response.isSuccess) {
         log('Password change successful');
-        emit(SettingsSuccess(response.result!.toJson().toString()));
+        emit(SettingsSuccess("Password changed successfully"));
       } else {
         emit(
           SettingsFailure(response.errors.isNotEmpty

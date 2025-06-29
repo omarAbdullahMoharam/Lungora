@@ -34,7 +34,7 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
           );
         } else if (state is SettingsSuccess) {
           SnackBarHandler.showSuccess(
-            ' Success: ${state.message}',
+            state.message,
           );
           Future.delayed(const Duration(seconds: 3), () {});
 
