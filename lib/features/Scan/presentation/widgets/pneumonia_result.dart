@@ -7,6 +7,7 @@ import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lungora/features/Scan/presentation/widgets/scan_result_image.dart';
+import 'package:lungora/features/diseases/presentation/widgets/custom_chat_and_doctor_buttons.dart';
 import 'package:lungora/features/diseases/presentation/widgets/disease_stats_section.dart';
 
 class PneumoniaResult extends StatelessWidget {
@@ -99,6 +100,8 @@ class PneumoniaResult extends StatelessWidget {
                 "IV antibiotics and fluids: In serious cases or for high-risk patients.",
               ],
             ),
+            SizedBox(height: 24.h),
+            ChatAndDoctorButtons(),
           ],
         ),
       ),

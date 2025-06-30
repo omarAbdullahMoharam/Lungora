@@ -6,6 +6,7 @@ import 'package:lungora/core/constants.dart';
 import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/styles.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lungora/features/diseases/presentation/widgets/custom_chat_and_doctor_buttons.dart';
 
 import 'package:lungora/features/diseases/presentation/widgets/disease_stats_section.dart';
 
@@ -28,10 +29,8 @@ class Covid19Result extends StatelessWidget {
             context.go(AppRouter.kScanView);
           },
         ),
-        // backgroundColor: kSecondaryColor,
         title: Text(""),
         backgroundColor: Colors.white,
-        // centerTitle: true,
       ),
       body: Stack(children: [
         SingleChildScrollView(
@@ -125,17 +124,12 @@ class Covid19Result extends StatelessWidget {
                     "Managing stress is important for overall recovery as it can impact immune function.",
                   ],
                 ),
+                SizedBox(height: 24.h),
+                ChatAndDoctorButtons(),
               ],
             ),
           ),
         ),
-        // Align(
-        //   alignment: Alignment.bottomRight,
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(18.0),
-        //     child: FlotingActionButton(),
-        //   ),
-        // ),
       ]),
     );
   }

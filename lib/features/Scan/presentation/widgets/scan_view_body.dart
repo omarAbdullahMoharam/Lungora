@@ -214,7 +214,6 @@ class _ScanViewBodyState extends State<ScanViewBody> {
     final isValid =
         await context.read<ScanCubit>().validateImageExternally(image);
     if (isValid && mounted) {
-      // context.read<ScanCubit>().processImage(image);
       try {
         await context.read<ScanCubit>().processImage(image);
       } catch (e, s) {

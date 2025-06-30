@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lungora/core/constants.dart';
-import 'package:lungora/core/utils/app_router.dart';
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/features/diseases/presentation/widgets/custom_chat_and_doctor_buttons.dart';
 import 'disease_stats_section.dart';
 
 // ignore: must_be_immutable
@@ -87,7 +86,6 @@ class DiseaseDetailsViewBody extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24.h),
-
             Text(
               'Treatment methods',
               style: Styles.textStyleInter16.copyWith(
@@ -107,58 +105,8 @@ class DiseaseDetailsViewBody extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Text(
-            //   'Treatment methods',
-            //   textAlign: TextAlign.start,
-            //   style: Styles.textStyleInter16.copyWith(
-            //     fontWeight: FontWeight.w700,
-            //   ),
-            // ),
-            // Text(
-            //   treatmentMethods,
-            //   style: Styles.textStyle12.copyWith(
-            //     fontFamily: 'Inter',
-            //   ),
-            // ),
-
             SizedBox(height: 24.h),
-
-            Padding(
-              padding: EdgeInsets.only(bottom: 16.h),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      context.push(AppRouter.kDoctorView);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kPrimaryColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.h),
-                      ),
-                    ),
-                    child: const Text("Discuss a doctor"),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      context.push(AppRouter.kChatView);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: kPrimaryColor,
-                      side: const BorderSide(color: kPrimaryColor, width: 2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.h),
-                      ),
-                    ),
-                    child: const Text("Chatbot"),
-                  ),
-                ],
-              ),
-            ),
+            ChatAndDoctorButtons(),
           ],
         ),
       ),

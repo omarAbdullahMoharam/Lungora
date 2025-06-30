@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lungora/core/utils/app_router.dart';
 
 import 'package:lungora/core/utils/styles.dart';
+import 'package:lungora/features/diseases/presentation/widgets/custom_chat_and_doctor_buttons.dart';
 
 import 'scan_result_image.dart';
 
@@ -74,6 +75,8 @@ class UnableDetermineResult extends StatelessWidget {
                     "3. Contact support or your healthcare provider for assistance.",
                     style: Styles.textStyle12,
                   ),
+                  SizedBox(height: 24.h),
+                  ChatAndDoctorButtons(),
                 ],
               ),
             ),

@@ -190,7 +190,10 @@ class ScanCubit extends Cubit<ScanState> {
     } else if (response.result?.message != null &&
         response.result!.message!.isNotEmpty) {
       log("API returned message: ${response.result!.message}");
-      emit(ScanFailure(errMessage: response.result!.message!));
+      // emit(ScanFailure(errMessage: response.result!.message!));
+      emit(ScanFailure(
+          errMessage:
+              "Image is not a chest X-ray image, please try again with a valid chest X-ray image."));
     } else {
       log("No valid prediction or message in response");
       emit(ScanFailure(
