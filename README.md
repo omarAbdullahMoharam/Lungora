@@ -87,7 +87,7 @@ To make lung health monitoring accessible, accurate, and convenient for everyone
 - **Real-time Analysis** - Instant AI-powered diagnosis
 - **Detailed Reports** - Comprehensive health insights
 - **Image Validation** - Quality check for uploaded X-rays
-- **Export Options** - Share reports with doctors
+
 
 </td>
 </tr>
