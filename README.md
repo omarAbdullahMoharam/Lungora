@@ -36,6 +36,12 @@
 
 **Lungora** is an innovative Flutter-based mobile application that revolutionizes lung health monitoring through artificial intelligence. The app combines cutting-edge AI technology with user-friendly design to provide comprehensive X-ray analysis, doctor consultations, and personalized health tracking.
 
+### 🎥 Live Demo
+
+<p align="center">
+  <img src="demo/Graduation Project Demo.gif" alt="Lungora App Demo" width="600"/>
+</p>
+
 ### 🎯 Mission
 To make lung health monitoring accessible, accurate, and convenient for everyone through the power of AI and mobile technology.
 
@@ -45,8 +51,7 @@ To make lung health monitoring accessible, accurate, and convenient for everyone
 - **🚀 Public Release**: Coming Soon
 - **👥 Team Size**: Active development team
 - **📈 Progress**: Core features implemented
-
----
+- **🔄 Future Enhancements**: Planned features and improvements
 
 ## ✨ Key Features
 
