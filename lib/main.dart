@@ -13,7 +13,7 @@ import 'core/providers/theme_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initGetIt();
-
+  await dotenv.load();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool onBoarding = sharedPreferences.getBool('onboarding') ?? false;
   final isValid = await SecureStorageService.isTokenValid();
