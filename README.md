@@ -38,8 +38,8 @@
 
 ### 🎥 Live Demo
 
-<p align="center">
-  <img src="demo/Graduation Project Demo.gif" alt="Lungora App Demo" width="600"/>
+<p align="center" style="min-height:300px;">
+  <img src="demo/Graduation Project Demo.gif" alt="Lungora App Demo" width="600" height="300" style="display:block; margin:auto;" />
 </p>
 
 ### 🎯 Mission
