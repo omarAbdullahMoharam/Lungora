@@ -235,13 +235,25 @@ const String baseUrl = "YOUR_API_BASE_URL";
 <string>This app needs location access to find nearby doctors</string>
 ```
 
-6. **▶️ Run the Application**
-```bash
-# Development mode
-flutter run
 
-# Release mode
-flutter run --release
+## 6. **🔧 Environment Configuration**
+```bash
+# Copy the example environment file
+cp .env.example .env
+```
+
+Create a file named `.env.example` in the root of your project and add the following:
+
+```
+OPENROUTER_API_KEY=your_api_key_here
+MODEL_VERSION=your_model
+API_ENDPOINT=chat/completions
+BASE_URL=https://openrouter.ai/api/v1
+```
+
+## 7. **▶️ Run the Application**
+```bash
+flutter run
 ```
 
 ---
@@ -560,6 +572,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - ❌ **Warranty**: Not provided
 
 ---
+
+
 
 ## 👥 Team & Credits
 
