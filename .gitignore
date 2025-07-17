@@ -12,6 +12,14 @@
 .swiftpm/
 migrate_working_dir/
 .env
+.env.local
+.env.production
+.env.staging
+# API Keys and sensitive data
+**/constant_api_secrets.dart.bak
+api_keys.dart
+secrets.dart
+
 
 # IntelliJ related
 *.iml
